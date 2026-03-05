@@ -1025,7 +1025,7 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
                   </Typography>
                 )}
 
-                {summaryProgress.status !== "finished" && (
+                {!summary && summaryProgress.status !== "finished" && (
                   <Typography variant="body2" color="text.secondary">
                     Awaiting summary results…
                   </Typography>
