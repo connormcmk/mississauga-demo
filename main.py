@@ -544,7 +544,7 @@ async def list_transcriptions() -> dict:
     if TRANSCRIPTS_DIR.exists():
         for path in sorted(TRANSCRIPTS_DIR.glob("*.txt")):
             # Skip generated summary files (e.g., foo_summary.txt) to avoid double-counting.
-            if path.stem.endswith("_summary"):
+            if path.stem.endswith("_summary") or path.stem.find("_part") != -1:
                 continue
             lines = parse_transcript_file(path)
             duration = lines[-1].end if lines else None
@@ -815,7 +815,12 @@ async def assistant(
 
         transcript_blocks = []
         for f in sorted(transcripts_dir.rglob("*.txt")):
+            if f.stem.endswith("_summary") or f.stem.find("_part") != -1:
+                print("Skipping non-transcript files")
+                continue
+            
             full_text = f.read_text(encoding="utf-8")
+           
             if not full_text.strip():
                 continue
             transcript_blocks.append({
