@@ -11,6 +11,7 @@ import {
   Box,
   Divider,
   Chip,
+  Alert,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import type { TranscriptListItem } from "../api";
@@ -26,6 +27,7 @@ interface TranscriptsListArgs {
   loadingList: boolean;
   selectedId: string | null;
   setSelectedId: Dispatch<SetStateAction<string | null>>;
+  error?: string | null;
 }
 
 const VideoListItem = ({
@@ -109,7 +111,7 @@ const VideoListItem = ({
   </Paper>
 );
 
-const TranscriptsList = ({ transcripts, loadingList, selectedId, setSelectedId }: TranscriptsListArgs) => {
+const TranscriptsList = ({ transcripts, loadingList, selectedId, setSelectedId, error }: TranscriptsListArgs) => {
   const [query, setQuery] = useState("");
   const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({});
 
@@ -189,6 +191,12 @@ const TranscriptsList = ({ transcripts, loadingList, selectedId, setSelectedId }
             </Typography>
           </Stack>
         </Stack>
+
+        {error ? (
+          <Alert severity="error" sx={{ mt: 0.5 }}>
+            {error}
+          </Alert>
+        ) : null}
 
         <TextField
           placeholder="Search titles…"

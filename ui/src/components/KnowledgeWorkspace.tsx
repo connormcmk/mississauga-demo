@@ -1,135 +1,52 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type SyntheticEvent } from "react";
 import {
   Alert,
   Box,
-  Button,
   Chip,
   CircularProgress,
-  Divider,
   LinearProgress,
   Paper,
   Stack,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography,
-  Pagination,
   IconButton,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
-import SummarizeRoundedIcon from "@mui/icons-material/SummarizeRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import StarIcon from "@mui/icons-material/Star";
 import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import { formatTranscriptTitle } from "../utils/formatTranscriptTitle";
 import { formatDuration } from "../utils/formatDuration";
-
-import type {
-  AnalysisResponse,
-  ActionableTopic,
-  ArgumentMapPayload,
-  ArgumentMapResponse,
-  TranscriptFull,
-  TranscriptLine,
-  TranscriptListItem,
-  TranscriptPage,
-  SummaryResponse,
-} from "../api";
-import {
-  analyzeTranscript,
-  buildArgumentMap,
-  fetchArgumentMap,
-  fetchTranscript,
-  fetchSummary,
-  listTranscriptions,
-  openProgressSocket,
-  sliceAudioByTranscript,
-  streamTranscriptPages,
-  summarizeTranscript,
-} from "../api";
 import TranscriptsList from "./TranscriptsList";
-
-type Mode = "stream" | "full";
-
-const lineLabel = (line: TranscriptLine) =>
-  `[${line.start.toFixed(2)} – ${line.end.toFixed(2)}] ${line.speaker}: ${line.text}`;
-
-const inlineMarkdownNodes = (text: string): ReactNode[] => {
-  // Escape HTML to avoid injection issues.
-  const escape = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/);
-  return parts.map((part, idx) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return (
-        <Box component="strong" key={idx} sx={{ fontWeight: 700 }}>
-          {part.slice(2, -2)}
-        </Box>
-      );
-    }
-    if (part.startsWith("`") && part.endsWith("`")) {
-      return (
-        <Box
-          component="code"
-          key={idx}
-          sx={{
-            bgcolor: "grey.100",
-            borderRadius: 0.75,
-            px: 0.75,
-            py: 0.25,
-            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: "0.9em",
-          }}
-        >
-          {part.slice(1, -1)}
-        </Box>
-      );
-    }
-    if (part.startsWith("*") && part.endsWith("*")) {
-      return (
-        <Box component="em" key={idx} sx={{ fontStyle: "italic" }}>
-          {part.slice(1, -1)}
-        </Box>
-      );
-    }
-    return <span key={idx}>{escape(part)}</span>;
-  });
-};
+import { useTranscriptions } from "../hooks/useTranscriptions";
+import { useTranscriptionData } from "../hooks/useTranscriptionData";
+import { useArgumentMap } from "../hooks/useArgumentMap";
+import { useAudioSnippets } from "../hooks/useAudioSnippets";
 
 const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: string | null }) => {
-
-  const [transcripts, setTranscripts] = useState<TranscriptListItem[]>([]);
+  const { data: transcripts, loading: loadingTranscripts, error: transcriptsError } =
+    useTranscriptions();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [fullTranscript, setFullTranscript] = useState<TranscriptFull | null>(
-    null,
-  );
-  const [pages, setPages] = useState<TranscriptPage[]>([]);
-  const [currentPage, setCurrentPage] = useState<number | null>(null);
-  const [loadingList, setLoadingList] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const [argumentMap, setArgumentMap] = useState<ArgumentMapResponse | null>(null);
-  const [argumentMapError, setArgumentMapError] = useState<string | null>(null);
-  const [argumentMapProgress, setArgumentMapProgress] = useState<{
-    status: "idle" | "fetching" | "queued" | "running" | "finished" | "error";
-    message?: string;
-  }>({ status: "idle" });
-  const argumentMapSocketRef = useRef<WebSocket | null>(null);
-  const [audioUrls, setAudioUrls] = useState<Record<string, string>>({});
-  const [audioLoading, setAudioLoading] = useState<Record<string, boolean>>({});
-  const [audioError, setAudioError] = useState<Record<string, string | undefined>>({});
+  const {
+    data: transcriptData,
+    loading: loadingTranscript,
+    error: transcriptError,
+  } = useTranscriptionData(selectedId, { enabled: Boolean(selectedId) });
+
+  const {
+    data: argumentMap,
+    payload: argumentMapPayload,
+    progress: argumentMapProgress,
+    error: argumentMapError,
+    ensure: ensureArgumentMap,
+  } = useArgumentMap(selectedId);
+
+  const { audioUrls, audioLoading, audioError, playSnippet } =
+    useAudioSnippets(selectedId);
 
   const [graphUrl, setGraphUrl] = useState<string>("");
   const [value, setValue] = useState("1");
@@ -141,74 +58,47 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
     setValue("2");
   };
 
-  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (_: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  // Load available transcripts on mount
-  useEffect(() => {
-    let cancelled = false;
-    const run = async () => {
-      try {
-        setLoadingList(true);
-        const items = await listTranscriptions();
-        if (cancelled) return;
-        setTranscripts(items);
-        const preferred = initialTranscriptId && items.find((t) => t.id === initialTranscriptId)?.id;
-        if (preferred) {
-          setSelectedId(preferred);
-        } else if (!selectedId && items.length) {
-          setSelectedId(items[0].id);
-        }
-      } catch (err) {
-        if (!cancelled) setError((err as Error).message);
-      } finally {
-        if (!cancelled) setLoadingList(false);
-      }
-    };
-    run();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!initialTranscriptId || !transcripts.length) return;
-    const exists = transcripts.find((t) => t.id === initialTranscriptId);
-    if (exists) {
-      setSelectedId(initialTranscriptId);
-    }
-  }, [initialTranscriptId, transcripts]);
-
-  // Reset analysis when switching transcripts
-  useEffect(() => {
-    setArgumentMap(null);
-    setArgumentMapError(null);
-    setArgumentMapProgress({ status: "idle" });
-    closeArgumentMapSocket();
-    setAudioUrls((prev) => {
-      Object.values(prev).forEach((url) => URL.revokeObjectURL(url));
-      return {};
+  /* useEffect(() => {
+    if (!transcripts.length) return;
+    setSelectedId((prev) => {
+      if (prev && transcripts.some((t) => t.id === prev)) return prev;
+      const preferred =
+        initialTranscriptId &&
+        transcripts.find((t) => t.id === initialTranscriptId)?.id;
+      return preferred ?? transcripts[0].id;
     });
-    setAudioLoading({});
-    setAudioError({});
-    let cancelled = false;
-    if (!selectedId) return;
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedId]);
+  }, [initialTranscriptId, transcripts]); */
+
+  useEffect(() => {
+    if (value === "1") {
+      void ensureArgumentMap();
+    }
+  }, [value, ensureArgumentMap]);
 
   const selectedMeta = useMemo(
     () => transcripts.find((t) => t.id === selectedId) ?? null,
     [transcripts, selectedId],
   );
 
-  useEffect(() => {
-    if (value === "1") {
-      void ensureArgumentMap();
-    }
-  }, [value, selectedId]);
+  const transcriptStats = useMemo(
+    () => ({
+      lineCount: transcriptData?.total_lines ?? selectedMeta?.line_count ?? 0,
+      duration: transcriptData?.duration ?? selectedMeta?.duration ?? null,
+    }),
+    [selectedMeta, transcriptData],
+  );
+
+  const argumentMapData = argumentMapPayload;
+
+  const isArgumentMapBusy = ["fetching", "queued", "running"].includes(
+    argumentMapProgress.status,
+  );
+
+  const isLoadingContent = loadingTranscript || isArgumentMapBusy;
 
   const argumentMapProgressLabel = useMemo(() => {
     switch (argumentMapProgress.status) {
@@ -226,121 +116,6 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
         return "";
     }
   }, [argumentMapProgress]);
-
-  const argumentMapData = useMemo<ArgumentMapPayload | null>(() => {
-    if (!argumentMap) return null;
-    return (argumentMap.argument_map as ArgumentMapPayload) ?? null;
-  }, [argumentMap]);
-
-  type TranscriptGroup = {
-    speaker: string;
-    start: number;
-    end: number;
-    lines: TranscriptLine[];
-  };
-
-  const closeArgumentMapSocket = () => {
-    const ws = argumentMapSocketRef.current;
-    if (ws) {
-      ws.close();
-      argumentMapSocketRef.current = null;
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      closeArgumentMapSocket();
-      Object.values(audioUrls).forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [audioUrls]);
-
-  const ensureArgumentMap = async () => {
-    if (!selectedId) {
-      setArgumentMapError("Load a transcript first.");
-      return;
-    }
-    // Avoid duplicate runs if already finished.
-    if (argumentMap && argumentMapProgress.status === "finished") {
-      return;
-    }
-
-    try {
-      closeArgumentMapSocket();
-      setArgumentMapError(null);
-      setArgumentMapProgress({ status: "fetching" });
-
-      // Try existing file first.
-      const existing = await fetchArgumentMap(selectedId);
-      if (existing) {
-        setArgumentMap(existing);
-        setArgumentMapProgress({ status: "finished" });
-        return;
-      }
-
-      setArgumentMapProgress({ status: "queued" });
-      const start = await buildArgumentMap({ transcript_id: selectedId });
-
-      if (start.status === "already_exists") {
-        const found = await fetchArgumentMap(selectedId);
-        if (found) {
-          setArgumentMap(found);
-          setArgumentMapProgress({ status: "finished" });
-          return;
-        }
-      }
-
-      if (!start.room_id) {
-        setArgumentMapProgress({ status: "error", message: "Unable to start key items job." });
-        return;
-      }
-
-      const socket = openProgressSocket(start.room_id, (payload) => {
-        if (typeof payload === "string") return;
-        const data = payload as Record<string, any>;
-        if (data.job !== "argument_map") return;
-
-        const stage = data.stage as string | undefined;
-        if (!stage) return;
-
-        if (stage === "queued" || stage === "running") {
-          setArgumentMapProgress({ status: stage as any });
-          return;
-        }
-
-        if (stage === "finished") {
-          setArgumentMapProgress((prev) => ({ ...prev, status: "finished" }));
-          return;
-        }
-
-        if (stage === "result") {
-          const argument_map = (data.argument_map ?? {}) as ArgumentMapPayload;
-          setArgumentMap({
-            transcript_id: (data.transcript_id ?? start.transcript_id ?? selectedId) as string | undefined,
-            argument_map_file: data.argument_map_file ?? start.argument_map_file ?? null,
-            argument_map,
-          });
-          setArgumentMapProgress((prev) => ({ ...prev, status: "finished" }));
-          closeArgumentMapSocket();
-          return;
-        }
-
-        if (stage === "error") {
-          const message = (data.message as string) || "Key items failed.";
-          setArgumentMapError(message);
-          setArgumentMapProgress({ status: "error", message });
-          closeArgumentMapSocket();
-        }
-      });
-
-      argumentMapSocketRef.current = socket;
-    } catch (err) {
-      const message = (err as Error).message;
-      setArgumentMapError(message);
-      setArgumentMapProgress({ status: "error", message });
-    } finally {
-      // progress handled via websocket
-    }
-  };
 
   const parseTimestampRange = (input?: string | null): { start: number; end: number } | null => {
     if (!input) return null;
@@ -362,35 +137,6 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
     return { start, end };
   };
 
-  const playSnippet = async (key: string, range: { start: number; end: number } | null) => {
-    if (!range) {
-      setAudioError((prev) => ({ ...prev, [key]: "No timestamp available for this question." }));
-      return;
-    }
-    if (!selectedId) {
-      setAudioError((prev) => ({ ...prev, [key]: "Select a transcript first." }));
-      return;
-    }
-    setAudioError((prev) => ({ ...prev, [key]: undefined }));
-    setAudioLoading((prev) => ({ ...prev, [key]: true }));
-    try {
-      if (audioUrls[key]) {
-        URL.revokeObjectURL(audioUrls[key]);
-      }
-      const { url } = await sliceAudioByTranscript({
-        transcript_id: selectedId,
-        start: range.start,
-        end: range.end,
-        output_format: "mp3",
-      });
-      setAudioUrls((prev) => ({ ...prev, [key]: url }));
-    } catch (err) {
-      setAudioError((prev) => ({ ...prev, [key]: (err as Error).message }));
-    } finally {
-      setAudioLoading((prev) => ({ ...prev, [key]: false }));
-    }
-  };
-
   return (
     <Stack
       height={"100%"}
@@ -403,9 +149,10 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
       {/* Library column */}
       <TranscriptsList
         transcripts={transcripts}
-        loadingList={loadingList}
+        loadingList={loadingTranscripts}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
+        error={transcriptsError}
       />
 
       {/* Detail column */}
@@ -445,12 +192,18 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {selectedMeta
-                  ? `${selectedMeta.line_count} lines • ${formatDuration(selectedMeta.duration)}`
+                  ? `${transcriptStats.lineCount} lines • ${formatDuration(transcriptStats.duration)}`
                   : "Choose a transcript"}
               </Typography>
             </Stack>
           </Stack>
         </Paper>
+
+        {transcriptError ? (
+          <Alert severity="error" sx={{ mt: 1 }}>
+            {transcriptError}
+          </Alert>
+        ) : null}
 
         <Paper
           elevation={0}
@@ -485,7 +238,7 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
                       <Typography variant="subtitle1" fontWeight={700}>
                         Key items
                       </Typography>
-                      {loadingContent && (
+                      {isLoadingContent && (
                         <LinearProgress
                           sx={{ flex: 1, ml: 2, borderRadius: 999 }}
                         />
@@ -506,7 +259,7 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
                       <Typography variant="subtitle1" fontWeight={700}>
                         Graph board
                       </Typography>
-                      {loadingContent && (
+                      {isLoadingContent && (
                         <LinearProgress
                           sx={{ flex: 1, ml: 2, borderRadius: 999 }}
                         />
@@ -708,6 +461,16 @@ const KnowledgeWorkspace = ({ initialTranscriptId }: { initialTranscriptId?: str
                                         >
                                           <audio controls src={audioUrls[evKey]} style={{ width: "100%" }} />
                                         </Box>
+                                      )}
+                                      {audioError[evKey] && (
+                                        <Typography
+                                          variant="caption"
+                                          color="error"
+                                          display="block"
+                                          sx={{ mt: 0.5 }}
+                                        >
+                                          {audioError[evKey]}
+                                        </Typography>
                                       )}
                                     </Box>);
                                   })}

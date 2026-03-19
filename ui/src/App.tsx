@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import LouieWorkspace from "./components/LouieWorkspace";
 import KnowledgeWorkspace from "./components/KnowledgeWorkspace";
 import Chat, { type ChatEntry } from "./components/Chat";
 
@@ -39,6 +40,7 @@ const theme = createTheme({
 type Route = "workspace" | "chat";
 
 type RouteState = { route: Route; transcriptId: string | null };
+type ViewMode = "classic" | "modern";
 
 const parseHash = (hash: string): RouteState => {
   const trimmed = hash.startsWith("#") ? hash.slice(1) : hash;
@@ -53,6 +55,7 @@ const App = () => {
   const [routeState, setRouteState] = useState<RouteState>(() =>
     parseHash(window.location.hash),
   );
+  const [viewMode, setViewMode] = useState<ViewMode>("classic");
   const [chatMessages, setChatMessages] = useState<ChatEntry[]>([
     {
       id: "welcome",
@@ -72,9 +75,75 @@ const App = () => {
     setRouteState((prev) => ({ ...prev, route: target }));
   };
 
+  const brandBlue = "#0057A8";
+
+  const modeSwitcher = (
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        position: "fixed",
+        top: viewMode === "classic" ? 8 : 12,
+        right: 12,
+        zIndex: 1200,
+        background: viewMode === "classic" ? brandBlue : "transparent",
+        borderRadius: "999px",
+        p: viewMode === "classic" ? 0.5 : 0,
+        boxShadow: viewMode === "classic" ? "0 6px 14px rgba(0,87,168,0.25)" : "none",
+      }}
+    >
+      <Button
+        size="small"
+        variant={viewMode === "classic" ? "contained" : "outlined"}
+        color={viewMode === "classic" ? "inherit" : "primary"}
+        onClick={() => setViewMode("classic")}
+        sx={
+          viewMode === "classic"
+            ? {
+                bgcolor: "white",
+                color: brandBlue,
+                fontWeight: 700,
+                "&:hover": { bgcolor: "#f2f6ff" },
+              }
+            : {}
+        }
+      >
+        Classic
+      </Button>
+      <Button
+        size="small"
+        variant={viewMode === "modern" ? "contained" : "outlined"}
+        color={viewMode === "classic" ? "inherit" : "primary"}
+        onClick={() => setViewMode("modern")}
+        sx={
+          viewMode === "classic"
+            ? {
+                color: "white",
+                borderColor: "rgba(255,255,255,0.6)",
+                "&:hover": { bgcolor: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.9)" },
+              }
+            : {}
+        }
+      >
+        Modern
+      </Button>
+    </Stack>
+  );
+
+  if (viewMode === "classic") {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {modeSwitcher}
+        <LouieWorkspace initialTranscriptId={routeState.transcriptId} />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      {modeSwitcher}
 
       <Box
         sx={{
