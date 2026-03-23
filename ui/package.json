@@ -16,7 +16,7 @@
     "@mui/lab": "^7.0.1-beta.22",
     "@mui/material": "^7.3.8",
     "@tailwindcss/vite": "^4.2.1",
-    "motion": "^12.34.5",
+    "motion": "^12.38.0",
     "notistack": "^3.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

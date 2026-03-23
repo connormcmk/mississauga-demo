@@ -178,8 +178,34 @@ export const renderMarkdown = (md: string): ReactNode[] => {
     }
 
     const listMatch = line.match(/^[-*]\s+(.*)$/);
+    const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
     if (listMatch) {
       list.push(listMatch[1]);
+      return;
+    }
+    if (orderedMatch) {
+      list.push(orderedMatch[1]);
+      return;
+    }
+
+    const quoteMatch = line.match(/^>\s+(.*)$/);
+    if (quoteMatch) {
+      flushList();
+      blocks.push(
+        <Typography
+          key={`q-${blocks.length}`}
+          variant="body2"
+          sx={{
+            borderLeft: "3px solid",
+            borderColor: "grey.300",
+            pl: 1.5,
+            my: 0.5,
+            color: "text.secondary",
+          }}
+        >
+          {inlineMarkdownNodes(quoteMatch[1])}
+        </Typography>,
+      );
       return;
     }
 

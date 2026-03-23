@@ -172,12 +172,24 @@ const ChatMessage = ({ role, text, chart, sources }: ChatEntry) => {
 type ChatProps = {
   messages: ChatEntry[];
   setMessages: Dispatch<SetStateAction<ChatEntry[]>>;
+  loadingExternal?: boolean;
+  errorExternal?: string | null;
+  onSend?: (text: string) => Promise<void>;
+  classicShell?: boolean;
 };
 
-const Chat = ({ messages, setMessages }: ChatProps) => {
+const Chat = ({
+  messages,
+  setMessages,
+  loadingExternal,
+  errorExternal,
+  onSend,
+  classicShell,
+}: ChatProps) => {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const brandBlue = "#0057A8";
 
   const addMessage = (msg: Omit<ChatEntry, "id">) =>
     setMessages((prev) => [
@@ -187,142 +199,276 @@ const Chat = ({ messages, setMessages }: ChatProps) => {
 
   const handleSend = async (value?: string) => {
     const question = (value ?? prompt).trim();
-    if (!question || loading) return;
+    if (!question || loading || loadingExternal) return;
 
-    addMessage({ role: "user", text: question });
     setPrompt("");
     setError(null);
     setLoading(true);
 
     try {
-      const response: AssistantResponse = await askAssistant(question);
-      const answer =
-        (response.answer ?? "").trim() ||
-        (response.type === "chart"
-          ? "Generated a chart based on the workspace knowledge."
-          : "The assistant did not return an answer.");
+      if (onSend) {
+        await onSend(question);
+      } else {
+        addMessage({ role: "user", text: question });
+        const response: AssistantResponse = await askAssistant(question);
+        const answer =
+          (response.answer ?? "").trim() ||
+          (response.type === "chart"
+            ? "Generated a chart based on the workspace knowledge."
+            : "The assistant did not return an answer.");
 
-      addMessage({
-        role: "assistant",
-        text: answer,
-        chart: response.type === "chart" ? response.chart : undefined,
-        sources: response.sources,
-      });
+        addMessage({
+          role: "assistant",
+          text: answer,
+          chart: response.type === "chart" ? response.chart : undefined,
+          sources: response.sources,
+        });
+      }
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Could not reach the assistant.";
       setError(message);
-      addMessage({
-        role: "assistant",
-        text: "I hit an error while trying to answer that. Please try again.",
-      });
+      if (!onSend) {
+        addMessage({
+          role: "assistant",
+          text: "I hit an error while trying to answer that. Please try again.",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+  const conversations = ["Today", "Budget", "Road Safety", "Housing"];
+
+  const chatPanel = (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
         height: "100%",
-        gap: 2,
-        paddingBottom: '48px'
+        minHeight: 480,
+        bgcolor: "#f7f8fa",
+        borderRadius: 2,
+        overflow: "hidden",
+        border: "1px solid",
+        borderColor: "divider",
       }}
     >
-      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-        {suggestedPrompts.map((promptText) => (
-          <Chip
-            key={promptText}
-            label={promptText}
-            variant="outlined"
-            sx={{ borderRadius: "12px" }}
-            onClick={() => handleSend(promptText)}
-          />
-        ))}
-      </Stack>
+      <Box
+        sx={{
+          width: 220,
+          borderRight: "1px solid #e5ecf5",
+          p: 2,
+          bgcolor: "white",
+          display: { xs: "none", sm: "flex" },
+          flexDirection: "column",
+          gap: 1.5,
+        }}
+      >
+        <Typography sx={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>
+          Conversations
+        </Typography>
+        <Stack spacing={1}>
+          {conversations.map((c, idx) => (
+            <Box
+              key={c}
+              sx={{
+                border: "1px solid #d6e2f0",
+                borderRadius: 1.5,
+                p: 1,
+                bgcolor: idx === 0 ? "#e8f0fb" : "white",
+                cursor: "pointer",
+                fontSize: 12,
+              }}
+            >
+              {c}
+            </Box>
+          ))}
+        </Stack>
+      </Box>
 
-      <Box sx={{ flex: 1, minHeight: 240, overflow: "hidden", display: "flex" }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            px: 2,
+            py: 1.5,
+            borderBottom: "1px solid #e5ecf5",
+            bgcolor: "white",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {suggestedPrompts.map((promptText) => (
+              <Chip
+                key={promptText}
+                label={promptText}
+                variant="outlined"
+                sx={{ borderRadius: "12px" }}
+                onClick={() => handleSend(promptText)}
+              />
+            ))}
+          </Stack>
+        </Box>
+
         <Box
           sx={{
             flex: 1,
-            p: 1.5,
-            borderRadius: 2,
-            border: "1px solid",
-            borderColor: "divider",
-            bgcolor: "background.default",
             overflowY: "auto",
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.5,
+            bgcolor: "#f7f8fa",
           }}
         >
-          <Stack spacing={1.5} pb={1}>
-            {messages.map((msg) => (
-              <ChatMessage
-                id={msg.id}
-                key={msg.id}
-                role={msg.role}
-                text={msg.text}
-                chart={msg.chart}
-                sources={msg.sources}
-              />
-            ))}
-            {loading ? (
-              <Typography variant="body2" color="text.secondary" textAlign="left">
-                Assistant is thinking…
-              </Typography>
-            ) : null}
+          {messages.map((msg) => (
+            <ChatMessage
+              id={msg.id}
+              key={msg.id}
+              role={msg.role}
+              text={msg.text}
+              chart={msg.chart}
+              sources={msg.sources}
+            />
+          ))}
+          {loading || loadingExternal ? (
+            <Typography variant="body2" color="text.secondary" textAlign="left">
+              Assistant is thinking…
+            </Typography>
+          ) : null}
+          {error || errorExternal ? (
+            <Alert severity="error" sx={{ maxWidth: 360 }}>
+              {error || errorExternal}
+            </Alert>
+          ) : null}
+        </Box>
+
+        <Box
+          sx={{
+            borderTop: "1px solid #e5ecf5",
+            bgcolor: "white",
+            px: 2,
+            py: 1,
+          }}
+        >
+          <Stack direction="row" spacing={1} alignItems="center">
+            <TextField
+              fullWidth
+              placeholder="Ask about any video or transcript…"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <ChatBubbleOutlineRoundedIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: 2,
+                  bgcolor: "#f7f8fb",
+                },
+              }}
+            />
+            <IconButton
+              color="primary"
+              size="large"
+              disabled={loading || loadingExternal}
+              onClick={() => handleSend()}
+            >
+              <SendRoundedIcon />
+            </IconButton>
           </Stack>
         </Box>
       </Box>
-
-      {error ? (
-        <Alert severity="error" sx={{ mt: 1 }}>
-          {error}
-        </Alert>
-      ) : null}
-
-      <Stack
-        direction="row"
-        spacing={1}
-        alignItems="center"
-        mt={1}
-        sx={{
-          position: { xs: "static", md: "sticky" },
-          bottom: 0,
-          bgcolor: "transparent",
-          pt: 0.5,
-        }}
-      >
-        <TextField
-          fullWidth
-          placeholder="Ask about any video or transcript…"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <ChatBubbleOutlineRoundedIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <IconButton
-          color="primary"
-          size="large"
-          disabled={loading}
-          onClick={() => handleSend()}
-        >
-          <SendRoundedIcon />
-        </IconButton>
-      </Stack>
     </Box>
   );
+
+  if (classicShell) {
+    return (
+      <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+        <Box
+          sx={{
+            background: brandBlue,
+            height: 52,
+            display: "flex",
+            alignItems: "center",
+            px: 2,
+          }}
+        >
+          <Typography sx={{ color: "white", fontSize: 15, fontWeight: 700, letterSpacing: 1.5 }}>
+            ⊠ MISSISSAUGA
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            background: "#1a6fc4",
+            display: "flex",
+            px: 2,
+            overflowX: "auto",
+            gap: 1,
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
+          {[
+            "Services and programs",
+            "Council",
+            "Our organization",
+            "Events and attractions",
+            "Projects and strategies",
+          ].map((label, idx) => (
+            <Box
+              key={label}
+              sx={{
+                fontSize: 12,
+                color: idx === 1 ? "white" : "rgba(255,255,255,0.85)",
+                px: 1.75,
+                py: 1.2,
+                borderBottom: idx === 1 ? "3px solid white" : "3px solid transparent",
+                whiteSpace: "nowrap",
+                fontWeight: idx === 1 ? 600 : 400,
+              }}
+            >
+              {label}
+            </Box>
+          ))}
+        </Box>
+
+        <Box sx={{ px: 2.5, py: 2 }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1.5}>
+            <Typography sx={{ fontSize: 18, fontWeight: 700, color: brandBlue }}>
+              Ask Anything
+            </Typography>
+            <Chip
+              label="Classic view"
+              size="small"
+              sx={{ bgcolor: "#e9f2ff", color: brandBlue, borderColor: "transparent" }}
+            />
+          </Stack>
+          <Box
+            sx={{
+              borderRadius: 2,
+              overflow: "hidden",
+              boxShadow: "0 18px 36px rgba(15,23,42,0.08)",
+              border: "1px solid #d7e3f5",
+            }}
+          >
+            {chatPanel}
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
+
+  return chatPanel;
 };
 
 export default Chat;

@@ -9,6 +9,7 @@ type UseAudioSnippetsResult = {
   audioError: Record<string, string | undefined>;
   playSnippet: (key: string, range: Range) => Promise<void>;
   reset: () => void;
+  dismiss: (key: string) => void;
 };
 
 export function useAudioSnippets(
@@ -40,6 +41,28 @@ export function useAudioSnippets(
     setAudioUrls({});
     setAudioLoading({});
     setAudioError({});
+  }, []);
+
+  const dismiss = useCallback((key: string) => {
+    const current = audioUrlsRef.current[key];
+    if (current) {
+      URL.revokeObjectURL(current);
+    }
+    setAudioUrls((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+    setAudioLoading((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+    setAudioError((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   }, []);
 
   useEffect(() => {
@@ -99,5 +122,5 @@ export function useAudioSnippets(
     [transcriptId],
   );
 
-  return { audioUrls, audioLoading, audioError, playSnippet, reset };
+  return { audioUrls, audioLoading, audioError, playSnippet, reset, dismiss };
 }

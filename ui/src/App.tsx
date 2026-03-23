@@ -10,6 +10,7 @@ import {
 import LouieWorkspace from "./components/LouieWorkspace";
 import KnowledgeWorkspace from "./components/KnowledgeWorkspace";
 import Chat, { type ChatEntry } from "./components/Chat";
+import { askAssistant, type AssistantResponse } from "./api";
 
 const theme = createTheme({
   palette: {
@@ -39,7 +40,7 @@ const theme = createTheme({
 
 type Route = "workspace" | "chat";
 
-type RouteState = { route: Route; transcriptId: string | null };
+type RouteState = { route: Route; transcriptId: string | null; solo: boolean };
 type ViewMode = "classic" | "modern";
 
 const parseHash = (hash: string): RouteState => {
@@ -48,7 +49,8 @@ const parseHash = (hash: string): RouteState => {
   const params = new URLSearchParams(query);
   const transcriptId = params.get("transcript");
   const route: Route = path === "/chat" ? "chat" : "workspace";
-  return { route, transcriptId };
+  const solo = params.get("solo") === "1";
+  return { route, transcriptId, solo };
 };
 
 const App = () => {
@@ -63,6 +65,8 @@ const App = () => {
       text: "I can surface answers from the transcripts, highlights, and summaries in this workspace.",
     },
   ]);
+  const [chatThinking, setChatThinking] = useState(false);
+  const [chatError, setChatError] = useState<string | null>(null);
 
   useEffect(() => {
     const handler = () => setRouteState(parseHash(window.location.hash));
@@ -73,6 +77,49 @@ const App = () => {
   const navigate = (target: Route) => {
     window.location.hash = target === "chat" ? "/chat" : "/";
     setRouteState((prev) => ({ ...prev, route: target }));
+  };
+
+  const sendQuestion = async (text: string) => {
+    const question = text.trim();
+    if (!question) return;
+    setChatError(null);
+    setChatThinking(true);
+    setChatMessages((prev) => [
+      ...prev,
+      { id: `u-${Date.now()}-${prev.length}`, role: "user", text: question },
+    ]);
+    try {
+      const response: AssistantResponse = await askAssistant(question);
+      const answer =
+        (response.answer ?? "").trim() ||
+        (response.type === "chart"
+          ? "Generated a chart based on the workspace knowledge."
+          : "The assistant did not return an answer.");
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: `a-${Date.now()}-${prev.length}`,
+          role: "assistant",
+          text: answer,
+          chart: response.type === "chart" ? response.chart : undefined,
+          sources: response.sources,
+        },
+      ]);
+    } catch (err) {
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: `a-${Date.now()}-${prev.length}`,
+          role: "assistant",
+          text: "I hit an error while trying to answer that. Please try again.",
+        },
+      ]);
+      const message = err instanceof Error ? err.message : "Could not reach the assistant.";
+      setChatError(message);
+      console.error("Assistant error", err);
+    } finally {
+      setChatThinking(false);
+    }
   };
 
   const brandBlue = "#0057A8";
@@ -134,8 +181,27 @@ const App = () => {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {modeSwitcher}
-        <LouieWorkspace />
+        {routeState.route === "chat" ? (
+          <Chat
+            messages={chatMessages}
+            setMessages={setChatMessages}
+            loadingExternal={chatThinking}
+            errorExternal={chatError}
+            onSend={sendQuestion}
+            classicShell
+          />
+        ) : (
+          <LouieWorkspace
+            initialTranscriptId={routeState.transcriptId}
+            soloView={routeState.solo}
+            onAsk={async (text) => {
+              const value = text.trim();
+              if (!value) return;
+              window.location.hash = "/chat";
+              void sendQuestion(value);
+            }}
+          />
+        )}
       </ThemeProvider>
     );
   }
@@ -196,7 +262,13 @@ const App = () => {
             </Button>
           </Stack>
           {routeState.route === "chat" ? (
-            <Chat messages={chatMessages} setMessages={setChatMessages} />
+            <Chat
+              messages={chatMessages}
+              setMessages={setChatMessages}
+              loadingExternal={chatThinking}
+              errorExternal={chatError}
+              onSend={sendQuestion}
+            />
           ) : (
             <KnowledgeWorkspace />
           )}
