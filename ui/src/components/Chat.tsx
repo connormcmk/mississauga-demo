@@ -41,6 +41,7 @@ export type { ChatEntry };
 
 const ChatMessage = ({ role, text, chart, sources }: ChatEntry) => {
   const isUser = role === "user";
+  const brandBlue = "#0057A8";
   const maxChart = useMemo(
     () => Math.max(1, ...(chart?.data?.map((d) => d.value) ?? [1])),
     [chart],
@@ -67,13 +68,13 @@ const ChatMessage = ({ role, text, chart, sources }: ChatEntry) => {
           maxWidth: "90%",
           borderRadius: 2,
           bgcolor: isUser
-            ? theme.palette.primary.main
+            ? brandBlue
             : theme.palette.background.paper,
-          color: isUser
-            ? theme.palette.common.white
-            : theme.palette.text.primary,
+          color: isUser ? theme.palette.common.white : theme.palette.text.primary,
           border: isUser ? "none" : `1px solid ${theme.palette.divider}`,
-          boxShadow: isUser ? "0 10px 30px rgba(15, 118, 110, 0.25)" : "none",
+          boxShadow: isUser
+            ? "0 10px 30px rgba(0, 87, 168, 0.25)"
+            : "none",
         })}
       >
         <Stack spacing={0.75} sx={{ lineHeight: 1.6 }}>
@@ -379,10 +380,19 @@ const Chat = ({
               }}
             />
             <IconButton
-              color="primary"
+              color={classicShell ? undefined : "primary"}
               size="large"
               disabled={loading || loadingExternal}
               onClick={() => handleSend()}
+              sx={
+                classicShell
+                  ? {
+                      bgcolor: brandBlue,
+                      color: "white",
+                      "&:hover": { bgcolor: "#0b5ebd" },
+                    }
+                  : undefined
+              }
             >
               <SendRoundedIcon />
             </IconButton>
