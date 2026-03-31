@@ -33,6 +33,7 @@ from openai import AsyncOpenAI, OpenAI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import openai
+from ai_utils import ai_call
 from typing import Optional
 import textwrap
 
@@ -565,9 +566,7 @@ def generate_actionable_topics(
         else "Chunk info: single chunk or unknown position."
     )
 
-    completion = sync_client.chat.completions.create(
-        model="gpt-4.1",
-        response_format={"type": "json_object"},
+    raw = ai_call(
         messages=[
             {"role": "system", "content": ACTIONABLE_SYSTEM_PROMPT},
             {
@@ -580,9 +579,8 @@ def generate_actionable_topics(
             },
         ],
         temperature=0.2,
+        json_mode=True,
     )
-
-    raw = completion.choices[0].message.content
     try:
         payload = json.loads(raw)
     except Exception:
@@ -624,9 +622,7 @@ def generate_argument_map(transcript_text: str) -> dict:
         },
     }
 
-    completion = sync_client.chat.completions.create(
-        model="gpt-4.1",
-        response_format={"type": "json_object"},
+    raw = ai_call(
         messages=[
             {"role": "system", "content": ARGUMENT_MAP_QUESTION_EXTRACTION_ASSISTANT_PROMPT},
             {
@@ -640,9 +636,8 @@ def generate_argument_map(transcript_text: str) -> dict:
             },
         ],
         temperature=0.2,
+        json_mode=True,
     )
-
-    raw = completion.choices[0].message.content
     try:
         payload = json.loads(raw)
     except Exception:
@@ -677,9 +672,7 @@ def generate_argument_map_chunk(transcript_text: str, chunk_index: int, total_ch
         },
     }
 
-    completion = sync_client.chat.completions.create(
-        model="gpt-4.1",
-        response_format={"type": "json_object"},
+    raw = ai_call(
         messages=[
             {"role": "system", "content": ARGUMENT_MAP_QUESTION_EXTRACTION_ASSISTANT_PROMPT},
             {
@@ -693,9 +686,8 @@ def generate_argument_map_chunk(transcript_text: str, chunk_index: int, total_ch
             },
         ],
         temperature=0.2,
+        json_mode=True,
     )
-
-    raw = completion.choices[0].message.content
     try:
         payload = json.loads(raw)
     except Exception:
@@ -826,9 +818,13 @@ async def run_transcription(job_name: str, room_id: str, work: Callable[[Callabl
 
 
 def openai_transcribe(audio_path: Path, emit: Callable[[str, str | None], None]) -> str:
-    """Legacy non-streaming OpenAI Whisper-1 (kept for fallback)."""
+    """Transcribe via OpenAI Whisper-1, or WhisperX if no OPENAI_API_KEY is set."""
     if not audio_path.exists():
         raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
+    if not os.getenv("OPENAI_API_KEY"):
+        device = os.getenv("WHISPERX_DEVICE", "cuda")
+        return whisperx_traanscribe(audio_path, emit, device=device)
 
     emit("reading_file")
     with audio_path.open("rb") as audio_file:
@@ -1312,11 +1308,22 @@ async def transcribe_with_openai(
 ) -> dict:
     room_id = room_id or await manager.create_room()
     await manager.ensure_room(room_id)
+    tmp_path: Path | None = None
     try:
-        # Read bytes directly; the OpenAI client accepts raw bytes.
+        if not os.getenv("OPENAI_API_KEY"):
+            # No OpenAI key — fall back to local WhisperX (always diarizes).
+            chosen_device = os.getenv("WHISPERX_DEVICE", "cuda")
+            tmp_path = await save_upload_to_temp(file)
+            transcript = await run_transcription(
+                "openai_transcribe",
+                room_id,
+                lambda emit: whisperx_traanscribe(tmp_path, emit, device=chosen_device),
+            )
+            return {"room_id": room_id, "transcript": transcript, "diarize": diarize}
+
+        # OpenAI path — read bytes directly; the client accepts raw bytes.
         audio_bytes = await file.read()
         tmp_path = Path(file.filename or "audio.wav")
-        # openai_stream_transcribe expects a path; provide a pseudo path for metadata.
         if diarize:
             result = await openai_diarize_transcribe(
                 tmp_path,
@@ -1334,6 +1341,9 @@ async def transcribe_with_openai(
         return {"room_id": room_id, "transcript": transcript, "diarize": False}
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+    finally:
+        if tmp_path and tmp_path.exists() and not os.getenv("OPENAI_API_KEY"):
+            tmp_path.unlink(missing_ok=True)
 
 
 @app.post("/whisperx_traanscribe")
@@ -1631,16 +1641,14 @@ async def assistant(
 
         user_msg = f"REPORTS:\n{blocks_txt}\n\nQUESTION:\n{question}"
 
-        completion = openai.chat.completions.create(
-            model="gpt-5.2",
+        raw = ai_call(
             messages=[
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": user_msg},
             ],
             temperature=0.3,
-        )
-
-        raw = completion.choices[0].message.content.strip()
+            json_mode=True,
+        ).strip()
 
         try:
             payload = json.loads(raw)
