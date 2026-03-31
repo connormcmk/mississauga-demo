@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { navigate } from "../App";
-import { feedItems } from "../data/mockData";
-
-// Sort feed items newest-first by date
-const parseDate = (d: string) => new Date(d).getTime();
-const sortedFeedItems = [...feedItems].sort((a, b) => parseDate(b.date) - parseDate(a.date));
+import { listTranscriptions } from "../api";
+import { transcriptToFeedItem, type FeedItem } from "../data/feedTypes";
 
 const SUGGESTIONS = [
   "When have councillors mentioned institutional memory or forgetting things?",
@@ -14,8 +11,15 @@ const SUGGESTIONS = [
 ];
 
 const HomePage = () => {
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [searchExpanded, setSearchExpanded] = useState(false);
+
+  useEffect(() => {
+    listTranscriptions()
+      .then((items) => setFeedItems(items.map(transcriptToFeedItem)))
+      .catch(console.error);
+  }, []);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const overlayInputRef = useRef<HTMLInputElement>(null);
 
@@ -161,7 +165,7 @@ const HomePage = () => {
 
       {/* Feed */}
       <div className="feed-container">
-        {sortedFeedItems.map((item) => (
+        {feedItems.map((item) => (
           <article key={item.id} className="feed-item">
             {/* Committee + date */}
             <div style={{ display: "flex", alignItems: "center" }}>
