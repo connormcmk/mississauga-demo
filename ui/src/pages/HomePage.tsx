@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { navigate } from "../App";
 import { listTranscriptions } from "../api";
-import { transcriptToFeedItem, type FeedItem } from "../data/feedTypes";
+import { transcriptToFeedItem, type FeedItem } from "../feedTypes";
 
 const SUGGESTIONS = [
   "When have councillors mentioned institutional memory or forgetting things?",

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, type JSX } from "react";
 import { navigate } from "../App";
 import { listTranscriptions, askAssistant } from "../api";
-import { transcriptToFeedItem, type FeedItem } from "../data/feedTypes";
+import { transcriptToFeedItem, type FeedItem } from "../feedTypes";
 
 // Simple markdown-ish renderer for chat messages
 const renderChatMarkdown = (text: string) => {
