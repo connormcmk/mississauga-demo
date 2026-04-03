@@ -1,8 +1,53 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { navigate } from "../App";
 import { getMeeting, roadSafetyArgumentMap } from "../data/mockData";
 import FloatingChat from "../components/FloatingChat";
 import ArgumentMap from "../components/ArgumentMap";
+
+// Click-to-activate iframe wrapper — prevents scroll hijacking
+const ActivatableIframe = ({
+  src,
+  title,
+  className,
+}: {
+  src: string;
+  title: string;
+  className?: string;
+}) => {
+  const [active, setActive] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Deactivate when clicking outside
+  useEffect(() => {
+    if (!active) return;
+    const handleClick = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setActive(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [active]);
+
+  return (
+    <div
+      ref={wrapRef}
+      className={`cdm-iframe-activatable ${active ? "cdm-iframe-active" : ""} ${className ?? ""}`}
+    >
+      <iframe src={src} title={title} allow="clipboard-write" />
+      {!active && (
+        <div
+          className="cdm-iframe-overlay"
+          onClick={() => setActive(true)}
+        >
+          <span className="cdm-iframe-overlay-hint">
+            Click to interact with the deliberation map
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const CdmPage = ({ meetingId }: { meetingId: string }) => {
   const meeting = getMeeting(meetingId);
@@ -138,10 +183,9 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
                   )}
                 </div>
                 <div className="cdm-hero-iframe-wrap">
-                  <iframe
-                    src={heroQuestion.negationGameUrl}
+                  <ActivatableIframe
+                    src={heroQuestion.negationGameUrl!}
                     title={heroQuestion.deliberativeQuestion}
-                    allow="clipboard-write"
                   />
                 </div>
               </section>
@@ -193,10 +237,9 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
                       )}
                       {q.negationGameUrl && (
                         <div className="cdm-topic-card-iframe-wrap">
-                          <iframe
+                          <ActivatableIframe
                             src={q.negationGameUrl}
                             title={q.deliberativeQuestion}
-                            allow="clipboard-write"
                           />
                         </div>
                       )}

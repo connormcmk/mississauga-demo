@@ -1293,13 +1293,63 @@ body {
   padding: 0;
 }
 
-.cdm-hero-iframe-wrap iframe {
+/* Activatable iframe wrapper */
+
+.cdm-iframe-activatable {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cdm-iframe-activatable iframe {
   width: 100%;
   height: 100%;
   border: none;
+  background: white;
+}
+
+.cdm-hero-iframe-wrap .cdm-iframe-activatable iframe {
   border-top: 1px solid var(--msga-border);
   border-bottom: 1px solid var(--msga-border);
-  background: white;
+}
+
+/* Inactive overlay — absorbs scroll, shows hint on hover */
+.cdm-iframe-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.cdm-iframe-overlay:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.cdm-iframe-overlay-hint {
+  opacity: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.cdm-iframe-overlay:hover .cdm-iframe-overlay-hint {
+  opacity: 1;
+}
+
+/* Active state — subtle ring to show it's interactive */
+.cdm-iframe-active {
+  box-shadow: 0 0 0 2px var(--msga-blue), 0 0 0 4px rgba(0, 119, 200, 0.15);
+  border-radius: 2px;
 }
 
 /* Topics section */
