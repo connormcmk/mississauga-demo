@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { navigate } from "../App";
+import { mostRecentMeeting } from "../data/mockData";
 
 const navItems = [
   "Services and programs",
@@ -18,6 +19,7 @@ interface Meeting {
   addendum?: { html: string; pdf: string };
   revisedAgenda?: { html: string; pdf: string };
   video?: boolean;
+  cdmMeetingId?: string; // links to a CDM meeting if available
 }
 
 interface Committee {
@@ -128,6 +130,7 @@ const committees: Committee[] = [
         addendum: { html: "#", pdf: "#" },
         revisedAgenda: { html: "#", pdf: "#" },
         video: true,
+        cdmMeetingId: "road-safety-2026-03-24",
       },
       {
         committee: "Road Safety Committee",
@@ -136,6 +139,7 @@ const committees: Committee[] = [
         location: "Online Video Conference",
         agenda: { html: "#", pdf: "#" },
         video: true,
+        cdmMeetingId: "road-safety-2026-01-27",
       },
     ],
   },
@@ -314,16 +318,6 @@ const MississaugaPage = () => {
                                   <div className="msga-meeting-location">
                                     {meeting.location}
                                   </div>
-                                  <a
-                                    href="#/home"
-                                    className="msga-meeting-louie-link"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      navigate("/home");
-                                    }}
-                                  >
-                                    Civic Deliberative Memory
-                                  </a>
                                 </div>
                               </div>
                               <div className="msga-meeting-right">
@@ -372,6 +366,20 @@ const MississaugaPage = () => {
                                     </a>
                                   </div>
                                 )}
+                                {meeting.cdmMeetingId && (
+                                  <div className="msga-meeting-doc-group">
+                                    <a
+                                      href={`#/cdm/${meeting.cdmMeetingId}`}
+                                      className="msga-meeting-memory-link"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(`/cdm/${meeting.cdmMeetingId}`);
+                                      }}
+                                    >
+                                      Memory
+                                    </a>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           ))}
@@ -409,17 +417,19 @@ const MississaugaPage = () => {
                 }}
               />
 
-              {/* Louie entry point - highlighted */}
-              <a
-                href="#/home"
-                className="msga-sidebar-link louie-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/home");
-                }}
+              {/* Louie entry point - highlighted block */}
+              <div
+                className="msga-sidebar-cdm-block"
+                onClick={() => navigate(`/cdm/${mostRecentMeeting.id}`)}
               >
-                Civic Deliberative Memory
-              </a>
+                <div className="msga-sidebar-cdm-label">Civic Deliberative Memory</div>
+                <div className="msga-sidebar-cdm-meeting">
+                  {mostRecentMeeting.committee}
+                </div>
+                <div className="msga-sidebar-cdm-date">
+                  {mostRecentMeeting.date}
+                </div>
+              </div>
             </div>
           </aside>
         </div>
