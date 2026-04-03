@@ -164,10 +164,26 @@ const findMockResponse = (
   };
 };
 
+// Animated thinking indicator: "Thinking..." → "Searching..."
+const ThinkingIndicator = () => {
+  const [phase, setPhase] = useState(0); // 0 = Thinking, 1 = Searching
+  useEffect(() => {
+    const timer = setTimeout(() => setPhase(1), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+  const label = phase === 0 ? "Thinking" : "Searching transcripts";
+  return (
+    <div className="fc-thinking-indicator">
+      <span>{label}</span>
+      <span className="fc-thinking-dots" />
+    </div>
+  );
+};
+
 // Typewriter component — streams text character by character then renders markdown
 const TypewriterMessage = ({
   text,
-  speed = 8,
+  speed = 3,
   onComplete,
 }: {
   text: string;
@@ -189,8 +205,8 @@ const TypewriterMessage = ({
       onComplete?.();
       return;
     }
-    // Speed up: jump by chunks for faster streaming feel
-    const chunkSize = Math.max(1, Math.floor(Math.random() * 3) + 1);
+    // Fast chunked streaming
+    const chunkSize = Math.max(2, Math.floor(Math.random() * 5) + 2);
     const timer = setTimeout(() => {
       setDisplayedLength((prev) => Math.min(prev + chunkSize, text.length));
     }, speed);
@@ -306,8 +322,10 @@ const FloatingChat = ({ meeting }: Props) => {
       assistantMsgCount.current,
     );
 
+    // 2-second thinking phase, then stream the response
     const msgId = `a-${Date.now()}`;
     setTimeout(() => {
+      setThinking(false);
       setMessages((prev) => [
         ...prev,
         {
@@ -319,8 +337,7 @@ const FloatingChat = ({ meeting }: Props) => {
         },
       ]);
       setStreamingId(msgId);
-      setThinking(false);
-    }, 1200);
+    }, 2000);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -471,7 +488,7 @@ const FloatingChat = ({ meeting }: Props) => {
                   {msg.role === "assistant" && msg.streaming ? (
                     <TypewriterMessage
                       text={msg.text}
-                      speed={streamingId === "summary" ? 4 : 6}
+                      speed={streamingId === "summary" ? 2 : 3}
                       onComplete={() => handleStreamComplete(msg.id)}
                     />
                   ) : (
@@ -505,9 +522,7 @@ const FloatingChat = ({ meeting }: Props) => {
                   )}
                 </div>
               ))}
-              {thinking && (
-                <div className="chat-thinking">Searching transcripts…</div>
-              )}
+              {thinking && <ThinkingIndicator />}
               <div ref={messagesEndRef} />
             </div>
 

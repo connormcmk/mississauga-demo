@@ -2111,6 +2111,41 @@ body {
   font-style: italic;
 }
 
+/* Thinking indicator */
+.fc-thinking-indicator {
+  align-self: flex-start;
+  font-size: 0.82rem;
+  color: #999;
+  padding: 0.5rem 0;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.fc-thinking-dots {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.fc-thinking-dots::before {
+  content: "...";
+  letter-spacing: 1px;
+  animation: fcDotsClip 1.2s steps(4, end) infinite;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+@keyframes fcDotsClip {
+  0% { width: 0; }
+  25% { width: 0.4em; }
+  50% { width: 0.8em; }
+  75% { width: 1.2em; }
+  100% { width: 0; }
+}
+
 /* Typewriter cursor */
 .fc-cursor {
   display: inline-block;
