@@ -56,7 +56,7 @@ export const meetings: Meeting[] = [
         deliberativeQuestion:
           "How should the $2.2M provincial road safety funding be deployed?",
         negationGameUrl:
-          "https://negationgame.com/board/Jan-27-Q1-22M-Road-Safety-Fund_m-GXONA6Jzl8DHs9Z3M7OxI?share=sl-uQqy0QFtkaiTcTdJRh3-K",
+          "https://negationgame.com/board/Jan-27-Q1-22M-Road-Safety-Fund_m-GXONA6Jzl8DHs9Z3M7OxI?share=sl-uQqy0QFtkaiTcTdJRh3-K&minimal=true",
         summary:
           "Staff plan equitable allocation across 11 wards (~$200k/ward), using ASE data to shortlist 5–6 candidate locations per ward with councillor input. Focus on physical traffic calming (speed cushions/bumps) plus lower-cost seasonal measures. Target 3–4 projects/ward (~40–50 total); construction anticipated 2026. March 2028 provincial deadline creates time pressure.",
         decision: "Recommendation carried — goes to General Committee next month",
@@ -81,7 +81,7 @@ export const meetings: Meeting[] = [
         deliberativeQuestion:
           "Should school bus stop arm cameras be revived?",
         negationGameUrl:
-          "https://negationgame.com/board/Jan-27-Q3-School-Bus-Cameras_m-GQtKRw7e2tVgMLN6WCII7?share=sl-syXRBLzUaIS4t3d_SPSTy",
+          "https://negationgame.com/board/Jan-27-Q3-School-Bus-Cameras_m-GQtKRw7e2tVgMLN6WCII7?share=sl-syXRBLzUaIS4t3d_SPSTy&minimal=true",
         summary:
           "Initiative began around 2018; previously stalled due to procurement fraud by the original vendor. Councillor Tedjo is raising this at the regional level; Brampton is exploring a revival. School buses are region-wide, so Mississauga cannot act alone. Newer camera systems cost 60% less than the 2019 pilot technology.",
         decision: "Added to committee work plan by Monica",
@@ -123,7 +123,7 @@ export const meetings: Meeting[] = [
         label: "Headlight Misalignment",
         deliberativeQuestion: "Is headlight misalignment worth addressing?",
         negationGameUrl:
-          "https://negationgame.com/board/jan-27-Q2-Headlight-Misalignment_m-tBj6H9GP_ZFugVCCDbE0E?share=sl-2AhbwWv94KjT7_7UDThOj",
+          "https://negationgame.com/board/jan-27-Q2-Headlight-Misalignment_m-tBj6H9GP_ZFugVCCDbE0E?share=sl-2AhbwWv94KjT7_7UDThOj&minimal=true",
         summary:
           "The UK MOT model was cited as a successful approach. CAA receives complaints regularly. However, the province went in the opposite direction by removing license plate renewal requirements — there's no provincial appetite for additional cost to drivers. A CAA partnership was proposed as mitigation that wouldn't require provincial action.",
         decision: "Referred to promotional subcommittee — needs qualified presenter",
@@ -142,7 +142,7 @@ export const meetings: Meeting[] = [
         deliberativeQuestion:
           "How do we increase Road Safety Committee event participation?",
         negationGameUrl:
-          "https://negationgame.com/board/Jan-27-Q5-Increase-Road-Watch-Participation-Event_m-EydoHj8Yomc_HDCfPUSoT?share=sl-Qrg1JsGtcTxnAmwzQWkR9",
+          "https://negationgame.com/board/Jan-27-Q5-Increase-Road-Watch-Participation-Event_m-EydoHj8Yomc_HDCfPUSoT?share=sl-Qrg1JsGtcTxnAmwzQWkR9&minimal=true",
         summary:
           "Only 12 of 35 planned Road Watch events in 2025 met minimum attendance. The committee was dormant from approximately February 2020 through 2024. Strategies discussed include social media outreach, partnerships with neighbourhood associations, and integrating safety messaging into existing community events. Councillor offices need to provide 3–4 weeks' notice for volunteer coordination.",
         decision: "Staff/Chair to issue email calls for volunteers",
