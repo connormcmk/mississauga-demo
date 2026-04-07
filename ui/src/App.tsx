@@ -36,12 +36,13 @@ const App = () => {
     return () => window.removeEventListener("hashchange", handler);
   }, []);
 
-  switch (route.page) {
-    case "mississauga":
-      return <MississaugaPage />;
-    case "cdm":
-      return <CdmPage meetingId={route.meetingId} />;
-  }
+  return (
+    <>
+      {route.page === "mississauga" && <MississaugaPage />}
+      {route.page === "cdm" && <CdmPage meetingId={route.meetingId} />}
+      <div className="app-watermark">Louie™ demo</div>
+    </>
+  );
 };
 
 export default App;
