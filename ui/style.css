@@ -1,6 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+.app-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-size: 6rem;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  z-index: 9999;
+  letter-spacing: 0.08em;
+  user-select: none;
+  white-space: nowrap;
+}
+
 :root {
   /* Mississauga civic palette */
   --msga-blue: #0077c8;
@@ -1872,6 +1887,21 @@ body {
 .fc-bar-icon {
   flex-shrink: 0;
   opacity: 0.4;
+  cursor: pointer;
+}
+
+.fc-bar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.88rem;
+  color: var(--msga-text);
+  cursor: text;
+}
+
+.fc-bar-input::placeholder {
+  color: #aaa;
 }
 
 /* Shine / attention animation on the bar */
@@ -1904,13 +1934,13 @@ body {
 /* Expanded overlay */
 .fc-overlay {
   position: fixed;
-  top: 0;
+  top: 52px;
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
-  z-index: 100;
+  z-index: 39;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -2255,6 +2285,200 @@ body {
 
 .am-node-tag:hover {
   text-decoration: underline dotted;
+}
+
+/* Audio player */
+.cdm-audio-wrap {
+  margin-top: 0.75rem;
+}
+
+.cdm-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.cdm-audio-btn:hover {
+  background: #eaf0fb;
+  border-color: #aac4e0;
+  color: #1a4d80;
+}
+
+.cdm-audio-player {
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #dde6f0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 480px;
+}
+
+.cdm-audio-player-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: #888;
+}
+
+.cdm-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cdm-audio-play {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--msga-blue);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.cdm-audio-play:hover { opacity: 0.85; }
+
+.cdm-audio-time {
+  font-size: 0.75rem;
+  color: #666;
+  font-variant-numeric: tabular-nums;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.cdm-audio-bar {
+  flex: 1;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.cdm-audio-bar-fill {
+  height: 100%;
+  background: var(--msga-blue);
+  border-radius: 2px;
+  transition: width 0.9s linear;
+}
+
+/* Negation game section highlight on chip click */
+@keyframes ngHighlight {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 90, 180, 0.0); }
+  20%  { box-shadow: 0 0 0 6px rgba(0, 90, 180, 0.25); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 90, 180, 0.0); }
+}
+
+.cdm-section-highlight {
+  animation: ngHighlight 1.8s ease forwards;
+  border-radius: 4px;
+}
+
+/* Welcome screen */
+.fc-overlay-welcome {
+  align-items: center;
+  justify-content: center;
+}
+
+.fc-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 560px;
+  padding: 2rem 1.5rem;
+  gap: 1.25rem;
+}
+
+.fc-welcome-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #111;
+  margin: 0;
+}
+
+.fc-welcome-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0;
+}
+
+.fc-welcome-input-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--msga-border);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  gap: 0.5rem;
+}
+
+.fc-welcome-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  color: #222;
+  padding: 0.4rem 0.25rem;
+}
+
+.fc-welcome-input::placeholder {
+  color: #aaa;
+}
+
+.fc-welcome-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  align-items: center;
+}
+
+.fc-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem 0.25rem;
+  border-top: 1px solid var(--msga-border);
+}
+
+.fc-chip {
+  background: white;
+  border: 1px solid #c8d8e8;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.88rem;
+  color: #2a5a8a;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  max-width: 100%;
+}
+
+.fc-chip:hover {
+  background: #eef4fb;
+  border-color: #a0bcd8;
 }
 
 /* Responsive */
