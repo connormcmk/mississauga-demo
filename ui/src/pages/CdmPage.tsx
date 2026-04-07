@@ -1,8 +1,92 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { navigate } from "../App";
-import { getMeeting, roadSafetyArgumentMap } from "../data/mockData";
+import { getMeeting } from "../data/mockData";
 import FloatingChat from "../components/FloatingChat";
-import ArgumentMap from "../components/ArgumentMap";
+
+const fmt = (s: number) => {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = Math.floor(s % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  return `${m}:${String(sec).padStart(2, "0")}`;
+};
+
+const AudioPlayer = ({ start, end }: { start: number; end: number }) => {
+  const [open, setOpen] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0); // 0–1
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const duration = end - start;
+
+  useEffect(() => {
+    if (playing) {
+      timerRef.current = setInterval(() => {
+        setProgress((p) => {
+          if (p >= 1) { setPlaying(false); return 0; }
+          return p + 1 / duration;
+        });
+      }, 1000);
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [playing, duration]);
+
+  const current = start + Math.round(progress * duration);
+
+  return (
+    <div className="cdm-audio-wrap">
+      <button className="cdm-audio-btn" onClick={() => setOpen((o) => !o)}>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 4.5h2l3-3v11l-3-3H2V4.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+          <path d="M10 4a4 4 0 0 1 0 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+          <path d="M11.5 2.5a6.5 6.5 0 0 1 0 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+        </svg>
+        Audio segment
+      </button>
+
+      {open && (
+        <div className="cdm-audio-player">
+          <div className="cdm-audio-player-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M6 3v3l2 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            Scraped from negation game timestamps · {fmt(start)} – {fmt(end)}
+          </div>
+          <div className="cdm-audio-controls">
+            <button
+              className="cdm-audio-play"
+              onClick={() => setPlaying((p) => !p)}
+            >
+              {playing ? (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <rect x="3" y="2" width="3" height="10" rx="1" fill="currentColor"/>
+                  <rect x="8" y="2" width="3" height="10" rx="1" fill="currentColor"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
+                </svg>
+              )}
+            </button>
+            <span className="cdm-audio-time">{fmt(current)}</span>
+            <div
+              className="cdm-audio-bar"
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setProgress((e.clientX - rect.left) / rect.width);
+              }}
+            >
+              <div className="cdm-audio-bar-fill" style={{ width: `${progress * 100}%` }} />
+            </div>
+            <span className="cdm-audio-time">{fmt(end)}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Click-to-activate iframe wrapper — prevents scroll hijacking
 const ActivatableIframe = ({
@@ -75,11 +159,13 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
   }
 
   const hasQuestions = meeting.questions.length > 0;
-  // The first question with a negation game is the "hero"
-  const heroQuestion = meeting.questions.find((q) => q.negationGameUrl);
-  const otherQuestions = meeting.questions.filter(
-    (q) => q.id !== heroQuestion?.id,
-  );
+  const negationGameQuestions = meeting.questions
+    .filter((q) => q.negationGameUrl)
+    .sort((a, b) => {
+      const numA = parseInt(a.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i)?.[1] ?? "0");
+      const numB = parseInt(b.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i)?.[1] ?? "0");
+      return numA - numB;
+    });
 
   // Collect all key quotes from all questions
   const allQuotes = meeting.questions.flatMap(
@@ -119,26 +205,6 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
           </div>
         </div>
         <div className="cdm-header-right">
-          {meeting.agendaHtmlUrl && (
-            <a
-              href={meeting.agendaHtmlUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cdm-header-link"
-            >
-              Agenda
-            </a>
-          )}
-          {meeting.videoUrl && (
-            <a
-              href={meeting.videoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cdm-header-link"
-            >
-              Video
-            </a>
-          )}
         </div>
       </header>
 
@@ -146,131 +212,29 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
       <div className="cdm-scroll">
         {hasQuestions ? (
           <>
-            {/* Hero negation game */}
-            {heroQuestion && (
-              <section className="cdm-hero-section">
+            {negationGameQuestions.map((q) => {
+              const qNumMatch = q.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i);
+              const qNum = qNumMatch ? qNumMatch[1] : null;
+              return (
+              <section key={q.id} id={`ng-${q.id}`} className="cdm-hero-section">
                 <div className="cdm-section-inner">
-                  <div className="cdm-hero-label">Primary deliberation</div>
                   <h2 className="cdm-hero-question">
-                    {heroQuestion.deliberativeQuestion}
+                    {qNum ? `${qNum}.` : ""} {q.deliberativeQuestion}
                   </h2>
-                  <p className="cdm-hero-summary">{heroQuestion.summary}</p>
-                  {heroQuestion.decision && (
-                    <div className="cdm-decision-badge">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                      >
-                        <circle
-                          cx="7"
-                          cy="7"
-                          r="6"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M4.5 7L6.5 9L9.5 5"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      {heroQuestion.decision}
-                    </div>
+                  {q.audioSegment && (
+                    <AudioPlayer start={q.audioSegment.start} end={q.audioSegment.end} />
                   )}
                 </div>
                 <div className="cdm-hero-iframe-wrap">
                   <ActivatableIframe
-                    src={heroQuestion.negationGameUrl!}
-                    title={heroQuestion.deliberativeQuestion}
+                    src={q.negationGameUrl!}
+                    title={q.deliberativeQuestion}
                   />
                 </div>
               </section>
-            )}
+            );
+            })}
 
-            {/* Argument Map */}
-            {meeting.id === "road-safety-2026-01-27" && (
-              <section className="cdm-argmap-section">
-                <ArgumentMap
-                  questions={roadSafetyArgumentMap}
-                />
-              </section>
-            )}
-
-            {/* Other topics */}
-            {otherQuestions.length > 0 && (
-              <section className="cdm-topics-section">
-                <div className="cdm-section-inner">
-                  <h2 className="cdm-section-title">
-                    Other topics discussed
-                  </h2>
-                </div>
-                <div className="cdm-topics-grid">
-                  {otherQuestions.map((q) => (
-                    <div key={q.id} className="cdm-topic-card">
-                      <div className="cdm-topic-card-header">
-                        <h3 className="cdm-topic-card-question">
-                          {q.deliberativeQuestion}
-                        </h3>
-                        {q.decision && (
-                          <span className="cdm-topic-card-decision">
-                            {q.decision}
-                          </span>
-                        )}
-                      </div>
-                      <p className="cdm-topic-card-summary">{q.summary}</p>
-                      {q.keyQuotes && q.keyQuotes.length > 0 && (
-                        <blockquote className="cdm-topic-card-quote">
-                          <span className="cdm-topic-card-quote-text">
-                            "{q.keyQuotes[0].quote}"
-                          </span>
-                          <cite>
-                            — {q.keyQuotes[0].speaker}
-                            {q.keyQuotes[0].role
-                              ? `, ${q.keyQuotes[0].role}`
-                              : ""}
-                          </cite>
-                        </blockquote>
-                      )}
-                      {q.negationGameUrl && (
-                        <div className="cdm-topic-card-iframe-wrap">
-                          <ActivatableIframe
-                            src={q.negationGameUrl}
-                            title={q.deliberativeQuestion}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Key statements */}
-            {allQuotes.length > 0 && (
-              <section className="cdm-quotes-section">
-                <div className="cdm-section-inner">
-                  <h2 className="cdm-section-title">Key statements</h2>
-                  <div className="cdm-quotes-grid">
-                    {allQuotes.map((q, i) => (
-                      <div key={i} className="cdm-quote-card">
-                        <div className="cdm-quote-topic">{q.topic}</div>
-                        <blockquote className="cdm-quote-text">
-                          "{q.quote}"
-                        </blockquote>
-                        <div className="cdm-quote-speaker">
-                          {q.speaker}
-                          {q.role ? `, ${q.role}` : ""}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )}
           </>
         ) : (
           <div className="cdm-empty-state">

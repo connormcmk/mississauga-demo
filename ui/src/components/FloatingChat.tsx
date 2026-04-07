@@ -240,7 +240,7 @@ const TypewriterMessage = ({
 };
 
 const FloatingChat = ({ meeting }: Props) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [closing, setClosing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [draftInput, setDraftInput] = useState("");
@@ -248,23 +248,14 @@ const FloatingChat = ({ meeting }: Props) => {
   const [thinking, setThinking] = useState(false);
   const [streamingId, setStreamingId] = useState<string | null>(null);
   const [hasOpened, setHasOpened] = useState(false);
+  const [hasBeenWelcomed, setHasBeenWelcomed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const assistantMsgCount = useRef(0);
 
-  // Initialize with meeting summary + trailing question
+  // Reset messages when meeting changes
   useEffect(() => {
-    const summaryText =
-      meeting.summary + "\n\nDo you have any questions about this meeting?";
-    setMessages([
-      {
-        id: "summary",
-        role: "assistant",
-        text: summaryText,
-        streaming: true,
-      },
-    ]);
-    setStreamingId("summary");
+    setMessages([]);
     assistantMsgCount.current = 0;
   }, [meeting.id]);
 
@@ -293,6 +284,7 @@ const FloatingChat = ({ meeting }: Props) => {
   const handleClose = () => {
     setClosing(true);
     setSidebarOpen(false);
+    if (!hasBeenWelcomed) setHasBeenWelcomed(true);
     setTimeout(() => {
       setExpanded(false);
       setClosing(false);
@@ -352,6 +344,32 @@ const FloatingChat = ({ meeting }: Props) => {
     if (!hasOpened) setHasOpened(true);
   };
 
+  const handleSuggestedQuestion = (questionText: string, questionId: string) => {
+    // Close the welcome overlay
+    handleClose();
+    // Scroll to and highlight the matching negation game section
+    setTimeout(() => {
+      const section = document.getElementById(`ng-${questionId}`);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        section.classList.add("cdm-section-highlight");
+        setTimeout(() => section.classList.remove("cdm-section-highlight"), 1800);
+      }
+    }, 300);
+  };
+
+  const suggestedQuestions = meeting.questions
+    .filter((q) => q.negationGameUrl)
+    .sort((a, b) => {
+      const n = (url: string) => parseInt(url.match(/[/-]Q(\d+)[/-]/i)?.[1] ?? "0");
+      return n(a.negationGameUrl!) - n(b.negationGameUrl!);
+    })
+    .slice(0, 3)
+    .map((q) => {
+      const num = q.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i)?.[1];
+      return { label: `${num}. ${q.deliberativeQuestion}`, question: q.deliberativeQuestion, id: q.id };
+    });
+
   const handleProposeCitizen = (msgId: string) => {
     // Mark the button as clicked and add a confirmation message
     setMessages((prev) => [
@@ -372,44 +390,83 @@ const FloatingChat = ({ meeting }: Props) => {
     <>
       {/* Collapsed bar */}
       {!expanded && (
-        <div
-          className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`}
-          onClick={handleBarClick}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            className="fc-bar-icon"
-          >
-            <circle
-              cx="8"
-              cy="8"
-              r="7"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M7.5 4.5v4l2.5 1.5"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+        <div className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`} onClick={handleBarClick}>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="fc-bar-icon">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M7.5 4.5v4l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span>Search this meeting's records...</span>
+          <input
+            className="fc-bar-input"
+            type="text"
+            placeholder="Search this meeting's records..."
+            value={draftInput}
+            onChange={(e) => setDraftInput(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+            onFocus={() => { if (!hasOpened) setHasOpened(true); }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && draftInput.trim()) {
+                setExpanded(true);
+                setHasBeenWelcomed(true);
+                setTimeout(() => handleSend(), 50);
+              }
+            }}
+          />
         </div>
       )}
 
       {/* Expanded overlay */}
       {expanded && (
         <div
-          className={`fc-overlay ${closing ? "fc-closing" : ""}`}
+          className={`fc-overlay ${closing ? "fc-closing" : ""} ${messages.length === 0 ? "fc-overlay-welcome" : ""}`}
           onMouseDown={handleOverlayClick}
         >
+          {/* Welcome screen — shown only on first visit before any interaction */}
+          {messages.length === 0 && !hasBeenWelcomed && (
+            <div className="fc-welcome" onMouseDown={(e) => e.stopPropagation()}>
+              <h1 className="fc-welcome-title">Welcome to years of Mississauga meeting records.</h1>
+              <p className="fc-welcome-subtitle">How can I help you today?</p>
+              <div className="fc-welcome-input-wrap">
+                <input
+                  ref={inputRef}
+                  className="fc-welcome-input"
+                  type="text"
+                  placeholder="Ask about this meeting..."
+                  value={draftInput}
+                  onChange={(e) => setDraftInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+                <button
+                  className="fc-send-btn"
+                  onClick={handleSend}
+                  disabled={thinking || !draftInput.trim()}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M14 2L7 9M14 2L9.5 14L7 9M14 2L2 6.5L7 9"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="fc-welcome-chips">
+                {suggestedQuestions.map((s) => (
+                  <button
+                    key={s.question}
+                    className="fc-chip"
+                    onClick={() => handleSuggestedQuestion(s.question, s.id)}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Sidebar */}
-          {sidebarOpen && (
+          {(messages.length > 0 || hasBeenWelcomed) && sidebarOpen && (
             <div
               className="fc-sidebar"
               onMouseDown={(e) => e.stopPropagation()}
@@ -441,30 +498,14 @@ const FloatingChat = ({ meeting }: Props) => {
             </div>
           )}
 
-          {/* Chat column */}
-          <div
+          {/* Chat column — shown once welcomed or conversation started */}
+          {(messages.length > 0 || hasBeenWelcomed) && <div
             className={`fc-column ${closing ? "fc-column-closing" : ""}`}
             onMouseDown={(e) => e.stopPropagation()}
           >
             {/* Chat header */}
             <div className="fc-chat-header">
-              <button
-                className="fc-history-btn"
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                title="Conversation history"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M2 4h12M2 8h12M2 12h12"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
-              <span className="fc-chat-title">
-                {meeting.committee} — {meeting.date}
-              </span>
+              <span className="fc-chat-title"></span>
               <button
                 className="fc-close-btn"
                 onClick={handleClose}
@@ -526,6 +567,20 @@ const FloatingChat = ({ meeting }: Props) => {
               <div ref={messagesEndRef} />
             </div>
 
+
+            {/* Suggested questions */}
+            <div className="fc-chips-row">
+              {suggestedQuestions.map((s) => (
+                <button
+                  key={s.question}
+                  className="fc-chip fc-chip-inline"
+                  onClick={() => handleSuggestedQuestion(s.question, s.id)}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
             {/* Input */}
             <div className="fc-input-area">
               <input
@@ -553,7 +608,7 @@ const FloatingChat = ({ meeting }: Props) => {
                 </svg>
               </button>
             </div>
-          </div>
+          </div>}
         </div>
       )}
     </>

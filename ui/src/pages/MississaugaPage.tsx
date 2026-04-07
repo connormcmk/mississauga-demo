@@ -1,6 +1,119 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { navigate } from "../App";
-import { mostRecentMeeting } from "../data/mockData";
+import { mostRecentMeeting, institutionalMemoryResponse } from "../data/mockData";
+
+// Minimal typewriter for search chat
+const useTypewriter = (text: string, speed = 3, onDone?: () => void) => {
+  const [len, setLen] = useState(0);
+  useEffect(() => { setLen(0); }, [text]);
+  useEffect(() => {
+    if (len >= text.length) { onDone?.(); return; }
+    const t = setTimeout(() => setLen(l => Math.min(l + Math.floor(Math.random()*4)+2, text.length)), speed);
+    return () => clearTimeout(t);
+  }, [len, text, speed, onDone]);
+  return text.slice(0, len);
+};
+
+const renderInlineBold = (text: string) =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((p, i) =>
+    p.startsWith("**") && p.endsWith("**")
+      ? <strong key={i}>{p.slice(2,-2)}</strong>
+      : p
+  );
+
+const renderMd = (text: string) =>
+  text.split("\n").map((line, i) => {
+    if (line.startsWith("### ")) return <h3 key={i}>{renderInlineBold(line.slice(4))}</h3>;
+    if (line.startsWith("## "))  return <h3 key={i}>{renderInlineBold(line.slice(3))}</h3>;
+    if (line.startsWith("> *"))  return <blockquote key={i}>{line.slice(3, line.endsWith("*") ? -1 : undefined)}</blockquote>;
+    if (line.startsWith("> "))   return <blockquote key={i}>{renderInlineBold(line.slice(2))}</blockquote>;
+    if (line.startsWith("---"))  return <hr key={i} />;
+    if (line.startsWith("- "))   return <li key={i}>{renderInlineBold(line.slice(2))}</li>;
+    if (line.trim() === "")      return null;
+    return <p key={i}>{renderInlineBold(line)}</p>;
+  });
+
+type SearchMsg = { role: "user" | "assistant"; text: string; streaming?: boolean };
+
+const SearchChat = ({ initialQuery, onClose }: { initialQuery: string; onClose: () => void }) => {
+  const [messages, setMessages] = useState<SearchMsg[]>([]);
+  const [input, setInput] = useState("");
+  const [thinking, setThinking] = useState(false);
+  const [streamingIdx, setStreamingIdx] = useState<number | null>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const sendQuery = useCallback((q: string) => {
+    if (!q.trim() || thinking) return;
+    setMessages(prev => [...prev, { role: "user", text: q }]);
+    setThinking(true);
+    setTimeout(() => {
+      setThinking(false);
+      setMessages(prev => {
+        const next = [...prev, { role: "assistant" as const, text: institutionalMemoryResponse, streaming: true }];
+        setStreamingIdx(next.length - 1);
+        return next;
+      });
+    }, 1800);
+  }, [thinking]);
+
+  useEffect(() => { sendQuery(initialQuery); }, []); // eslint-disable-line
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, thinking]);
+
+  return (
+    <div className="msga-search-chat-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="msga-search-chat-panel" onMouseDown={e => e.stopPropagation()}>
+        <div className="msga-search-chat-header">
+          <span className="msga-search-chat-title">Civic Memory Search</span>
+          <button className="msga-search-chat-close" onClick={onClose}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div className="msga-search-chat-messages">
+          {messages.map((msg, i) => (
+            <div key={i}>
+              {msg.role === "user"
+                ? <div className="chat-msg user">{msg.text}</div>
+                : msg.streaming && streamingIdx === i
+                  ? <StreamingMsg text={msg.text} onDone={() => {
+                      setStreamingIdx(null);
+                      setMessages(prev => prev.map((m, j) => j === i ? { ...m, streaming: false } : m));
+                    }} />
+                  : <div className="chat-msg assistant">{renderMd(msg.text)}</div>
+              }
+            </div>
+          ))}
+          {thinking && <div className="chat-thinking"><span/><span/><span/></div>}
+          <div ref={bottomRef} />
+        </div>
+        <div className="fc-input-area" style={{ borderTop: "1px solid var(--msga-border)" }}>
+          <input
+            className="fc-input"
+            type="text"
+            placeholder="Ask about council records..."
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") { sendQuery(input); setInput(""); } }}
+          />
+          <button className="fc-send-btn" onClick={() => { sendQuery(input); setInput(""); }} disabled={thinking || !input.trim()}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M14 2L7 9M14 2L9.5 14L7 9M14 2L2 6.5L7 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const StreamingMsg = ({ text, onDone }: { text: string; onDone: () => void }) => {
+  const partial = useTypewriter(text, 3, onDone);
+  return <div className="chat-msg assistant fc-streaming">{renderMd(partial)}<span className="fc-cursor"/></div>;
+};
 
 const navItems = [
   "Services and programs",
