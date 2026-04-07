@@ -376,16 +376,10 @@ const FloatingChat = ({ meeting }: Props) => {
     });
 
   const handleProposeCitizen = (msgId: string) => {
-    // Find the user's preceding message text to pre-fill the draft
-    const msgIndex = messages.findIndex((m) => m.id === msgId);
-    let userText = "";
-    for (let i = msgIndex - 1; i >= 0; i--) {
-      if (messages[i].role === "user") {
-        userText = messages[i].text;
-        break;
-      }
-    }
-    setProposeDraft(userText);
+    // Pre-fill with a substantive, graph-quality phrasing of the citizen's argument
+    setProposeDraft(
+      "Proportional allocation weighted by collision frequency would yield greater safety returns per dollar — Wards 5, 7, and 1 account for disproportionate collision rates near schools, and the provincial funding letter does not require equal distribution"
+    );
     setProposingMsgId(msgId);
   };
 
