@@ -40,7 +40,6 @@ const App = () => {
     <>
       {route.page === "mississauga" && <MississaugaPage />}
       {route.page === "cdm" && <CdmPage meetingId={route.meetingId} />}
-      <div className="app-watermark">Louie™ demo</div>
     </>
   );
 };

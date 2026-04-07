@@ -84,6 +84,11 @@ body {
   font-size: 0.8rem;
   width: 280px;
   font-family: var(--msga-font);
+  color: white;
+}
+
+.msga-header-search input::placeholder {
+  color: rgba(255,255,255,0.6);
 }
 
 .msga-header-search button {
@@ -1191,6 +1196,15 @@ body {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0.15rem 0.35rem;
+  margin: -0.15rem -0.35rem;
+  transition: background 0.15s;
+}
+.cdm-header-title:hover {
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .cdm-header-committee {
@@ -1365,6 +1379,29 @@ body {
 .cdm-iframe-active {
   box-shadow: 0 0 0 2px var(--msga-blue), 0 0 0 4px rgba(0, 119, 200, 0.15);
   border-radius: 2px;
+}
+
+.cdm-iframe-exit-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0;
+  background: rgba(0, 70, 130, 0.88);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s;
+}
+.cdm-iframe-exit-bar:hover {
+  background: rgba(0, 70, 130, 1);
 }
 
 /* Topics section */
@@ -1852,7 +1889,7 @@ body {
   font-size: 0.88rem;
   color: #999;
   font-family: var(--msga-font);
-  transition: box-shadow 0.25s, border-color 0.25s;
+  transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 50;
   overflow: hidden;
 }
@@ -1880,8 +1917,9 @@ body {
 
 .fc-bar:hover {
   border-color: #bbb;
-  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
   color: var(--msga-text);
+  transform: translateX(-50%) translateY(-3px) scale(1.02);
 }
 
 .fc-bar-icon {
@@ -1938,13 +1976,46 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(4px);
   z-index: 39;
   display: flex;
   align-items: stretch;
   justify-content: center;
   animation: fcOverlayIn 0.25s ease;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.fc-overlay:hover {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+/* Re-opaque when hovering the column itself */
+.fc-overlay:has(.fc-column:hover) {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* Minimize hint on overlay sides */
+.fc-minimize-hint {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: transparent;
+  font-weight: 500;
+  pointer-events: none;
+  transition: color 0.25s;
+}
+.fc-overlay:hover .fc-minimize-hint {
+  color: #888;
+}
+.fc-overlay:has(.fc-column:hover) .fc-minimize-hint {
+  color: transparent;
 }
 
 .fc-overlay.fc-closing {
@@ -1983,7 +2054,7 @@ body {
 
 @keyframes fcColumnOut {
   from { opacity: 1; transform: translateY(0) scale(1); }
-  to { opacity: 0; transform: translateY(40px) scale(0.97); }
+  to { opacity: 0; transform: translateY(60%) scale(0.5); }
 }
 
 /* Chat header */
@@ -2312,6 +2383,31 @@ body {
   border-color: #aac4e0;
   color: #1a4d80;
 }
+.cdm-audio-btn-static {
+  cursor: default;
+}
+.cdm-audio-btn-static:hover {
+  background: #f4f4f4;
+  border-color: #ddd;
+  color: #555;
+}
+.cdm-audio-video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+  color: var(--msga-link-blue, #1a4d80);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cdm-audio-video-link svg {
+  flex-shrink: 0;
+}
+.cdm-audio-video-link:hover {
+  text-decoration: underline;
+}
 
 .cdm-audio-player {
   margin-top: 0.5rem;
@@ -2323,6 +2419,27 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   max-width: 480px;
+  position: relative;
+}
+
+.cdm-audio-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  padding: 2px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.cdm-audio-close:hover {
+  color: #333;
+  background: #eee;
 }
 
 .cdm-audio-player-label {
@@ -2479,6 +2596,132 @@ body {
 .fc-chip:hover {
   background: #eef4fb;
   border-color: #a0bcd8;
+}
+
+/* Argument map collapsible toggle */
+.cdm-argmap-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 1px solid #dde6f0;
+  border-radius: 6px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+  color: #4a6d8c;
+  cursor: pointer;
+  margin-top: 0.75rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+.cdm-argmap-toggle:hover {
+  background: #eaf0fb;
+  border-color: #aac4e0;
+}
+.cdm-argmap-toggle svg {
+  transition: transform 0.2s;
+}
+.cdm-argmap-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+.cdm-argmap-collapsible {
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+/* Citizen point proposal overlay */
+.fc-propose-overlay {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e7e7e7;
+  background: #f9fbfe;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fc-propose-overlay-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.fc-propose-textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.85rem;
+  font-family: var(--msga-font);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.fc-propose-textarea:focus {
+  outline: none;
+  border-color: var(--msga-blue);
+}
+
+.fc-propose-preview-card {
+  border: 2px solid var(--msga-green);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background: #f0faf4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fc-propose-preview-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--msga-green);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fc-propose-preview-text {
+  font-size: 0.82rem;
+  color: #333;
+}
+
+.fc-propose-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fc-propose-submit {
+  background: var(--msga-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--msga-font);
+}
+
+.fc-propose-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fc-propose-submit:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+.fc-propose-cancel {
+  background: none;
+  color: #666;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--msga-font);
+}
+
+.fc-propose-cancel:hover {
+  background: #f0f0f0;
 }
 
 /* Responsive */

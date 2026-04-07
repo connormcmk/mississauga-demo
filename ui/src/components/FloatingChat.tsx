@@ -248,7 +248,9 @@ const FloatingChat = ({ meeting }: Props) => {
   const [thinking, setThinking] = useState(false);
   const [streamingId, setStreamingId] = useState<string | null>(null);
   const [hasOpened, setHasOpened] = useState(false);
-  const [hasBeenWelcomed, setHasBeenWelcomed] = useState(false);
+  // Chat column shows once messages exist; welcome screen shows when no messages
+  const [proposeDraft, setProposeDraft] = useState("");
+  const [proposingMsgId, setProposingMsgId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const assistantMsgCount = useRef(0);
@@ -267,11 +269,15 @@ const FloatingChat = ({ meeting }: Props) => {
     }
   }, [messages, thinking]);
 
-  // Focus input when expanded
+  // Focus input when expanded + lock body scroll
   useEffect(() => {
     if (expanded && !closing) {
       setTimeout(() => inputRef.current?.focus(), 200);
+      document.body.style.overflow = "hidden";
     }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [expanded, closing]);
 
   const handleStreamComplete = useCallback((msgId: string) => {
@@ -284,7 +290,6 @@ const FloatingChat = ({ meeting }: Props) => {
   const handleClose = () => {
     setClosing(true);
     setSidebarOpen(false);
-    if (!hasBeenWelcomed) setHasBeenWelcomed(true);
     setTimeout(() => {
       setExpanded(false);
       setClosing(false);
@@ -371,46 +376,53 @@ const FloatingChat = ({ meeting }: Props) => {
     });
 
   const handleProposeCitizen = (msgId: string) => {
-    // Mark the button as clicked and add a confirmation message
+    // Find the user's preceding message text to pre-fill the draft
+    const msgIndex = messages.findIndex((m) => m.id === msgId);
+    let userText = "";
+    for (let i = msgIndex - 1; i >= 0; i--) {
+      if (messages[i].role === "user") {
+        userText = messages[i].text;
+        break;
+      }
+    }
+    setProposeDraft(userText);
+    setProposingMsgId(msgId);
+  };
+
+  const handleSubmitCitizenPoint = () => {
+    if (!proposingMsgId) return;
+    const ts = Date.now();
     setMessages((prev) => [
       ...prev.map((m) =>
-        m.id === msgId ? { ...m, proposeCitizen: false } : m,
+        m.id === proposingMsgId ? { ...m, proposeCitizen: false } : m,
       ),
       {
-        id: `citizen-${Date.now()}`,
+        id: `citizen-${ts}`,
         role: "assistant",
         text: `Your point has been submitted to the **Citizen Engagement Coordinator** for review. If approved, it will be added to the deliberation map as a citizen-contributed argument.\n\nThis is a premium feature of the Civic Deliberative Memory platform. Citizen contributions are reviewed by the municipality's designated coordinator before being surfaced to councillors.\n\nThank you for participating in Mississauga's civic deliberation process.`,
         streaming: true,
       },
     ]);
-    setStreamingId(`citizen-${Date.now()}`);
+    setStreamingId(`citizen-${ts}`);
+    setProposeDraft("");
+    setProposingMsgId(null);
+  };
+
+  const handleCancelCitizenPoint = () => {
+    setProposeDraft("");
+    setProposingMsgId(null);
   };
 
   return (
     <>
       {/* Collapsed bar */}
       {!expanded && (
-        <div className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`} onClick={handleBarClick}>
+        <div className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`} onClick={() => { setExpanded(true); if (!hasOpened) setHasOpened(true); }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="fc-bar-icon">
             <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
             <path d="M7.5 4.5v4l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <input
-            className="fc-bar-input"
-            type="text"
-            placeholder="Search this meeting's records..."
-            value={draftInput}
-            onChange={(e) => setDraftInput(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-            onFocus={() => { if (!hasOpened) setHasOpened(true); }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && draftInput.trim()) {
-                setExpanded(true);
-                setHasBeenWelcomed(true);
-                setTimeout(() => handleSend(), 50);
-              }
-            }}
-          />
+          <span className="fc-bar-input">Search this meeting's records...</span>
         </div>
       )}
 
@@ -420,8 +432,17 @@ const FloatingChat = ({ meeting }: Props) => {
           className={`fc-overlay ${closing ? "fc-closing" : ""} ${messages.length === 0 ? "fc-overlay-welcome" : ""}`}
           onMouseDown={handleOverlayClick}
         >
-          {/* Welcome screen — shown only on first visit before any interaction */}
-          {messages.length === 0 && !hasBeenWelcomed && (
+          {/* Minimize hint on overlay sides */}
+          {messages.length > 0 && (
+            <div className="fc-minimize-hint">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Click to minimize chat
+            </div>
+          )}
+          {/* Welcome screen — shown when no messages yet */}
+          {messages.length === 0 && (
             <div className="fc-welcome" onMouseDown={(e) => e.stopPropagation()}>
               <h1 className="fc-welcome-title">Welcome to years of Mississauga meeting records.</h1>
               <p className="fc-welcome-subtitle">How can I help you today?</p>
@@ -466,7 +487,7 @@ const FloatingChat = ({ meeting }: Props) => {
           )}
 
           {/* Sidebar */}
-          {(messages.length > 0 || hasBeenWelcomed) && sidebarOpen && (
+          {messages.length > 0 && sidebarOpen && (
             <div
               className="fc-sidebar"
               onMouseDown={(e) => e.stopPropagation()}
@@ -499,7 +520,7 @@ const FloatingChat = ({ meeting }: Props) => {
           )}
 
           {/* Chat column — shown once welcomed or conversation started */}
-          {(messages.length > 0 || hasBeenWelcomed) && <div
+          {messages.length > 0 && <div
             className={`fc-column ${closing ? "fc-column-closing" : ""}`}
             onMouseDown={(e) => e.stopPropagation()}
           >
@@ -569,17 +590,40 @@ const FloatingChat = ({ meeting }: Props) => {
 
 
             {/* Suggested questions */}
-            <div className="fc-chips-row">
-              {suggestedQuestions.map((s) => (
-                <button
-                  key={s.question}
-                  className="fc-chip fc-chip-inline"
-                  onClick={() => handleSuggestedQuestion(s.question, s.id)}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
+            {messages.length === 0 && (
+              <div className="fc-chips-row">
+                {suggestedQuestions.map((s) => (
+                  <button
+                    key={s.question}
+                    className="fc-chip fc-chip-inline"
+                    onClick={() => handleSuggestedQuestion(s.question, s.id)}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Citizen point editing overlay */}
+            {proposingMsgId && (
+              <div className="fc-propose-overlay">
+                <label className="fc-propose-overlay-label">Edit your citizen point</label>
+                <textarea
+                  className="fc-propose-textarea"
+                  value={proposeDraft}
+                  onChange={(e) => setProposeDraft(e.target.value)}
+                  rows={4}
+                />
+                <div className="fc-propose-preview-card">
+                  <span className="fc-propose-preview-badge">Citizen Point</span>
+                  <span className="fc-propose-preview-text">{proposeDraft || "(empty)"}</span>
+                </div>
+                <div className="fc-propose-actions">
+                  <button className="fc-propose-submit" onClick={handleSubmitCitizenPoint} disabled={!proposeDraft.trim()}>Submit point</button>
+                  <button className="fc-propose-cancel" onClick={handleCancelCitizenPoint}>Cancel</button>
+                </div>
+              </div>
+            )}
 
             {/* Input */}
             <div className="fc-input-area">

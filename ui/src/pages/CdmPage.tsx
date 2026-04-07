@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { navigate } from "../App";
-import { getMeeting } from "../data/mockData";
+import { getMeeting, roadSafetyArgumentMap } from "../data/mockData";
 import FloatingChat from "../components/FloatingChat";
+import ArgumentMap from "../components/ArgumentMap";
 
 const fmt = (s: number) => {
   const h = Math.floor(s / 3600);
@@ -11,80 +12,29 @@ const fmt = (s: number) => {
   return `${m}:${String(sec).padStart(2, "0")}`;
 };
 
-const AudioPlayer = ({ start, end }: { start: number; end: number }) => {
-  const [open, setOpen] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0); // 0–1
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const duration = end - start;
-
-  useEffect(() => {
-    if (playing) {
-      timerRef.current = setInterval(() => {
-        setProgress((p) => {
-          if (p >= 1) { setPlaying(false); return 0; }
-          return p + 1 / duration;
-        });
-      }, 1000);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [playing, duration]);
-
-  const current = start + Math.round(progress * duration);
-
+const AudioSegmentLink = ({ start, end, videoUrl }: { start: number; end: number; videoUrl?: string }) => {
   return (
-    <div className="cdm-audio-wrap">
-      <button className="cdm-audio-btn" onClick={() => setOpen((o) => !o)}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 4.5h2l3-3v11l-3-3H2V4.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-          <path d="M10 4a4 4 0 0 1 0 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-          <path d="M11.5 2.5a6.5 6.5 0 0 1 0 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-        </svg>
-        Audio segment
-      </button>
-
-      {open && (
-        <div className="cdm-audio-player">
-          <div className="cdm-audio-player-label">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M6 3v3l2 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-            Scraped from negation game timestamps · {fmt(start)} – {fmt(end)}
-          </div>
-          <div className="cdm-audio-controls">
-            <button
-              className="cdm-audio-play"
-              onClick={() => setPlaying((p) => !p)}
-            >
-              {playing ? (
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <rect x="3" y="2" width="3" height="10" rx="1" fill="currentColor"/>
-                  <rect x="8" y="2" width="3" height="10" rx="1" fill="currentColor"/>
-                </svg>
-              ) : (
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M3 2l9 5-9 5V2z" fill="currentColor"/>
-                </svg>
-              )}
-            </button>
-            <span className="cdm-audio-time">{fmt(current)}</span>
-            <div
-              className="cdm-audio-bar"
-              onClick={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                setProgress((e.clientX - rect.left) / rect.width);
-              }}
-            >
-              <div className="cdm-audio-bar-fill" style={{ width: `${progress * 100}%` }} />
-            </div>
-            <span className="cdm-audio-time">{fmt(end)}</span>
-          </div>
-        </div>
+    <span className="cdm-audio-btn cdm-audio-btn-static">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.2"/>
+        <path d="M6 3v3l2 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      </svg>
+      In meeting recording at {fmt(start)} – {fmt(end)}
+      {videoUrl && videoUrl !== "#" && (
+        <a
+          href={videoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cdm-audio-video-link"
+          onClick={(e) => e.stopPropagation()}
+        >
+          View recording
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <path d="M4 1.5h6.5V8M2 10L10.5 1.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
       )}
-    </div>
+    </span>
   );
 };
 
@@ -129,12 +79,21 @@ const ActivatableIframe = ({
           </span>
         </div>
       )}
+      {active && (
+        <div className="cdm-iframe-exit-bar" onClick={() => setActive(false)}>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M9 3L3 9M3 3l6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          Click here or anywhere outside to stop interacting
+        </div>
+      )}
     </div>
   );
 };
 
 const CdmPage = ({ meetingId }: { meetingId: string }) => {
   const meeting = getMeeting(meetingId);
+  const [expandedMaps, setExpandedMaps] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -199,10 +158,17 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
               />
             </svg>
           </a>
-          <div className="cdm-header-title">
+          <a
+            href="#/"
+            className="cdm-header-title"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/");
+            }}
+          >
             <span className="cdm-header-committee">{meeting.committee}</span>
             <span className="cdm-header-date">{meeting.date}</span>
-          </div>
+          </a>
         </div>
         <div className="cdm-header-right">
         </div>
@@ -222,7 +188,7 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
                     {qNum ? `${qNum}.` : ""} {q.deliberativeQuestion}
                   </h2>
                   {q.audioSegment && (
-                    <AudioPlayer start={q.audioSegment.start} end={q.audioSegment.end} />
+                    <AudioSegmentLink start={q.audioSegment.start} end={q.audioSegment.end} videoUrl={meeting.videoUrl} />
                   )}
                 </div>
                 <div className="cdm-hero-iframe-wrap">
@@ -231,6 +197,32 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
                     title={q.deliberativeQuestion}
                   />
                 </div>
+                {(() => {
+                  const matchedMap = roadSafetyArgumentMap.find(
+                    (am) => am.question === q.deliberativeQuestion
+                  );
+                  if (!matchedMap) return null;
+                  const isExpanded = !!expandedMaps[q.id];
+                  return (
+                    <div className="cdm-section-inner">
+                      <button
+                        className="cdm-argmap-toggle"
+                        aria-expanded={isExpanded}
+                        onClick={() => setExpandedMaps((prev) => ({ ...prev, [q.id]: !prev[q.id] }))}
+                      >
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                          <path d="M3 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        View threaded argument summary
+                      </button>
+                      {isExpanded && (
+                        <div className="cdm-argmap-collapsible">
+                          <ArgumentMap questions={[matchedMap]} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
               </section>
             );
             })}
