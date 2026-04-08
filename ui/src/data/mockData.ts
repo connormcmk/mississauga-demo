@@ -296,6 +296,48 @@ The counterargument from staff was that equitable allocation ensures **political
 However, your point aligns with what transportation safety research supports: **targeting high-risk corridors yields greater safety returns per dollar spent**.
 
 If you'd like, you can propose this as a formal citizen point on the deliberation map. It would be reviewed by the municipality's Citizen Engagement Coordinator and, if approved, added to the argument thread alongside the committee's own discussion.`,
+
+  "headlight": `The committee discussed **headlight misalignment** as a growing road safety concern, particularly for oncoming drivers at night.
+
+### Background
+
+- The **UK MOT model** was cited as a successful regulatory approach — mandatory vehicle inspections that include headlight alignment checks
+- **CAA** confirmed they receive regular complaints about misaligned headlights, especially from aftermarket LED conversions
+- However, Ontario recently went in the **opposite direction** by eliminating license plate renewal sticker requirements — signalling no provincial appetite for additional cost to drivers
+
+### What was proposed
+
+A **CAA partnership** was suggested as a practical alternative that wouldn't require provincial legislation:
+
+> *"We can help develop guidance and promotional materials and communicate with approved shops. This doesn't require provincial action."*
+
+— **CAA Representative**
+
+### Current status
+
+**Referred to promotional subcommittee** — the committee needs a qualified presenter to speak to the technical and safety data before taking further action.`,
+
+  "event participation": `The committee addressed a significant **participation gap** in Road Watch events during 2025.
+
+### The problem
+
+- Only **12 of 35** planned Road Watch events met minimum attendance thresholds
+- The committee was **dormant from approximately February 2020 through 2024**, losing momentum and volunteer networks
+- Councillor offices are not providing adequate lead time for volunteer coordination
+
+### What was discussed
+
+- **Social media outreach** and partnerships with neighbourhood associations
+- Integrating safety messaging into **existing community events** rather than standalone events
+- Need for **3–4 weeks' notice** from councillor offices to coordinate volunteers
+
+> *"We need councillor offices giving us 3 to 4 weeks' notice. We can't scramble volunteers together in a few days."*
+
+— **Committee Chair**
+
+### Decision
+
+Staff and the Chair will issue **email calls for volunteers** ahead of upcoming events. The structural challenge of rebuilding participation after a 4-year dormancy remains.`,
 };
 
 export const institutionalMemoryResponse = `Based on a search across council meeting transcripts from 2024–2026, here are the most relevant moments where councillors discussed **institutional memory** or the challenge of lost knowledge:

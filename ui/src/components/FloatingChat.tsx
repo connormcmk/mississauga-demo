@@ -50,31 +50,43 @@ const renderChatMarkdown = (text: string) => {
   const lines = text.split("\n");
   const elements: React.JSX.Element[] = [];
   let key = 0;
+  let listItems: React.JSX.Element[] = [];
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      elements.push(<ul key={key++}>{listItems}</ul>);
+      listItems = [];
+    }
+  };
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    if (line.startsWith("### ")) {
-      elements.push(<h3 key={key++}>{renderInline(line.slice(4))}</h3>);
-    } else if (line.startsWith("## ")) {
-      elements.push(<h3 key={key++}>{renderInline(line.slice(3))}</h3>);
-    } else if (line.startsWith("> *")) {
-      const content = line.slice(3, line.endsWith("*") ? -1 : undefined);
-      elements.push(<blockquote key={key++}>{content}</blockquote>);
-    } else if (line.startsWith("> ")) {
-      elements.push(
-        <blockquote key={key++}>{renderInline(line.slice(2))}</blockquote>,
-      );
-    } else if (line.startsWith("---")) {
-      elements.push(<hr key={key++} />);
-    } else if (line.startsWith("- ")) {
-      elements.push(<li key={key++}>{renderInline(line.slice(2))}</li>);
-    } else if (line.trim() === "") {
-      // skip
+    if (line.startsWith("- ")) {
+      listItems.push(<li key={key++}>{renderInline(line.slice(2))}</li>);
     } else {
-      elements.push(<p key={key++}>{renderInline(line)}</p>);
+      flushList();
+      if (line.startsWith("### ")) {
+        elements.push(<h3 key={key++}>{renderInline(line.slice(4))}</h3>);
+      } else if (line.startsWith("## ")) {
+        elements.push(<h3 key={key++}>{renderInline(line.slice(3))}</h3>);
+      } else if (line.startsWith("> *")) {
+        const content = line.slice(3, line.endsWith("*") ? -1 : undefined);
+        elements.push(<blockquote key={key++}>{content}</blockquote>);
+      } else if (line.startsWith("> ")) {
+        elements.push(
+          <blockquote key={key++}>{renderInline(line.slice(2))}</blockquote>,
+        );
+      } else if (line.startsWith("---")) {
+        elements.push(<hr key={key++} />);
+      } else if (line.trim() === "") {
+        // skip
+      } else {
+        elements.push(<p key={key++}>{renderInline(line)}</p>);
+      }
     }
   }
+  flushList();
 
   return elements;
 };
@@ -181,6 +193,36 @@ const findMockResponse = (
     return {
       response:
         mockChatResponses["unresolved"] +
+        (trailingQuestions[messageCount % trailingQuestions.length] || ""),
+      proposeCitizen: false,
+    };
+  }
+
+  // Check for headlight questions
+  if (
+    lower.includes("headlight") ||
+    lower.includes("misalignment") ||
+    lower.includes("mot")
+  ) {
+    return {
+      response:
+        mockChatResponses["headlight"] +
+        (trailingQuestions[messageCount % trailingQuestions.length] || ""),
+      proposeCitizen: false,
+    };
+  }
+
+  // Check for event participation questions
+  if (
+    lower.includes("event") ||
+    lower.includes("participation") ||
+    lower.includes("road watch") ||
+    lower.includes("attendance") ||
+    lower.includes("volunteer")
+  ) {
+    return {
+      response:
+        mockChatResponses["event participation"] +
         (trailingQuestions[messageCount % trailingQuestions.length] || ""),
       proposeCitizen: false,
     };
@@ -390,55 +432,51 @@ const FloatingChat = ({ meeting }: Props) => {
   };
 
   const handleSuggestedQuestion = (questionText: string, questionId: string) => {
+    if (thinking) return; // guard against double-fire
     // Send as a chat message so the user gets an AI response
-    setDraftInput(questionText);
-    // Need to go to the chat column, so ensure we have messages
+    setMessages((prev) => [
+      ...prev,
+      { id: `u-${Date.now()}`, role: "user", text: questionText },
+    ]);
+    setThinking(true);
+
+    assistantMsgCount.current++;
+    const { response, proposeCitizen } = findMockResponse(
+      questionText,
+      meeting,
+      assistantMsgCount.current,
+    );
+
+    // Append a link to scroll to the deliberation map section
+    const viewLink = `\n\n[View on deliberation map ↓](#ng-${questionId})`;
+    const msgId = `a-${Date.now()}`;
     setTimeout(() => {
+      setThinking(false);
       setMessages((prev) => [
         ...prev,
-        { id: `u-${Date.now()}`, role: "user", text: questionText },
+        {
+          id: msgId,
+          role: "assistant",
+          text: response + viewLink,
+          streaming: true,
+          proposeCitizen,
+        },
       ]);
-      setThinking(true);
-
-      assistantMsgCount.current++;
-      const { response, proposeCitizen } = findMockResponse(
-        questionText,
-        meeting,
-        assistantMsgCount.current,
-      );
-
-      // Append a link to scroll to the deliberation map section
-      const viewLink = `\n\n[View on deliberation map ↓](#ng-${questionId})`;
-      const msgId = `a-${Date.now()}`;
-      setTimeout(() => {
-        setThinking(false);
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: msgId,
-            role: "assistant",
-            text: response + viewLink,
-            streaming: true,
-            proposeCitizen,
-          },
-        ]);
-        setStreamingId(msgId);
-      }, 2000);
-    }, 50);
-    setDraftInput("");
+      setStreamingId(msgId);
+    }, 2000);
   };
 
-  const suggestedQuestions = meeting.questions
+  const allSuggestedQuestions = meeting.questions
     .filter((q) => q.negationGameUrl)
     .sort((a, b) => {
       const n = (url: string) => parseInt(url.match(/[/-]Q(\d+)[/-]/i)?.[1] ?? "0");
       return n(a.negationGameUrl!) - n(b.negationGameUrl!);
     })
-    .slice(0, 3)
     .map((q) => {
       const num = q.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i)?.[1];
       return { label: `${num}. ${q.deliberativeQuestion}`, question: q.deliberativeQuestion, id: q.id };
     });
+  const suggestedQuestions = allSuggestedQuestions.slice(0, 3);
 
   const handleProposeCitizen = (msgId: string) => {
     // Pre-fill with a substantive, graph-quality phrasing of the citizen's argument
@@ -474,14 +512,31 @@ const FloatingChat = ({ meeting }: Props) => {
 
   return (
     <>
-      {/* Collapsed bar */}
+      {/* Collapsed bar with hover tray */}
       {!expanded && (
-        <div className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`} onClick={() => { setExpanded(true); if (!hasOpened) setHasOpened(true); }}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="fc-bar-icon">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M7.5 4.5v4l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span className="fc-bar-input">Search this meeting's records...</span>
+        <div className="fc-bar-wrap">
+          <div className="fc-bar-tray">
+            {allSuggestedQuestions.map((s) => (
+              <button
+                key={s.id}
+                className="fc-chip"
+                onClick={() => {
+                  setExpanded(true);
+                  if (!hasOpened) setHasOpened(true);
+                  setTimeout(() => handleSuggestedQuestion(s.question, s.id), 100);
+                }}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+          <div className={`fc-bar ${hasOpened ? "fc-bar-returning" : "fc-bar-initial"}`} onClick={() => { setExpanded(true); if (!hasOpened) setHasOpened(true); }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="fc-bar-icon">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M7.5 4.5v4l2.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="fc-bar-input">Search this meeting's records...</span>
+          </div>
         </div>
       )}
 
