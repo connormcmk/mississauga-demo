@@ -2554,6 +2554,7 @@ body {
 /* Audio player */
 .cdm-audio-wrap {
   margin-top: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .cdm-audio-btn {
