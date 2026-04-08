@@ -41,6 +41,7 @@ const SearchChat = ({ initialQuery, onClose }: { initialQuery: string; onClose: 
   const [thinking, setThinking] = useState(false);
   const [streamingIdx, setStreamingIdx] = useState<number | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const didInitRef = useRef(false);
 
   const sendQuery = useCallback((q: string) => {
     if (!q.trim() || thinking) return;
@@ -56,7 +57,11 @@ const SearchChat = ({ initialQuery, onClose }: { initialQuery: string; onClose: 
     }, 1800);
   }, [thinking]);
 
-  useEffect(() => { sendQuery(initialQuery); }, []); // eslint-disable-line
+  useEffect(() => {
+    if (didInitRef.current) return;
+    didInitRef.current = true;
+    sendQuery(initialQuery);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
