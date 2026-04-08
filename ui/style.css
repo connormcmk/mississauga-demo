@@ -1871,6 +1871,7 @@ body {
 
 /* Collapsed bar */
 .fc-bar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.65rem;
