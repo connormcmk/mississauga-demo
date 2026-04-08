@@ -295,9 +295,17 @@ const MississaugaPage = () => {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     "Road Safety Committee": true,
   });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const toggle = (name: string) => {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      setSearchOpen(true);
+    }
   };
 
   return (
@@ -543,10 +551,43 @@ const MississaugaPage = () => {
                   {mostRecentMeeting.date}
                 </div>
               </div>
+
+              {/* Search across all meetings */}
+              <div className="msga-sidebar-cdm-search">
+                <div className="msga-sidebar-cdm-search-label">Search across meetings</div>
+                <div className="msga-sidebar-cdm-search-input-wrap">
+                  <input
+                    type="text"
+                    className="msga-sidebar-cdm-search-input"
+                    placeholder="e.g. institutional memory..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleSearchSubmit(); }}
+                  />
+                  <button
+                    className="msga-sidebar-cdm-search-btn"
+                    onClick={handleSearchSubmit}
+                    disabled={!searchQuery.trim()}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5"/>
+                      <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
       </div>
+
+      {/* Cross-meeting search chat */}
+      {searchOpen && (
+        <SearchChat
+          initialQuery={searchQuery}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
 
       {/* Footer */}
       <footer className="msga-footer">
