@@ -2351,6 +2351,19 @@ body {
   flex-shrink: 0;
 }
 
+.fc-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--msga-link-blue, #1a4d80);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+.fc-map-link:hover {
+  text-decoration: underline;
+}
+
 /* Argument map node tag tooltip styling */
 .am-node-tag {
   cursor: help;

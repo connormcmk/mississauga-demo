@@ -5,12 +5,41 @@ import {
   institutionalMemoryResponse,
 } from "../data/mockData";
 
-// Process inline bold (**text**) within a string
+// Process inline bold (**text**) and links [text](#anchor) within a string
 const renderInline = (text: string) => {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\(#[^)]+\))/g);
   return parts.map((part, j) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={j}>{part.slice(2, -2)}</strong>;
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(#([^)]+)\)$/);
+    if (linkMatch) {
+      const [, label, anchor] = linkMatch;
+      return (
+        <a
+          key={j}
+          href={`#${anchor}`}
+          className="fc-map-link"
+          onClick={(e) => {
+            e.preventDefault();
+            // Close the chat overlay first, then scroll
+            const closeBtn = document.querySelector(".fc-close-btn") as HTMLButtonElement;
+            if (closeBtn) closeBtn.click();
+            setTimeout(() => {
+              const section = document.getElementById(anchor);
+              if (section) {
+                const headerOffset = 60;
+                const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+                window.scrollTo({ top, behavior: "smooth" });
+                section.classList.add("cdm-section-highlight");
+                setTimeout(() => section.classList.remove("cdm-section-highlight"), 1800);
+              }
+            }, 350);
+          }}
+        >
+          {label}
+        </a>
+      );
     }
     return part;
   });
@@ -349,18 +378,54 @@ const FloatingChat = ({ meeting }: Props) => {
     if (!hasOpened) setHasOpened(true);
   };
 
+  const scrollToSection = (questionId: string) => {
+    const section = document.getElementById(`ng-${questionId}`);
+    if (section) {
+      const headerOffset = 60; // sticky header height + margin
+      const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: "smooth" });
+      section.classList.add("cdm-section-highlight");
+      setTimeout(() => section.classList.remove("cdm-section-highlight"), 1800);
+    }
+  };
+
   const handleSuggestedQuestion = (questionText: string, questionId: string) => {
-    // Close the welcome overlay
-    handleClose();
-    // Scroll to and highlight the matching negation game section
+    // Send as a chat message so the user gets an AI response
+    setDraftInput(questionText);
+    // Need to go to the chat column, so ensure we have messages
     setTimeout(() => {
-      const section = document.getElementById(`ng-${questionId}`);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
-        section.classList.add("cdm-section-highlight");
-        setTimeout(() => section.classList.remove("cdm-section-highlight"), 1800);
-      }
-    }, 300);
+      setMessages((prev) => [
+        ...prev,
+        { id: `u-${Date.now()}`, role: "user", text: questionText },
+      ]);
+      setThinking(true);
+
+      assistantMsgCount.current++;
+      const { response, proposeCitizen } = findMockResponse(
+        questionText,
+        meeting,
+        assistantMsgCount.current,
+      );
+
+      // Append a link to scroll to the deliberation map section
+      const viewLink = `\n\n[View on deliberation map ↓](#ng-${questionId})`;
+      const msgId = `a-${Date.now()}`;
+      setTimeout(() => {
+        setThinking(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: msgId,
+            role: "assistant",
+            text: response + viewLink,
+            streaming: true,
+            proposeCitizen,
+          },
+        ]);
+        setStreamingId(msgId);
+      }, 2000);
+    }, 50);
+    setDraftInput("");
   };
 
   const suggestedQuestions = meeting.questions
@@ -435,10 +500,10 @@ const FloatingChat = ({ meeting }: Props) => {
           </div>
           {/* Welcome screen — shown when no messages yet */}
           {messages.length === 0 && (
-            <div className="fc-welcome" onMouseDown={(e) => e.stopPropagation()}>
+            <div className="fc-welcome">
               <h1 className="fc-welcome-title">Welcome to years of Mississauga meeting records.</h1>
               <p className="fc-welcome-subtitle">How can I help you today?</p>
-              <div className="fc-welcome-input-wrap">
+              <div className="fc-welcome-input-wrap" onMouseDown={(e) => e.stopPropagation()}>
                 <input
                   ref={inputRef}
                   className="fc-welcome-input"
@@ -464,7 +529,7 @@ const FloatingChat = ({ meeting }: Props) => {
                   </svg>
                 </button>
               </div>
-              <div className="fc-welcome-chips">
+              <div className="fc-welcome-chips" onMouseDown={(e) => e.stopPropagation()}>
                 {suggestedQuestions.map((s) => (
                   <button
                     key={s.question}
