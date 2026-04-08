@@ -475,7 +475,7 @@ const FloatingChat = ({ meeting }: Props) => {
     .map((q, idx) => {
       return { label: `${idx + 1}. ${q.deliberativeQuestion}`, question: q.deliberativeQuestion, id: q.id };
     });
-  const suggestedQuestions = allSuggestedQuestions.slice(0, 3);
+  const suggestedQuestions = allSuggestedQuestions;
 
   const handleProposeCitizen = (msgId: string) => {
     // Pre-fill with a substantive, graph-quality phrasing of the citizen's argument
