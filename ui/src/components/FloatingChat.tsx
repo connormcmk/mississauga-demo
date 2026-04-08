@@ -426,15 +426,13 @@ const FloatingChat = ({ meeting }: Props) => {
           className={`fc-overlay ${closing ? "fc-closing" : ""} ${messages.length === 0 ? "fc-overlay-welcome" : ""}`}
           onMouseDown={handleOverlayClick}
         >
-          {/* Minimize hint on overlay sides */}
-          {messages.length > 0 && (
-            <div className="fc-minimize-hint">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Click to minimize chat
-            </div>
-          )}
+          {/* Minimize hint above content */}
+          <div className="fc-minimize-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Click to minimize
+          </div>
           {/* Welcome screen — shown when no messages yet */}
           {messages.length === 0 && (
             <div className="fc-welcome" onMouseDown={(e) => e.stopPropagation()}>

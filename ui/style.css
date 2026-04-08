@@ -1996,25 +1996,28 @@ body {
   background: rgba(255, 255, 255, 0.92);
 }
 
-/* Minimize hint on overlay sides */
+/* Minimize hint above chat content */
 .fc-minimize-hint {
   position: absolute;
-  left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: transparent;
   font-weight: 500;
   pointer-events: none;
   transition: color 0.25s;
+  z-index: 1;
+  white-space: nowrap;
 }
 .fc-overlay:hover .fc-minimize-hint {
-  color: #888;
+  color: #999;
 }
-.fc-overlay:has(.fc-column:hover) .fc-minimize-hint {
+.fc-overlay:has(.fc-column:hover) .fc-minimize-hint,
+.fc-overlay:has(.fc-welcome:hover) .fc-minimize-hint {
   color: transparent;
 }
 
@@ -2039,8 +2042,8 @@ body {
   display: flex;
   flex-direction: column;
   background: white;
-  box-shadow: -1px 0 0 var(--msga-border), 1px 0 0 var(--msga-border);
   animation: fcColumnIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
 }
 
 .fc-column.fc-column-closing {
@@ -2523,6 +2526,7 @@ body {
   max-width: 560px;
   padding: 2rem 1.5rem;
   gap: 1.25rem;
+  cursor: default;
 }
 
 .fc-welcome-title {
