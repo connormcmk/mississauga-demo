@@ -1113,16 +1113,17 @@ body {
   background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
   border: 1px solid #d0e3f0;
   border-radius: 8px;
-  padding: 1rem;
   margin-top: 0.5rem;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  overflow: hidden;
 }
 
-.msga-sidebar-cdm-block:hover {
-  background: linear-gradient(135deg, #e4f0ff 0%, #d8edf4 100%);
-  border-color: #b0cfe0;
-  box-shadow: 0 2px 8px rgba(0, 119, 200, 0.1);
+.msga-sidebar-cdm-top {
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.msga-sidebar-cdm-top:hover {
+  background: rgba(0, 119, 200, 0.06);
 }
 
 .msga-sidebar-cdm-label {
@@ -1148,11 +1149,8 @@ body {
 }
 
 .msga-sidebar-cdm-search {
-  margin-top: 0.75rem;
-  padding: 0.75rem;
-  background: #f6f8fb;
-  border: 1px solid #dde6f0;
-  border-radius: 8px;
+  padding: 0.65rem 1rem 0.85rem;
+  border-top: 1px solid #d0e3f0;
 }
 .msga-sidebar-cdm-search-label {
   font-size: 0.72rem;

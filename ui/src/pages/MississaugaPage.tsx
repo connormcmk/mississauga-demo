@@ -539,41 +539,41 @@ const MississaugaPage = () => {
               />
 
               {/* Louie entry point - highlighted block */}
-              <div
-                className="msga-sidebar-cdm-block"
-                onClick={() => navigate(`/cdm/${mostRecentMeeting.id}`)}
-              >
-                <div className="msga-sidebar-cdm-label">Civic Deliberative Memory</div>
-                <div className="msga-sidebar-cdm-meeting">
-                  {mostRecentMeeting.committee}
+              <div className="msga-sidebar-cdm-block">
+                <div
+                  className="msga-sidebar-cdm-top"
+                  onClick={() => navigate(`/cdm/${mostRecentMeeting.id}`)}
+                >
+                  <div className="msga-sidebar-cdm-label">Civic Deliberative Memory</div>
+                  <div className="msga-sidebar-cdm-meeting">
+                    {mostRecentMeeting.committee}
+                  </div>
+                  <div className="msga-sidebar-cdm-date">
+                    {mostRecentMeeting.date}
+                  </div>
                 </div>
-                <div className="msga-sidebar-cdm-date">
-                  {mostRecentMeeting.date}
-                </div>
-              </div>
-
-              {/* Search across all meetings */}
-              <div className="msga-sidebar-cdm-search">
-                <div className="msga-sidebar-cdm-search-label">Search across meetings</div>
-                <div className="msga-sidebar-cdm-search-input-wrap">
-                  <input
-                    type="text"
-                    className="msga-sidebar-cdm-search-input"
-                    placeholder="e.g. institutional memory..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Enter") handleSearchSubmit(); }}
-                  />
-                  <button
-                    className="msga-sidebar-cdm-search-btn"
-                    onClick={handleSearchSubmit}
-                    disabled={!searchQuery.trim()}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                      <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5"/>
-                      <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                  </button>
+                <div className="msga-sidebar-cdm-search" onClick={(e) => e.stopPropagation()}>
+                  <div className="msga-sidebar-cdm-search-label">Search across meetings</div>
+                  <div className="msga-sidebar-cdm-search-input-wrap">
+                    <input
+                      type="text"
+                      className="msga-sidebar-cdm-search-input"
+                      placeholder="e.g. institutional memory..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleSearchSubmit(); }}
+                    />
+                    <button
+                      className="msga-sidebar-cdm-search-btn"
+                      onClick={handleSearchSubmit}
+                      disabled={!searchQuery.trim()}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
