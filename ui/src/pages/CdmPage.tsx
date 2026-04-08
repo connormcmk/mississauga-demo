@@ -178,14 +178,12 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
       <div className="cdm-scroll">
         {hasQuestions ? (
           <>
-            {negationGameQuestions.map((q) => {
-              const qNumMatch = q.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i);
-              const qNum = qNumMatch ? qNumMatch[1] : null;
+            {negationGameQuestions.map((q, idx) => {
               return (
               <section key={q.id} id={`ng-${q.id}`} className="cdm-hero-section">
                 <div className="cdm-section-inner">
                   <h2 className="cdm-hero-question">
-                    {qNum ? `${qNum}.` : ""} {q.deliberativeQuestion}
+                    {idx + 1}. {q.deliberativeQuestion}
                   </h2>
                   {q.audioSegment && (
                     <AudioSegmentLink start={q.audioSegment.start} end={q.audioSegment.end} videoUrl={meeting.videoUrl} />

@@ -1953,7 +1953,7 @@ body {
 }
 
 .fc-bar-wrap .fc-bar {
-  position: static;
+  position: relative;
   transform: none;
 }
 .fc-bar-wrap .fc-bar:hover {

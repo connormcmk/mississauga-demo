@@ -472,9 +472,8 @@ const FloatingChat = ({ meeting }: Props) => {
       const n = (url: string) => parseInt(url.match(/[/-]Q(\d+)[/-]/i)?.[1] ?? "0");
       return n(a.negationGameUrl!) - n(b.negationGameUrl!);
     })
-    .map((q) => {
-      const num = q.negationGameUrl!.match(/[/-]Q(\d+)[/-]/i)?.[1];
-      return { label: `${num}. ${q.deliberativeQuestion}`, question: q.deliberativeQuestion, id: q.id };
+    .map((q, idx) => {
+      return { label: `${idx + 1}. ${q.deliberativeQuestion}`, question: q.deliberativeQuestion, id: q.id };
     });
   const suggestedQuestions = allSuggestedQuestions.slice(0, 3);
 
