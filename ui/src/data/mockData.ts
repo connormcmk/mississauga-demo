@@ -146,7 +146,7 @@ export const meetings: Meeting[] = [
         deliberativeQuestion:
           "How do we increase Road Safety Committee event participation?",
         negationGameUrl:
-          "https://negationgame.com/board/Jan-27-Q5-Increase-Road-Watch-Participation-Event_m-EydoHj8Yomc_HDCfPUSoT?share=sl-Qrg1JsGtcTxnAmwzQWkR9&minimal=true",
+          "https://negationgame.com/board/Jan-27-Q4-Road-Watch-worth-improving_m-RGrMJHkfrPjQnk-iMZWLP?share=sl-ZwE6NJ8hCQPmYND0pMz5q&minimal=true",
         audioSegment: { start: 2880, end: 3540 },
         summary:
           "Only 12 of 35 planned Road Watch events in 2025 met minimum attendance. The committee was dormant from approximately February 2020 through 2024. Strategies discussed include social media outreach, partnerships with neighbourhood associations, and integrating safety messaging into existing community events. Councillor offices need to provide 3–4 weeks' notice for volunteer coordination.",
