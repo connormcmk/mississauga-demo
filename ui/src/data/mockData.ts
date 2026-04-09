@@ -108,6 +108,9 @@ export const meetings: Meeting[] = [
         label: "Road Watch Awareness",
         deliberativeQuestion:
           "Is Road Watch awareness worth improving?",
+        negationGameUrl:
+          "https://negationgame.com/board/Jan-27-Q4-Road-Watch-worth-improving_m-RGrMJHkfrPjQnk-iMZWLP?share=sl-ZwE6NJ8hCQPmYND0pMz5q&minimal=true",
+        audioSegment: { start: 2180, end: 2800 },
         summary:
           "Road Watch saw 8.5% year-over-year growth with 3,590 reports in 2025, of which 2,018 were sent to registered owners. Reports drive daily officer deployment. However, residents largely don't know it exists, the form is too long, and people are uncomfortable sharing personal information.",
         decision: "Referred to promotional subcommittee",
@@ -146,7 +149,7 @@ export const meetings: Meeting[] = [
         deliberativeQuestion:
           "How do we increase Road Safety Committee event participation?",
         negationGameUrl:
-          "https://negationgame.com/board/Jan-27-Q4-Road-Watch-worth-improving_m-RGrMJHkfrPjQnk-iMZWLP?share=sl-ZwE6NJ8hCQPmYND0pMz5q&minimal=true",
+          "https://negationgame.com/board/Jan-27-Q5-Increase-Road-Watch-Participation-Event_m-EydoHj8Yomc_HDCfPUSoT?share=sl-Qrg1JsGtcTxnAmwzQWkR9&minimal=true",
         audioSegment: { start: 2880, end: 3540 },
         summary:
           "Only 12 of 35 planned Road Watch events in 2025 met minimum attendance. The committee was dormant from approximately February 2020 through 2024. Strategies discussed include social media outreach, partnerships with neighbourhood associations, and integrating safety messaging into existing community events. Councillor offices need to provide 3–4 weeks' notice for volunteer coordination.",
@@ -316,6 +319,36 @@ A **CAA partnership** was suggested as a practical alternative that wouldn't req
 ### Current status
 
 **Referred to promotional subcommittee** — the committee needs a qualified presenter to speak to the technical and safety data before taking further action.`,
+
+  "road watch awareness": `The committee had a substantive discussion about whether to invest in **improving awareness** of the Road Watch program — a resident-driven reporting tool that lets citizens report aggressive or dangerous driving they witness.
+
+### The program is growing — but invisibly
+
+- **3,590 reports submitted in 2025**, an **8.5% year-over-year increase**
+- **2,018 of those reports** were forwarded to registered vehicle owners
+- Reports **drive daily officer deployment** — Peel Regional Police use the data to decide where to position enforcement each day
+- Despite this, **most Mississauga residents don't know Road Watch exists**
+
+### The two barriers identified
+
+**1. Awareness** — No sustained promotional campaign has run since 2019. The program grew organically during the committee's dormancy (2020–2024) without marketing support.
+
+**2. The reporting form itself** — Residents find it too long, and many are uncomfortable entering personal information (name, address, phone number) to report a stranger's driving.
+
+> *"I personally assure residents their information won't be shared. But we need to make the process simpler — the form is a barrier."*
+
+— **Sunil, Citizen Member**
+
+### What was proposed
+
+- **Simplify the reporting form** — strip it down to the essentials
+- **Social media campaign** leveraging Peel Police channels and councillor offices
+- **Integration with existing community events** rather than standalone outreach
+- **Privacy reassurance** — make it clear that reporter information is not shared with the vehicle owner
+
+### Decision
+
+**Referred to the promotional subcommittee.** This is the fourth time since 2021 that Road Watch awareness has been raised without a formal resolution — the program keeps getting acknowledged as valuable and then deferred to subcommittee.`,
 
   "event participation": `The committee addressed a significant **participation gap** in Road Watch events during 2025.
 

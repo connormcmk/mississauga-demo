@@ -212,13 +212,29 @@ const findMockResponse = (
     };
   }
 
+  // Check for Road Watch awareness questions (must come before event participation)
+  if (
+    lower.includes("road watch awareness") ||
+    lower.includes("worth improving") ||
+    (lower.includes("road watch") && lower.includes("awareness")) ||
+    (lower.includes("road watch") && lower.includes("reporting")) ||
+    lower.includes("3,590") ||
+    lower.includes("reporting form")
+  ) {
+    return {
+      response:
+        mockChatResponses["road watch awareness"] +
+        (trailingQuestions[messageCount % trailingQuestions.length] || ""),
+      proposeCitizen: false,
+    };
+  }
+
   // Check for event participation questions
   if (
-    lower.includes("event") ||
-    lower.includes("participation") ||
-    lower.includes("road watch") ||
+    lower.includes("event participation") ||
     lower.includes("attendance") ||
-    lower.includes("volunteer")
+    lower.includes("volunteer") ||
+    (lower.includes("event") && lower.includes("participation"))
   ) {
     return {
       response:
