@@ -274,9 +274,9 @@ The original program stalled due to **procurement fraud** — the vendor involve
 - **School bus cameras** — History goes back to 2018. Previously stalled due to vendor fraud. Now revived but requires regional coordination — Mississauga can't act alone.
 - **Event participation** — Only 12 of 35 planned events met minimum attendance in 2025. Structural issues with volunteer coordination remain.
 
-> *"We studied this in 2019. We studied it in 2022. Each time, the committee changes and we start from scratch. At some point we need to stop studying and start doing."*
+> *"This was one of the examples that I happen to remember that has dropped off the table. Now, granted, that was probably two terms ago."*
 
-— **Councillor Carolyn Parrish**`,
+— **Sunil Sharma, Citizen Member** (Road Safety Committee, Jan 27)`,
 
   "citizen-disagree": `That's an interesting perspective, and it touches on a real tension in the committee's debate.
 
@@ -373,36 +373,35 @@ A **CAA partnership** was suggested as a practical alternative that wouldn't req
 Staff and the Chair will issue **email calls for volunteers** ahead of upcoming events. The structural challenge of rebuilding participation after a 4-year dormancy remains.`,
 };
 
-export const institutionalMemoryResponse = `Based on a search across council meeting transcripts from 2024–2026, here are the most relevant moments where councillors discussed **institutional memory** or the challenge of lost knowledge:
+export const institutionalMemoryResponse = `Yes — the **$2.2M provincial road safety funding** was discussed in the **Budget Committee** on January 13, 2026, two weeks before it reached the Road Safety Committee's agenda.
 
-### General Committee — March 11, 2026
-**Councillor Chris Fonseca** raised the issue directly during the Imagine Mississauga strategic plan discussion:
+### Budget Committee — January 13, 2026
 
-> *"Every term, new councillors spend their first year learning what the previous council already figured out. We lose institutional memory every four years, and staff turnover compounds it. If this strategic plan doesn't address knowledge management, we'll be writing the same plan again in 2030."*
+**Councillor Alvin Tedjo** introduced the funding during the roads budget review:
 
-### Budget Committee — February 19, 2026
-**Councillor Dipika Damerla** referenced the problem during debate on the infrastructure levy reduction:
+> *"We are in the process of preparing a report back to our Road Safety Committee to discuss how we plan to utilize that funding and the strategy for addressing our school zones moving forward in the absence of ASE. Essentially what it will allow us to do is install $2.2 million worth of additional traffic calming over the next couple of years in those school zones where ASE had operated or planned to operate."*
 
-> *"We reduced this same levy in 2014 and it took us three budget cycles to recover. I worry we're forgetting the lessons of the past because the people who lived through it aren't in the room anymore."*
+**Councillor John Kovac** pressed on the obvious follow-up:
 
-### General Committee — January 15, 2026
-During the waste collection transfer discussion, **staff** acknowledged gaps in institutional knowledge:
+> *"And I guess part of that report that will be forthcoming will be — was that a sufficient enough amount?"*
 
-> *"One of the challenges with the Peel transition is that many of the operational details were managed at the regional level. As we bring these services in-house, we're effectively rebuilding knowledge that existed in a different organization."*
+**Tedjo** committed to answering it:
+
+> *"Yes, I think we'll look to quantify what we're able to do with that $2.2 million and what options that provides to us. We have made additional inquiries with the province of Ontario regarding the potential next round of funding."*
 
 ### Road Safety Committee — January 27, 2026
-**Councillor Carolyn Parrish** made an oblique reference during the school bus camera discussion:
 
-> *"We studied this in 2019. We studied it in 2022. Each time, the committee changes and we start from scratch. At some point we need to stop studying and start doing."*
+Two weeks later, **Max Gill** (Acting Director, Traffic Services and Road Safety) delivered the promised follow-up report:
 
----
+> *"This is follow-up to the previous discussion we had at last year's road safety meeting regarding funding being provided by the province to the city in lieu of automated speed enforcement... The city received a letter from the province in November of last year indicating that an initial funding was being provided in the amount of roughly $2.2 million..."*
 
-**Summary:** The theme of institutional memory loss appears across multiple committees, most often in the context of:
-- **Council turnover** every four years erasing informal knowledge
-- **Staff transitions** creating gaps in operational continuity
-- **Repeated studies** on the same issues due to lack of accessible records of prior deliberations
+The plan Gill presented: **equitable allocation across all 11 wards (~$200K each), 40–50 physical traffic-calming projects, construction beginning in 2026.** A March 2028 provincial deadline creates time pressure.
 
-This is a pattern that structured deliberation records — like the ones in this system — are specifically designed to address.`;
+### The unanswered question
+
+Kovac's specific question — *"was that a sufficient enough amount?"* — is not addressed in the Road Safety Committee transcript. Max Gill quantifies **what the money can buy** (scale, ward distribution, project count), but does not evaluate whether it closes the gap left by the province's cancellation of Automated Speed Enforcement.
+
+The Budget Committee asked about adequacy. The Road Safety Committee delivered an allocation plan. The two halves of the conversation lived in different meetings, with no explicit thread linking them.`;
 
 // --- Argument Map Data for the Jan 27 meeting ---
 

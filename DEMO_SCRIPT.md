@@ -1,121 +1,51 @@
-Hey, I'm Connor. I'm going to walk you through Louie — should take about five minutes.
-
-Every four years, Mississauga elects a new council — and every four years, the first year is spent relearning what the last council already figured out. Staff turn over, committees change, and the institutional knowledge that lives in people's heads walks out the door.
-
-All of those meetings are recorded and published — the city's already committed to transparency. But residents who want to engage have to sit through two-hour meetings or read 80-page agendas to find out what happened to the issue they care about. A two-hour recording that nobody watches isn't really transparent. It's just public.
-
+Hey, I'm Connor McCormick. I'm going to walk you through Louie, a tool for institutional memory and civic transparency — should take about five minutes.
+On October 26th, Mississauga elects a new council — and when that happens, the first year will be spent relearning what the current council already figured out. Staff turn over, committees change, and the institutional knowledge that lives in people's heads walks straight out the door.
+All of those meetings are recorded and published — Mississauga has already committed to transparency. But residents who want to engage have to sit through two-hour meetings, read staff reports, agenda and minutes just to find out what happened with the issues they care about. The truth is that a two-hour recording that nobody watches isn't really transparent. It's merely public.
 Louie fixes both problems at once.
+What you're looking at is the City of Mississauga's existing Council and Committees Calendar. We haven't changed anything substantial about the page. We've just added two small entry points.
+[Point to CDM block] In the sidebar, there's a new section that says Civic Deliberative Memory — with a link to the most recent Road Safety Committee meeting, and a search bar that works across all meetings. We'll come back to that search bar in just a minute.
+If we scroll below, we'll see the Road Safety Committee section, where, in addition to the familiar Agenda, Addendum, and Video links, we see a new Memory link.
+Let's check out the memory for the Road Safety Committee meeting from January 27th.
+[Click the Memory] This is the Civic Deliberative Memory for the January 27th Committee meeting. A citizen, a journalist, a committee member, or a city staff member can come here to access the civic memory created from this meeting.
+Let's say a resident wants to know about Road Watch Awareness.
+[Click "4.  Is Road Watch awareness worth improving?"]
+Louie searches the meeting transcript and gives a structured answer
+Road Watch is a resident-driven reporting tool. 3,590 reports in 2025, up 8.5%, and Peel Police use them to position officers the next day.
+But almost no one in Mississauga knows it exists.
+The committee identified two barriers — awareness, and the reporting form itself. And then the punchline — [point to the decision at the bottom] — this is the fourth time since 2021 that Road Watch awareness has been raised and deferred to the subcommittee.
 
-## 1 — ENTRY POINT
+A resident would have to read four years of meeting minutes to notice that pattern.
 
-What you're looking at is the City of Mississauga's existing Council and Committees Calendar. We haven't changed anything about the page. We've added two small entry points.
-
-[Point to sidebar: CDM block + search input beneath it]
-
-In the sidebar, there's a new section for Civic Deliberative Memory — a link to the most recent Road Safety Committee meeting, and a search bar that works across all meetings. We'll come back to that cross-meeting search.
-
-If we scroll below, we'll see the road safety committee section, where in addition to the familiar Agenda, Addendum, and Video links, we see a new Memory link.
-
-Let's check the memory for the road safety committee.
-
-[Click the CDM block]
-
-## 2 — SEARCH
-
-[Land on CDM page. The search bar is visible at the bottom.]
-
-This is where you ask questions about what happened in the January 27 Road Safety Committee meeting. Every topic discussed, every argument made — searchable in plain language.
-
-[Hover over the search bar to reveal the question tray. Click "3. Should school bus stop arm cameras be revived?"]
-
-A resident wants to know about school bus cameras.
-
-[Wait for thinking → response streams in]
-
-Louie searches the meeting transcript and gives a structured answer — the initiative goes back to 2018, it stalled due to procurement fraud, Councillor Tedjo is raising it at the regional level, newer cameras cost 60% less. Direct quotes from a citizen member who personally witnessed stop arm violations.
-
-And at the bottom — a link to view the full deliberation map.
-
+And at the bottom — a link to view the full deliberation map. Let's check that out.
 [Click "View on deliberation map ↓"]
+This is the deliberation map for Road Watch awareness. Every argument from the meeting, structured and attributed.
 
-## 3 — THE DELIBERATION MAP
+The blue question node at the top is the central question. Below it, the answer: "Yes" — the committee thinks awareness is worth improving. The green lines with plus symbols are the supporting arguments — Claudia D'Amico noted an 8.5% year-over-year increase in reports, Councillor Dasko said "if it doesn't get reported, it didn't happen," and Sunil, a citizen member, said that at every public event he attends, residents don't know Road Watch exists.
 
-[Chat minimizes. Page scrolls to the school bus cameras negation game embed.]
-[Click the iframe to activate it.]
+The red lines with dashes and minus symbols are the objections — the reporting form is too long, and residents are uncomfortable sharing personal information about themselves to report someone else.
 
-This is the deliberation map for school bus cameras. Every argument from the meeting, structured and attributed.
+The yellow-orange lines are mitigations — things the committee thinks reduce the impact of those objections. Claudia explained that reports directly drive where officers get deployed the next day — so even an imperfect process produces real enforcement. And Sunil personally assures residents their information isn't shared with the vehicle owner.
 
-The blue question node at the top is the central question. Below it, the answer: "Yes" — the committee supports reviving the program. The green lines with plus symbols are supporting arguments — Sunil witnessed two violations in two weeks, Councillor Tedjo raised this at the regional level, Brampton is also exploring a revival.
-
-The red lines with dashes and minus symbols are the objections — the previous attempt died due to vendor procurement fraud, and school buses operate region-wide so Mississauga can't act alone.
-
-The yellow-orange lines are mitigations — things the committee thinks reduce the impact of those objections. Other providers exist beyond the failed vendor. Councillor Tedjo is already raising it at the regional level.
-
-[Click outside to deactivate. Scroll up briefly to show other questions exist.]
-
-And if you prefer a text-based view — here's every argument from the discussion, threaded. Supports, objections, mitigations, sub-questions, all attributed. This is what a 10-minute discussion compresses down to.
-
-Every node is attributed and timestamped. And if you want to hear the original moment — [point to the "In meeting recording at 25:40 – 35:00" link above the embed] — that takes you straight to the source recording.
-
-This is what the meeting actually contained. Until now, the only way to get here was to watch the whole thing.
-
-## 4 — NATURAL LANGUAGE: THE BUDGET QUESTION
-
-[Click the search bar at the bottom]
-
-Now let's try a natural language question. A resident heard the province gave Mississauga two million dollars for road safety.
-
-[Type: What was decided about the 2.2 million budget from the province?]
-
+[Click outside to deactivate]
+Every node is attributed and timestamped. And if you want to hear the original moment — [point to the source recording link] — that takes you straight to the source recording.
+This is what the meeting actually contained, made completely transparent. Until now, the only way to get here was to watch the whole thing. Now it's compressed so that it can be viewed. What was a ten-minute clip to watch can be viewed almost immediately, in just a glance.
+[Click the search bar at the bottom] Now let's try a natural language question. During this meeting, a councillor mentioned that if traffic infractions are never reported, they essentially never happened. That prompted us to ask about Road Watch.
+[Type: What was said about Road Watch and reporting traffic infractions?]
 [Press Enter. Wait for response.]
-
-Equitable allocation across 11 wards, approximately $200,000 each, focused on school zones, construction starting 2026, the March 2028 deadline. Key quote from Max Gill. And follow-up questions the resident might want to ask.
-
-## 5 — A RESIDENT PUSHES BACK
-
-[Type: I don't think that's the best allocation — proportional distribution based on collision data would be more effective]
-
+Louie pulls up what was discussed — and here's where something interesting happened. Recently, a citizen of Mississauga, our team member Paul, reviewed this deliberation board and followed the Road Watch link to the City website, but instead of finding the website it gave him a Peel Police error page. A dead end. Any resident trying to submit a report would have hit the same wall. That resident reported it to Councillor Dasko’s office, and the link was fixed within a day.
+That discovery happened directly because Louie turned a committee meeting video into a structured argument map. What would take hours of review took minutes — and it caught something that had been silently broken.
+Now let's imagine a resident wants to push back on something else from this meeting — the $2.2 million provincial allocation.
+[Type: I don't think equal allocation across wards is the best approach — proportional distribution based on collision data would be more effective]
 [Press Enter. Wait for response.]
+Louie doesn't just agree or disagree — it actually shows what was debated. Wards 5, 7, and 1 have significantly higher collision rates near schools. The provincial letter doesn't require equal distribution. But staff argued that equal allocation ensures political buy-in — without it, the whole program might stall.
+Now they have the additional context they need in order to understand.
+[Navigate back home] One more thing. This is the reason any of this matters.
+Committees don't talk to each other. A resident — or a new councillor — has no way to see a thread that starts in one meeting and continues in another one, two weeks later, in a completely different committee. Let's ask Louie.
+[Type in the sidebar search: Has the $2.2M road safety funding been discussed outside the Road Safety Committee?]
 
-Louie doesn't just agree or disagree. It shows what was actually debated. Wards 5, 7, and 1 have collision rates three times the city average. The provincial letter doesn't require equal distribution. But staff argued that equal allocation ensures political buy-in — without it, the whole program stalls.
-
-And then it offers something new.
-
-## 6 — CITIZEN POINT
-
-[Scroll to "Propose as citizen point". Click it.]
-
-The resident can submit their argument directly into the deliberation record. The system drafts a formal point matching the quality of the existing arguments.
-
-[Show the editable preview. Click Submit.]
-
-It goes to the Citizen Engagement Coordinator for review. If approved, it appears on the deliberation map alongside what the committee members said. That's not just one-way transparency — it's structured participation.
-
-[Minimize the chat]
-
-## 7 — INSTITUTIONAL MEMORY
-
-[Navigate back to the Mississauga page via the header]
-
-One more thing. A new councillor wants to know: has anyone ever talked about the problem of losing knowledge between terms?
-
-[Type in the sidebar search: When have councillors mentioned institutional memory or forgetting things?]
-
-[Press Enter. Wait for response.]
-
-Louie searches across every committee. Councillor Fonseca at General Committee — new councillors spend their first year relearning what the last council knew. Councillor Damerla at Budget Committee — they reduced the same levy in 2014 and it took three cycles to recover. Staff acknowledging knowledge gaps from the Peel transition. Councillor Parrish at Road Safety — studied school bus cameras in 2019, again in 2022, each time the committee changes they start from scratch.
-
-Four committees, four contexts, one pattern — surfaced in seconds.
-
-## CLOSE
-
-That's Louie. It takes the public record that already exists — transcripts, agendas, minutes — and turns it into something searchable, structured, and open to participation.
-
-Civic Deliberative Memory.
-
----
-
-~5–6 minutes. Tips:
-- Pause after each AI response finishes streaming
-- On the deliberation map: trace the flow with your cursor — question → answer → supports (+) → negations (−) → mitigations (yellow) → sub-questions
-- The institutional memory search is the emotional peak — slow down and let the quotes land
+Two weeks before the $2.2 million showed up on the Road Safety Committee agenda, it was introduced at the Budget Committee, on January 13. Councillor Tedjo describes what it's for — traffic calming in school zones, in the absence of automated speed enforcement. And then Councillor Kovac asks the obvious, important follow-up, asking: "Was that a sufficient enough amount?"
+Tedjo promises an answer. He says they'll quantify what $2.2 million can actually buy, and they'll come back with a report.
+Two weeks later, at the Road Safety Committee on January 27, Max Gill delivers the allocation — eleven wards, two hundred thousand dollars each, forty to fifty projects, construction in 2026. The plan exists. But the question Kovac asked — *was it enough* — is not answered. Max describes what the money can do. He doesn't say whether it closes the gap the province created when they cancelled speed cameras.
+The Budget Committee asked about adequacy. The Road Safety Committee delivered an allocation. Two halves of the same conversation, two weeks apart, in two different rooms, and no explicit thread between them. Nobody goes back and watches both meetings side by side. The question just quietly stops mattering.
+This is the kind of thing Louie catches. Not cross-referencing documents — cross-referencing open questions. It scales beyond this one example: the same pattern exists between Budget Committee and General Committee, between Road Safety and Anti-Discrimination, between this term's council and the last one.
+That's civic deliberative memory.

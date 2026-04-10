@@ -563,7 +563,7 @@ const MississaugaPage = () => {
                     <input
                       type="text"
                       className="msga-sidebar-cdm-search-input"
-                      placeholder="e.g. institutional memory..."
+                      placeholder="e.g. $2.2M road safety funding..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={(e) => { if (e.key === "Enter") handleSearchSubmit(); }}
