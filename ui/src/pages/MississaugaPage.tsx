@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { navigate } from "../App";
-import { mostRecentMeeting, institutionalMemoryResponse } from "../data/mockData";
+import { mostRecentMeeting } from "../data/mockData";
 
 // Minimal typewriter for search chat
 const useTypewriter = (text: string, speed = 3, onDone?: () => void) => {
@@ -15,11 +15,16 @@ const useTypewriter = (text: string, speed = 3, onDone?: () => void) => {
 };
 
 const renderInlineBold = (text: string) =>
-  text.split(/(\*\*[^*]+\*\*)/g).map((p, i) =>
-    p.startsWith("**") && p.endsWith("**")
-      ? <strong key={i}>{p.slice(2,-2)}</strong>
-      : p
-  );
+  text.split(/(\{\{src:\d+:[^}]+\}\}|\*\*[^*]+\*\*)/g).map((p, i) => {
+    const srcMatch = p.match(/^\{\{src:(\d+):([^}]+)\}\}$/);
+    if (srcMatch) {
+      const [, num, title] = srcMatch;
+      return <span key={i} className="source-ref" data-source={title}>{num}</span>;
+    }
+    if (p.startsWith("**") && p.endsWith("**"))
+      return <strong key={i}>{p.slice(2,-2)}</strong>;
+    return p;
+  });
 
 const renderMd = (text: string) =>
   text.split("\n").map((line, i) => {
@@ -47,14 +52,40 @@ const SearchChat = ({ initialQuery, onClose }: { initialQuery: string; onClose: 
     if (!q.trim() || thinking) return;
     setMessages(prev => [...prev, { role: "user", text: q }]);
     setThinking(true);
-    setTimeout(() => {
-      setThinking(false);
-      setMessages(prev => {
-        const next = [...prev, { role: "assistant" as const, text: institutionalMemoryResponse, streaming: true }];
-        setStreamingIdx(next.length - 1);
-        return next;
+
+    const form = new FormData();
+    form.append("question", q);
+    fetch("https://mississauga-demo.azule.xyz/api/assistant", { method: "POST", body: form })
+      .then(res => res.json())
+      .then(data => {
+        setThinking(false);
+        let answer = data.answer || "I wasn't able to find relevant information for that question.";
+        // Embed source titles into [SOURCE N] markers for inline rendering
+        if (data.sources?.length) {
+          const sourceMap: Record<string, string> = {};
+          for (const s of data.sources) {
+            const m = s.reportId?.match?.(/^SOURCE (\d+)$/);
+            if (m) sourceMap[m[1]] = s.title;
+          }
+          answer = answer.replace(/\[SOURCE (\d+)\]/g, (_: string, n: string) => {
+            const title = sourceMap[n] || `Source ${n}`;
+            return `{{src:${n}:${title}}}`;
+          });
+        }
+        setMessages(prev => {
+          const next = [...prev, { role: "assistant" as const, text: answer, streaming: true }];
+          setStreamingIdx(next.length - 1);
+          return next;
+        });
+      })
+      .catch(() => {
+        setThinking(false);
+        setMessages(prev => {
+          const next = [...prev, { role: "assistant" as const, text: "I'm having trouble searching the records right now. Please try again.", streaming: true }];
+          setStreamingIdx(next.length - 1);
+          return next;
+        });
       });
-    }, 1800);
   }, [thinking]);
 
   useEffect(() => {

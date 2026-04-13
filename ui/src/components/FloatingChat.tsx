@@ -5,10 +5,20 @@ import {
   institutionalMemoryResponse,
 } from "../data/mockData";
 
-// Process inline bold (**text**) and links [text](#anchor) within a string
+// Process inline bold (**text**), links [text](#anchor), and source refs {{src:N:title}}
 const renderInline = (text: string) => {
-  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\(#[^)]+\))/g);
+  const parts = text.split(/(\{\{src:\d+:[^}]+\}\}|\*\*[^*]+\*\*|\[[^\]]+\]\(#[^)]+\))/g);
   return parts.map((part, j) => {
+    // Source annotation badge
+    const srcMatch = part.match(/^\{\{src:(\d+):([^}]+)\}\}$/);
+    if (srcMatch) {
+      const [, num, title] = srcMatch;
+      return (
+        <span key={j} className="source-ref" data-source={title}>
+          {num}
+        </span>
+      );
+    }
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={j}>{part.slice(2, -2)}</strong>;
     }
@@ -121,7 +131,7 @@ const findMockResponse = (
   text: string,
   meeting: Meeting,
   messageCount: number,
-): { response: string; proposeCitizen: boolean } => {
+): { response: string; proposeCitizen: boolean } | null => {
   const lower = text.toLowerCase();
 
   // Third interaction: citizen disagrees with allocation
@@ -244,12 +254,38 @@ const findMockResponse = (
     };
   }
 
-  // Default response
-  return {
-    response: `Based on the ${meeting.committee} meeting transcript from ${meeting.date}:\n\nThis is a mock response for the demo. In production, this would search the meeting transcript and deliberation records to answer: "${text}"\n\nThe AI would draw from:\n- **Full meeting transcript** with speaker attribution\n- **Structured argument maps** for each agenda item\n- **Historical records** showing how this issue has evolved across meetings\n\nIs there anything else you'd like to know about this meeting?`,
-    proposeCitizen: false,
-  };
+  // No hardcoded match — will fall through to live backend
+  return null;
 };
+
+async function queryBackend(question: string): Promise<string> {
+  try {
+    const form = new FormData();
+    form.append("question", question);
+    const res = await fetch("https://mississauga-demo.azule.xyz/api/assistant", {
+      method: "POST",
+      body: form,
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    let answer = data.answer || "I wasn't able to find relevant information for that question.";
+    // Embed source titles into [SOURCE N] markers for inline rendering
+    if (data.sources?.length) {
+      const sourceMap: Record<string, string> = {};
+      for (const s of data.sources) {
+        const m = s.reportId?.match?.(/^SOURCE (\d+)$/);
+        if (m) sourceMap[m[1]] = s.title;
+      }
+      answer = answer.replace(/\[SOURCE (\d+)\]/g, (_: string, n: string) => {
+        const title = sourceMap[n] || `Source ${n}`;
+        return `{{src:${n}:${title}}}`;
+      });
+    }
+    return answer;
+  } catch {
+    return "I'm having trouble searching the records right now. Please try again.";
+  }
+}
 
 // Animated thinking indicator: "Thinking..." → "Searching..."
 const ThinkingIndicator = () => {
@@ -400,28 +436,47 @@ const FloatingChat = ({ meeting }: Props) => {
     setThinking(true);
 
     assistantMsgCount.current++;
-    const { response, proposeCitizen } = findMockResponse(
+    const mockResult = findMockResponse(
       text,
       meeting,
       assistantMsgCount.current,
     );
 
-    // 2-second thinking phase, then stream the response
     const msgId = `a-${Date.now()}`;
-    setTimeout(() => {
-      setThinking(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: msgId,
-          role: "assistant",
-          text: response,
-          streaming: true,
-          proposeCitizen,
-        },
-      ]);
-      setStreamingId(msgId);
-    }, 2000);
+
+    if (mockResult) {
+      // Hardcoded response — use existing 2-second delay
+      setTimeout(() => {
+        setThinking(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: msgId,
+            role: "assistant",
+            text: mockResult.response,
+            streaming: true,
+            proposeCitizen: mockResult.proposeCitizen,
+          },
+        ]);
+        setStreamingId(msgId);
+      }, 2000);
+    } else {
+      // Live backend query
+      queryBackend(text).then((answer) => {
+        setThinking(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: msgId,
+            role: "assistant",
+            text: answer,
+            streaming: true,
+            proposeCitizen: false,
+          },
+        ]);
+        setStreamingId(msgId);
+      });
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
