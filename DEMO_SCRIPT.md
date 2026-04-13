@@ -40,12 +40,20 @@ Now let's imagine a resident wants to push back on something else from this meet
 Louie doesn't just agree or disagree — it actually shows what was debated. Wards 5, 7, and 1 have significantly higher collision rates near schools. The provincial letter doesn't require equal distribution. But staff argued that equal allocation ensures political buy-in — without it, the whole program might stall.
 Now they have the additional context they need in order to understand.
 [Navigate back home] One more thing. This is the reason any of this matters.
-Committees don't talk to each other. A resident — or a new councillor — has no way to see a thread that starts in one meeting and continues in another one, two weeks later, in a completely different committee. Let's ask Louie.
-[Type in the sidebar search: Has the $2.2M road safety funding been discussed outside the Road Safety Committee?]
 
-Two weeks before the $2.2 million showed up on the Road Safety Committee agenda, it was introduced at the Budget Committee, on January 13. Councillor Tedjo describes what it's for — traffic calming in school zones, in the absence of automated speed enforcement. And then Councillor Kovac asks the obvious, important follow-up, asking: "Was that a sufficient enough amount?"
-Tedjo promises an answer. He says they'll quantify what $2.2 million can actually buy, and they'll come back with a report.
-Two weeks later, at the Road Safety Committee on January 27, Max Gill delivers the allocation — eleven wards, two hundred thousand dollars each, forty to fifty projects, construction in 2026. The plan exists. But the question Kovac asked — *was it enough* — is not answered. Max describes what the money can do. He doesn't say whether it closes the gap the province created when they cancelled speed cameras.
-The Budget Committee asked about adequacy. The Road Safety Committee delivered an allocation. Two halves of the same conversation, two weeks apart, in two different rooms, and no explicit thread between them. Nobody goes back and watches both meetings side by side. The question just quietly stops mattering.
-This is the kind of thing Louie catches. Not cross-referencing documents — cross-referencing open questions. It scales beyond this one example: the same pattern exists between Budget Committee and General Committee, between Road Safety and Anti-Discrimination, between this term's council and the last one.
+Every committee meeting has moments where somebody asks a question and never gets an answer. The question just disappears into the recording. Nobody tracks it. Let's ask Louie.
+
+[Type in the sidebar search: What key questions are left unanswered?]
+[Press Enter. Wait for response.]
+
+Look at what comes back. These are all real questions asked by real people — a resident named Faraz Agha and councillors — that were never answered in the meeting transcript.
+
+Agha asked how well the 2025 budget went, whether pain points were documented as lessons learned. No answer. He asked how a new initiative can launch with no additional staff — does that mean the department is already overstaffed, or will they come back later asking for more hours? No answer. Councillor Kovac asked for the total cost of the Huron Park Community Centre project, including the gardening costs. No answer in the transcript.
+
+[Pause]
+
+These aren't rhetorical questions. These are questions asked by a taxpayer during a public deputation, and by an elected councillor during committee — and they just vanished into a two-hour recording. If you weren't in the room, you'd never know they were asked. If you were in the room, you'd have no way to check whether they were ever followed up on.
+
+Louie surfaces them. Not just the answers — the gaps. The questions that were asked and never addressed. That's what institutional memory actually looks like: not just what was decided, but what was left hanging.
+
 That's civic deliberative memory.
