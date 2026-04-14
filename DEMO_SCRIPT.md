@@ -39,21 +39,17 @@ Now let's imagine a resident wants to push back on something else from this meet
 [Press Enter. Wait for response.]
 Louie doesn't just agree or disagree — it actually shows what was debated. Wards 5, 7, and 1 have significantly higher collision rates near schools. The provincial letter doesn't require equal distribution. But staff argued that equal allocation ensures political buy-in — without it, the whole program might stall.
 Now they have the additional context they need in order to understand.
-[Navigate back home] One more thing. This is the reason any of this matters.
+[Navigate back home] One more thing.
 
-Every committee meeting has moments where somebody asks a question and never gets an answer. The question just disappears into the recording. Nobody tracks it. Let's ask Louie.
+We've been looking at one meeting. But Louie sees across all of them.
 
-[Type in the sidebar search: What key questions are left unanswered?]
+[Type in the sidebar search: What progress has Mississauga made on road safety this year?]
 [Press Enter. Wait for response.]
 
-Look at what comes back. These are all real questions asked by real people — a resident named Faraz Agha and councillors — that were never answered in the meeting transcript.
+Look at what comes back. The cycling plan is in its final stages and heading to public consultation. Mississauga has been certified as a silver city for its cycling network, with a goal of reaching gold. Road Watch reporting is up 8.5% year over year. And 70% of residents in the budget survey said the city's road safety measures are helping achieve Vision Zero.
 
-Agha asked how well the 2025 budget went, whether pain points were documented as lessons learned. No answer. He asked how a new initiative can launch with no additional staff — does that mean the department is already overstaffed, or will they come back later asking for more hours? No answer. Councillor Kovac asked for the total cost of the Huron Park Community Centre project, including the gardening costs. No answer in the transcript.
+None of this came from the Road Safety Committee meeting we just looked at. Louie pulled it from Budget Committee transcripts, from cycling advisory discussions, from the resident survey — and stitched the picture together.
 
-[Pause]
-
-These aren't rhetorical questions. These are questions asked by a taxpayer during a public deputation, and by an elected councillor during committee — and they just vanished into a two-hour recording. If you weren't in the room, you'd never know they were asked. If you were in the room, you'd have no way to check whether they were ever followed up on.
-
-Louie surfaces them. Not just the answers — the gaps. The questions that were asked and never addressed. That's what institutional memory actually looks like: not just what was decided, but what was left hanging.
+A resident who cares about road safety shouldn't have to watch six different committee meetings to see what's actually happening. A new councillor arriving next term shouldn't have to start from scratch. Louie gives them the full picture in seconds.
 
 That's civic deliberative memory.

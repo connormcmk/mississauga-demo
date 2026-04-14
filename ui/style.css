@@ -706,12 +706,12 @@ body {
 }
 
 .chat-msg ul, .chat-msg ol {
-  margin: 0.35rem 0;
-  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+  padding-left: 1.75rem;
 }
 
 .chat-msg li {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.35rem;
 }
 
 .chat-input-area {
