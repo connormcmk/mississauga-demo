@@ -127,7 +127,7 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
     });
 
   // Collect all key quotes from all questions
-  const allQuotes = meeting.questions.flatMap(
+  const _allQuotes = meeting.questions.flatMap(
     (q) =>
       q.keyQuotes?.map((kq) => ({
         ...kq,

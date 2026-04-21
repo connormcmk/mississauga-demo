@@ -129,7 +129,7 @@ type Props = {
 
 const findMockResponse = (
   text: string,
-  meeting: Meeting,
+  _meeting: Meeting,
   messageCount: number,
 ): { response: string; proposeCitizen: boolean } | null => {
   const lower = text.toLowerCase();
@@ -486,12 +486,12 @@ const FloatingChat = ({ meeting }: Props) => {
     }
   };
 
-  const handleBarClick = () => {
+  const _handleBarClick = () => {
     setExpanded(true);
     if (!hasOpened) setHasOpened(true);
   };
 
-  const scrollToSection = (questionId: string) => {
+  const _scrollToSection = (questionId: string) => {
     const section = document.getElementById(`ng-${questionId}`);
     if (section) {
       const headerOffset = 60; // sticky header height + margin
@@ -516,7 +516,7 @@ const FloatingChat = ({ meeting }: Props) => {
       questionText,
       meeting,
       assistantMsgCount.current,
-    );
+    )!;
 
     // Append a link to scroll to the deliberation map section
     const viewLink = `\n\n[View on deliberation map ↓](#ng-${questionId})`;
