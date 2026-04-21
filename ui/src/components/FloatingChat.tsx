@@ -486,21 +486,6 @@ const FloatingChat = ({ meeting }: Props) => {
     }
   };
 
-  const _handleBarClick = () => {
-    setExpanded(true);
-    if (!hasOpened) setHasOpened(true);
-  };
-
-  const _scrollToSection = (questionId: string) => {
-    const section = document.getElementById(`ng-${questionId}`);
-    if (section) {
-      const headerOffset = 60; // sticky header height + margin
-      const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top, behavior: "smooth" });
-      section.classList.add("cdm-section-highlight");
-      setTimeout(() => section.classList.remove("cdm-section-highlight"), 1800);
-    }
-  };
 
   const handleSuggestedQuestion = (questionText: string, questionId: string) => {
     if (thinking) return; // guard against double-fire

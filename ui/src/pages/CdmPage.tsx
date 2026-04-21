@@ -126,14 +126,7 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
       return numA - numB;
     });
 
-  // Collect all key quotes from all questions
-  const _allQuotes = meeting.questions.flatMap(
-    (q) =>
-      q.keyQuotes?.map((kq) => ({
-        ...kq,
-        topic: q.label,
-      })) ?? [],
-  );
+
 
   return (
     <div className="cdm-page">
