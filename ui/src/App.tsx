@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import MississaugaPage from "./pages/MississaugaPage";
 import CdmPage from "./pages/CdmPage";
+import LouiePage from "./pages/LouiePage";
 
 type Route =
   | { page: "mississauga" }
-  | { page: "cdm"; meetingId: string };
+  | { page: "cdm"; meetingId: string }
+  | { page: "louie" };
 
 const parseHash = (hash: string): Route => {
   const trimmed = hash.startsWith("#") ? hash.slice(1) : hash;
@@ -13,6 +15,9 @@ const parseHash = (hash: string): Route => {
   if (path.startsWith("/cdm/")) {
     const meetingId = path.slice("/cdm/".length);
     return { page: "cdm", meetingId };
+  }
+  if (path === "/louie" || path.startsWith("/louie/")) {
+    return { page: "louie" };
   }
   // Default: Mississauga entry page
   return { page: "mississauga" };
@@ -40,6 +45,7 @@ const App = () => {
     <>
       {route.page === "mississauga" && <MississaugaPage />}
       {route.page === "cdm" && <CdmPage meetingId={route.meetingId} />}
+      {route.page === "louie" && <LouiePage />}
     </>
   );
 };
