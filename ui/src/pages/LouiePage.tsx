@@ -250,25 +250,53 @@ const HomePage = () => (
     <section className="louie-hero">
       <div className="louie-container louie-hero-inner">
         <div>
-          <div className="louie-eyebrow">For Canadian municipalities</div>
+          <div className="louie-eyebrow">Civic intelligence · For Canadian municipalities</div>
           <h1 className="louie-h1">
             Search and understand <span className="louie-h1-accent">how your council actually decides</span>.
           </h1>
           <p className="louie-lede">
-            Louie is a civic intelligence platform that turns your city's council
-            record — videos, minutes, debate, public input — into a searchable
-            institutional memory. Every answer cites back to a timestamped
-            video, transcript line, or minutes entry.
+            Louie turns your city's council record — video, minutes, debate,
+            public input — into a searchable institutional memory. Briefing
+            prep in minutes instead of hours. Every answer cited to a
+            timestamped line.
           </p>
           <div className="louie-cta-row">
             <a href="#/" className="louie-cta louie-cta-primary">See it on Mississauga</a>
             <a href="#live-example" className="louie-cta louie-cta-secondary">Read the Road Watch case ↓</a>
           </div>
           <div className="louie-microline">
-            Built on the public record · Cited to the transcript line · Interoperates with your existing stack
+            Sits on top of eScribe / iCompass / Granicus · Every citation resolves to the transcript · Free for press and residents
           </div>
         </div>
         <HeroVideo />
+      </div>
+    </section>
+
+    <section className="louie-problem-band">
+      <div className="louie-container">
+        <div className="louie-problem-grid">
+          <div className="louie-problem-stat">
+            <div className="louie-problem-num">~40 hrs</div>
+            <div className="louie-problem-label">
+              of video, minutes, and reports produced by a mid-sized Ontario
+              council every month — almost none of it searchable by topic or speaker.
+            </div>
+          </div>
+          <div className="louie-problem-stat">
+            <div className="louie-problem-num">4 years</div>
+            <div className="louie-problem-label">
+              between elections. New councillors arrive without the context the
+              previous term took for granted. Staff rewrite the same briefing notes.
+            </div>
+          </div>
+          <div className="louie-problem-stat">
+            <div className="louie-problem-num">Every FOI</div>
+            <div className="louie-problem-label">
+              for something already on the public record is a failure of
+              legibility, not of transparency. The record exists. It just isn't usable.
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -293,30 +321,42 @@ const HomePage = () => (
             <div className="louie-feature-num">01</div>
             <h3 className="louie-feature-title">Ask the record anything</h3>
             <p className="louie-feature-body">
-              Plain-English search and chat over every meeting, motion, and
-              decision. Every answer links back to a timestamped video,
-              transcript line, or minutes entry — not a paraphrase.
+              Plain-English search over every meeting, motion, and decision —
+              cited back to the transcript line, not paraphrased.
             </p>
+            <div className="louie-feature-example">
+              <span className="louie-feature-example-label">Example query</span>
+              "When did Ward 5 first raise the Dixie Road speed-limit concern,
+              and who responded?"
+            </div>
             <div className="louie-feature-tag">Search &amp; chat</div>
           </a>
           <a href="#/louie/how#threads" className="louie-feature">
             <div className="louie-feature-num">02</div>
             <h3 className="louie-feature-title">See the deliberation, not just the decision</h3>
             <p className="louie-feature-body">
-              Topic pages stitch a question across committees and council
-              terms: who raised it, what was debated, what got deferred, what
-              was decided, and what is still open.
+              Topic threads stitch a question across committees and council
+              terms — raised, deferred, decided, still open.
             </p>
+            <div className="louie-feature-example">
+              <span className="louie-feature-example-label">Example thread</span>
+              $2.2M Road Safety budget · raised 4× across 3 committees since
+              2021 · current deadline March 2028.
+            </div>
             <div className="louie-feature-tag">Cross-committee threads</div>
           </a>
           <a href="#/louie/how#structure" className="louie-feature">
             <div className="louie-feature-num">03</div>
             <h3 className="louie-feature-title">Map contested claims</h3>
             <p className="louie-feature-body">
-              For questions that are still open, Louie maps the supports,
-              negations, and mitigations — a defensible record of the argument,
-              not a comment thread. Built on the Negation Game substrate.
+              For open questions, Louie maps supports, negations, and
+              mitigations into a defensible argument graph — not a comment thread.
             </p>
+            <div className="louie-feature-example">
+              <span className="louie-feature-example-label">Example map</span>
+              "Should the province's $2.2M fund prioritize school zones or
+              transit corridors?" — 7 supports, 4 negations, 2 mitigations.
+            </div>
             <div className="louie-feature-tag">Negation Game</div>
           </a>
         </div>

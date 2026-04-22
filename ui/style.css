@@ -4138,3 +4138,60 @@ body {
   flex-wrap: wrap;
 }
 
+/* Phase 2: Problem band */
+.louie-problem-band {
+  background: #f4f7f9;
+  border-top: 1px solid #e3e9ee;
+  border-bottom: 1px solid #e3e9ee;
+  padding: 3rem 0;
+}
+.louie-problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 800px) {
+  .louie-problem-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+.louie-problem-stat {
+  border-left: 3px solid var(--msga-accent-cyan, #0088aa);
+  padding-left: 1.1rem;
+}
+.louie-problem-num {
+  font-family: var(--msga-font-heading, Georgia, serif);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--msga-dark-blue, #003050);
+  line-height: 1.1;
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.01em;
+}
+.louie-problem-label {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4a5560;
+}
+
+/* Phase 2: Feature example boxes */
+.louie-feature-example {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  background: #f4f7f9;
+  border-left: 2px solid var(--msga-accent-cyan, #0088aa);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #2d3640;
+  font-style: italic;
+}
+.louie-feature-example-label {
+  display: block;
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--msga-accent-cyan, #0088aa);
+  margin-bottom: 0.3rem;
+}
+
