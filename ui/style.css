@@ -3910,3 +3910,231 @@ body {
   text-transform: uppercase;
 }
 
+/* Header actions — demo link + Talk to us CTA */
+.louie-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.louie-header-cta {
+  background: var(--msga-accent-cyan);
+  color: var(--msga-dark-blue);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.42rem 0.95rem;
+  border-radius: 4px;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.louie-header-cta:hover {
+  background: #21c3ef;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .louie-header-actions {
+    gap: 0.4rem;
+  }
+  .louie-header-cta {
+    padding: 0.36rem 0.7rem;
+    font-size: 0.78rem;
+  }
+  .louie-demo-link {
+    font-size: 0.78rem;
+    padding: 0.34rem 0.65rem;
+  }
+}
+
+/* Hero video — click-to-play YouTube embed */
+.louie-hero-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0a1a2a;
+  box-shadow: 0 14px 40px rgba(0, 48, 80, 0.22),
+              0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  border: 1px solid rgba(0, 169, 224, 0.18);
+}
+
+.louie-hero-video-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.louie-hero-video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.louie-hero-video-thumb:hover img {
+  transform: scale(1.03);
+}
+
+.louie-hero-video-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 20, 40, 0) 0%,
+    rgba(0, 20, 40, 0) 55%,
+    rgba(0, 20, 40, 0.75) 100%
+  );
+  pointer-events: none;
+}
+
+.louie-hero-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--msga-dark-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  padding-left: 6px; /* visual centering of the ▶ glyph */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 1;
+}
+
+.louie-hero-video-thumb:hover .louie-hero-video-play {
+  background: var(--msga-accent-cyan);
+  color: var(--msga-dark-blue);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.louie-hero-video-label {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  color: white;
+  text-align: left;
+  font-family: var(--msga-font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  z-index: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.louie-hero-video-label-eyebrow {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--msga-accent-cyan);
+  margin-bottom: 0.2rem;
+  text-shadow: none;
+}
+
+.louie-hero-video-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Team section */
+.louie-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.louie-team-card {
+  background: white;
+  border: 1px solid #e4ecf2;
+  border-left: 3px solid var(--msga-accent-cyan);
+  padding: 1.4rem 1.5rem;
+  border-radius: 4px;
+}
+
+.louie-team-name {
+  font-family: var(--msga-font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--msga-dark-blue);
+  letter-spacing: -0.01em;
+}
+
+.louie-team-role {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5f7a8c;
+  margin-top: 0.15rem;
+  margin-bottom: 0.7rem;
+}
+
+.louie-team-bio {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #333;
+  margin: 0;
+}
+
+.louie-team-cta {
+  margin-top: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.louie-team-email {
+  color: #5f7a8c;
+  text-decoration: none;
+  font-size: 0.88rem;
+  border-bottom: 1px dotted #9ab3c4;
+  padding-bottom: 1px;
+}
+
+.louie-team-email:hover {
+  color: var(--msga-dark-blue);
+  border-bottom-style: solid;
+}
+
+/* Dark-section secondary CTA — ghost button on navy */
+.louie-cta-secondary-light {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.louie-cta-secondary-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Multi-button action row inside a callout */
+.louie-callout-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+

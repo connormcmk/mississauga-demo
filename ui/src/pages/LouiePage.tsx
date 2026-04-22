@@ -13,6 +13,9 @@ const subFromHash = (hash: string): Sub => {
   return "home";
 };
 
+const CAL_URL = "https://bit.ly/connorchat";
+const CONTACT_EMAIL = "connor@networkgoods.institute";
+
 const Header = ({ current }: { current: Sub }) => (
   <div className="louie-site-header">
     <div className="louie-site-header-top">
@@ -23,7 +26,10 @@ const Header = ({ current }: { current: Sub }) => (
           <span className="louie-logo-sub">Civic Intelligence</span>
         </span>
       </a>
-      <a href="#/" className="louie-demo-link">See the Mississauga demo →</a>
+      <div className="louie-header-actions">
+        <a href="#/" className="louie-demo-link">See the Mississauga demo →</a>
+        <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-header-cta">Talk to us</a>
+      </div>
     </div>
     <nav className="louie-site-nav">
       <a href="#/louie" className={`louie-nav-item ${current === "home" ? "active" : ""}`}>Home</a>
@@ -61,6 +67,13 @@ const Footer = () => (
             <li>Every answer cites a public source</li>
             <li>Architected for Bill 194 accountability</li>
             <li>We partner on your MFIPPA and procurement process</li>
+          </ul>
+        </div>
+        <div>
+          <div className="louie-footer-title">Contact</div>
+          <ul className="louie-footer-links">
+            <li><a href={CAL_URL} target="_blank" rel="noopener noreferrer">Book a call →</a></li>
+            <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
           </ul>
         </div>
       </div>
@@ -157,6 +170,81 @@ const RoadWatchProof = () => (
   </div>
 );
 
+// Click-to-play YouTube hero — thumbnail until interaction, then iframe.
+const HeroVideo = () => {
+  const [playing, setPlaying] = useState(false);
+  const videoId = "fdm8kIREpOI";
+  return (
+    <div className="louie-hero-video">
+      {playing ? (
+        <iframe
+          className="louie-hero-video-frame"
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
+          title="Louie demo walkthrough"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <button
+          type="button"
+          className="louie-hero-video-thumb"
+          onClick={() => setPlaying(true)}
+          aria-label="Play demo video"
+        >
+          <img
+            src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+            alt="Louie on Mississauga demo thumbnail"
+            loading="lazy"
+          />
+          <span className="louie-hero-video-play" aria-hidden="true">▶</span>
+          <span className="louie-hero-video-label">
+            <span className="louie-hero-video-label-eyebrow">2-min demo</span>
+            Louie on Mississauga
+          </span>
+        </button>
+      )}
+    </div>
+  );
+};
+
+const TeamSection = () => (
+  <section className="louie-section louie-section-tinted">
+    <div className="louie-container">
+      <div className="louie-section-head">
+        <div className="louie-section-eyebrow">The team</div>
+        <h2 className="louie-h2">Who's building this.</h2>
+      </div>
+      <div className="louie-team-grid">
+        <div className="louie-team-card">
+          <div className="louie-team-name">Luís Silvestre</div>
+          <div className="louie-team-role">Founder</div>
+          <p className="louie-team-bio">
+            Builder of the Negation Game — the structured-argument substrate
+            Louie uses for contested questions. Background in deliberative
+            technology and argument mapping.
+          </p>
+        </div>
+        <div className="louie-team-card">
+          <div className="louie-team-name">Connor McCormick</div>
+          <div className="louie-team-role">Head of Product</div>
+          <p className="louie-team-bio">
+            Ten years working on municipal intelligence and civic transparency.
+            Leads product, design, and the Mississauga pilot.
+          </p>
+        </div>
+      </div>
+      <div className="louie-team-cta">
+        <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-secondary">
+          Book a call →
+        </a>
+        <a href={`mailto:${CONTACT_EMAIL}`} className="louie-team-email">
+          or email {CONTACT_EMAIL}
+        </a>
+      </div>
+    </div>
+  </section>
+);
+
 const HomePage = () => (
   <>
     <section className="louie-hero">
@@ -174,11 +262,21 @@ const HomePage = () => (
           </p>
           <div className="louie-cta-row">
             <a href="#/" className="louie-cta louie-cta-primary">See it on Mississauga</a>
-            <a href="#/louie/cities" className="louie-cta louie-cta-secondary">For City Clerks →</a>
+            <a href="#live-example" className="louie-cta louie-cta-secondary">Read the Road Watch case ↓</a>
           </div>
           <div className="louie-microline">
             Built on the public record · Cited to the transcript line · Interoperates with your existing stack
           </div>
+        </div>
+        <HeroVideo />
+      </div>
+    </section>
+
+    <section className="louie-section" id="live-example">
+      <div className="louie-container">
+        <div className="louie-section-head">
+          <div className="louie-section-eyebrow">Live example · Road Watch</div>
+          <h2 className="louie-h2">A question asked four times across five years.</h2>
         </div>
         <RoadWatchProof />
       </div>
@@ -282,6 +380,8 @@ const HomePage = () => (
       </div>
     </section>
 
+    <TeamSection />
+
     <section className="louie-section louie-section-dark">
       <div className="louie-container">
         <h2 className="louie-h2 louie-h2-light">
@@ -296,6 +396,7 @@ const HomePage = () => (
         </p>
         <div className="louie-cta-row">
           <a href="#/" className="louie-cta louie-cta-primary-light">Walk through the Mississauga demo →</a>
+          <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-secondary-light">Talk to us →</a>
         </div>
       </div>
     </section>
@@ -525,7 +626,10 @@ const CitiesPage = () => (
             the place to start — built as an independent proposal, no
             commercial relationship with the City.
           </div>
-          <a href="#/" className="louie-cta louie-cta-secondary">Walk the demo →</a>
+          <div className="louie-callout-actions">
+            <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-primary">Book a call →</a>
+            <a href="#/" className="louie-cta louie-cta-secondary">Walk the demo →</a>
+          </div>
         </div>
       </div></div>
     </section>
@@ -677,7 +781,10 @@ const WhyPage = () => (
             councillor in an Ontario municipality, the Mississauga demo is
             the place to start.
           </div>
-          <a href="#/" className="louie-cta louie-cta-secondary">See the demo →</a>
+          <div className="louie-callout-actions">
+            <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-primary">Book a call →</a>
+            <a href="#/" className="louie-cta louie-cta-secondary">See the demo →</a>
+          </div>
         </div>
       </div></div>
     </section>
