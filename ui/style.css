@@ -4195,3 +4195,113 @@ body {
   margin-bottom: 0.3rem;
 }
 
+/* Phase 3: Trust signals grid */
+.louie-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 1000px) {
+  .louie-trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .louie-trust-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+.louie-trust-card {
+  background: #fff;
+  border: 1px solid #e3e9ee;
+  border-top: 3px solid var(--msga-accent-cyan, #0088aa);
+  border-radius: 4px;
+  padding: 1.4rem 1.25rem 1.3rem;
+}
+.louie-trust-icon {
+  color: var(--msga-accent-cyan, #0088aa);
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.louie-trust-title {
+  font-family: var(--msga-font-heading, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--msga-dark-blue, #003050);
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.louie-trust-body {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #4a5560;
+  margin: 0;
+}
+.louie-trust-foot {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6a7580;
+  font-style: italic;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.55;
+}
+
+/* Phase 3: Mobile polish — tighten hero at small widths */
+@media (max-width: 640px) {
+  .louie-hero .louie-hero-inner {
+    gap: 1.5rem;
+  }
+  .louie-h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+  .louie-lede {
+    font-size: 1rem;
+  }
+  .louie-microline {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .louie-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .louie-cta-row .louie-cta {
+    text-align: center;
+    justify-content: center;
+  }
+  .louie-section {
+    padding: 2.5rem 0;
+  }
+  .louie-h2 {
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+  .louie-feature-grid,
+  .louie-audience-grid,
+  .louie-outcome-grid,
+  .louie-partnership-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .louie-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 420px) {
+  .louie-h1 {
+    font-size: 1.75rem;
+  }
+  .louie-footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .louie-hero-video-label {
+    font-size: 0.95rem;
+  }
+  .louie-hero-video-play {
+    width: 56px;
+    height: 56px;
+  }
+}
+

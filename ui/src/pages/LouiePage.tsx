@@ -420,6 +420,79 @@ const HomePage = () => (
       </div>
     </section>
 
+    <section className="louie-section">
+      <div className="louie-container">
+        <div className="louie-section-head">
+          <div className="louie-section-eyebrow">Architected for trust</div>
+          <h2 className="louie-h2">The posture Ontario municipalities need, by design.</h2>
+        </div>
+        <div className="louie-trust-grid">
+          <div className="louie-trust-card">
+            <div className="louie-trust-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 2l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V5l7-3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M8 11l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="louie-trust-title">Bill 194 posture</div>
+            <p className="louie-trust-body">
+              Aligned with Ontario's Trustworthy AI principles: transparent use,
+              human oversight, source-linked outputs. We partner with your
+              team on the accountability framework.
+            </p>
+          </div>
+          <div className="louie-trust-card">
+            <div className="louie-trust-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <rect x="4" y="8" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M7 8V6a4 4 0 018 0v2" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
+            </div>
+            <div className="louie-trust-title">MFIPPA-aware</div>
+            <p className="louie-trust-body">
+              Canadian hosting. Records handling designed around Ontario's
+              municipal FOI regime. We sign your vendor privacy questionnaire
+              and work with your FOI coordinator.
+            </p>
+          </div>
+          <div className="louie-trust-card">
+            <div className="louie-trust-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M4 11h14M11 3a12 12 0 010 16M11 3a12 12 0 000 16" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
+            </div>
+            <div className="louie-trust-title">AODA / WCAG 2.0 AA</div>
+            <p className="louie-trust-body">
+              Keyboard-navigable, screen-reader tested, mobile-first. Every
+              public-facing surface designed to meet Ontario's accessibility
+              requirements out of the box.
+            </p>
+          </div>
+          <div className="louie-trust-card">
+            <div className="louie-trust-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M4 7h14M4 11h14M4 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="6" cy="7" r="1.5" fill="currentColor"/>
+                <circle cx="10" cy="11" r="1.5" fill="currentColor"/>
+                <circle cx="14" cy="15" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="louie-trust-title">Interoperable, not disruptive</div>
+            <p className="louie-trust-body">
+              Read-only on top of eScribe, iCompass, Granicus, CivicPlus, or
+              YouTube. Your system of record stays your system of record. No
+              rip-and-replace in the procurement path.
+            </p>
+          </div>
+        </div>
+        <div className="louie-trust-foot">
+          Ontario doesn't certify municipal AI vendors yet. No one does.
+          We're transparent about posture instead of selling badges we can't earn.
+        </div>
+      </div>
+    </section>
+
     <TeamSection />
 
     <section className="louie-section louie-section-dark">
