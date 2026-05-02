@@ -16,11 +16,14 @@ const parseHash = (hash: string): Route => {
     const meetingId = path.slice("/cdm/".length);
     return { page: "cdm", meetingId };
   }
+  if (path === "/mississauga" || path.startsWith("/mississauga/")) {
+    return { page: "mississauga" };
+  }
   if (path === "/louie" || path.startsWith("/louie/")) {
     return { page: "louie" };
   }
-  // Default: Mississauga entry page
-  return { page: "mississauga" };
+  // Default: Louie landing page
+  return { page: "louie" };
 };
 
 export const navigate = (hash: string) => {

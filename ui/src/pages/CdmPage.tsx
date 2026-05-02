@@ -104,10 +104,10 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
       <div style={{ padding: "3rem", textAlign: "center" }}>
         <p style={{ fontSize: "1.1rem", color: "#666" }}>Meeting not found.</p>
         <a
-          href="#/"
+          href="#/mississauga"
           onClick={(e) => {
             e.preventDefault();
-            navigate("/");
+            navigate("/mississauga");
           }}
           style={{ color: "var(--msga-link-blue)" }}
         >
@@ -134,11 +134,11 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
       <header className="cdm-header">
         <div className="cdm-header-left">
           <a
-            href="#/"
+            href="#/mississauga"
             className="cdm-back-link"
             onClick={(e) => {
               e.preventDefault();
-              navigate("/");
+              navigate("/mississauga");
             }}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -152,11 +152,11 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
             </svg>
           </a>
           <a
-            href="#/"
+            href="#/mississauga"
             className="cdm-header-title"
             onClick={(e) => {
               e.preventDefault();
-              navigate("/");
+              navigate("/mississauga");
             }}
           >
             <span className="cdm-header-committee">{meeting.committee}</span>

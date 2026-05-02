@@ -27,7 +27,7 @@ const Header = ({ current }: { current: Sub }) => (
         </span>
       </a>
       <div className="louie-header-actions">
-        <a href="#/" className="louie-demo-link">See the Mississauga demo →</a>
+        <a href="#/mississauga" className="louie-demo-link">See the Mississauga demo →</a>
         <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-header-cta">Talk to us</a>
       </div>
     </div>
@@ -58,7 +58,7 @@ const Footer = () => (
           <ul className="louie-footer-links">
             <li><a href="#/louie/cities">Cities &amp; clerks</a></li>
             <li><a href="#/louie/public">Residents &amp; press</a></li>
-            <li><a href="#/">Mississauga demo</a></li>
+            <li><a href="#/mississauga">Mississauga demo</a></li>
           </ul>
         </div>
         <div>
@@ -261,7 +261,7 @@ const HomePage = () => (
             timestamped line.
           </p>
           <div className="louie-cta-row">
-            <a href="#/" className="louie-cta louie-cta-primary">See it on Mississauga</a>
+            <a href="#/mississauga" className="louie-cta louie-cta-primary">See it on Mississauga</a>
             <a href="#live-example" className="louie-cta louie-cta-secondary">Read the Road Watch case ↓</a>
           </div>
           <div className="louie-microline">
@@ -508,7 +508,7 @@ const HomePage = () => (
           <em> how</em> and <em>why</em>.
         </p>
         <div className="louie-cta-row">
-          <a href="#/" className="louie-cta louie-cta-primary-light">Walk through the Mississauga demo →</a>
+          <a href="#/mississauga" className="louie-cta louie-cta-primary-light">Walk through the Mississauga demo →</a>
           <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-secondary-light">Talk to us →</a>
         </div>
       </div>
@@ -741,7 +741,7 @@ const CitiesPage = () => (
           </div>
           <div className="louie-callout-actions">
             <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-primary">Book a call →</a>
-            <a href="#/" className="louie-cta louie-cta-secondary">Walk the demo →</a>
+            <a href="#/mississauga" className="louie-cta louie-cta-secondary">Walk the demo →</a>
           </div>
         </div>
       </div></div>
@@ -779,7 +779,7 @@ const PublicPage = () => (
               negations, mitigations — and see the deliberation itself, not
               just the outcome.
             </p>
-            <a href="#/" className="louie-inline-link">Start here →</a>
+            <a href="#/mississauga" className="louie-inline-link">Start here →</a>
           </div>
         </div>
 
@@ -793,7 +793,7 @@ const PublicPage = () => (
               answer with citations to the exact transcript moment and video
               timestamp.
             </p>
-            <a href="#/" className="louie-inline-link">Try a search →</a>
+            <a href="#/mississauga" className="louie-inline-link">Try a search →</a>
           </div>
         </div>
 
@@ -896,7 +896,7 @@ const WhyPage = () => (
           </div>
           <div className="louie-callout-actions">
             <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className="louie-cta louie-cta-primary">Book a call →</a>
-            <a href="#/" className="louie-cta louie-cta-secondary">See the demo →</a>
+            <a href="#/mississauga" className="louie-cta louie-cta-secondary">See the demo →</a>
           </div>
         </div>
       </div></div>
