@@ -363,7 +363,7 @@ const TypewriterMessage = ({
 };
 
 const FloatingChat = ({ meeting }: Props) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [closing, setClosing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [draftInput, setDraftInput] = useState("");
@@ -486,7 +486,6 @@ const FloatingChat = ({ meeting }: Props) => {
     }
   };
 
-
   const handleSuggestedQuestion = (questionText: string, questionId: string) => {
     if (thinking) return; // guard against double-fire
     // Send as a chat message so the user gets an AI response
@@ -497,7 +496,7 @@ const FloatingChat = ({ meeting }: Props) => {
     setThinking(true);
 
     assistantMsgCount.current++;
-    const { response, proposeCitizen } = findMockResponse(
+    const mockResult = findMockResponse(
       questionText,
       meeting,
       assistantMsgCount.current,
@@ -508,6 +507,8 @@ const FloatingChat = ({ meeting }: Props) => {
     const msgId = `a-${Date.now()}`;
     setTimeout(() => {
       setThinking(false);
+      const response = mockResult?.response ?? "I couldn't find specific information about that in the meeting records.";
+      const proposeCitizen = mockResult?.proposeCitizen ?? false;
       setMessages((prev) => [
         ...prev,
         {

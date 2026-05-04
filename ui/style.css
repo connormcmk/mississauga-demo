@@ -4305,3 +4305,355 @@ body {
   }
 }
 
+/* ===== CDM Question List (new design) ===== */
+
+.cdm-qlist-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 0;
+}
+
+.cdm-qlist-intro {
+  margin-bottom: 1.5rem;
+}
+
+.cdm-qlist-intro-text {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cdm-qlist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Individual question item */
+.cdm-qitem {
+  background: white;
+  border: 1px solid var(--msga-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.cdm-qitem:hover {
+  border-color: #ccc;
+}
+
+.cdm-qitem-active {
+  border-color: var(--msga-blue);
+  box-shadow: 0 0 0 1px var(--msga-blue);
+}
+
+/* Clickable question header row */
+.cdm-qitem-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--msga-font);
+  transition: background 0.12s;
+}
+
+.cdm-qitem-header:hover {
+  background: #fafbfc;
+}
+
+.cdm-qitem-active .cdm-qitem-header {
+  background: #f5f9ff;
+}
+
+.cdm-qitem-num {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--msga-blue);
+  flex-shrink: 0;
+  min-width: 1.4rem;
+  font-family: var(--msga-font-heading);
+}
+
+.cdm-qitem-text {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--msga-text);
+  line-height: 1.4;
+  font-family: var(--msga-font-heading);
+  text-align: left;
+}
+
+.cdm-qitem-theme {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cdm-qitem-theme-funding  { background: #e8f0fb; color: #2d5a8e; }
+.cdm-qitem-theme-enforcement { background: #fdecea; color: #8b1a15; }
+.cdm-qitem-theme-digital  { background: #e8f5ed; color: #1a6e3c; }
+.cdm-qitem-theme-education { background: #fdf4e3; color: #7a5200; }
+.cdm-qitem-theme-process  { background: #f3f0f8; color: #5a3a8c; }
+
+.cdm-qitem-chevron {
+  flex-shrink: 0;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.cdm-qitem-chevron-open {
+  transform: rotate(180deg);
+  color: var(--msga-blue);
+}
+
+/* Searching / loading state */
+.cdm-q-searching {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.cdm-q-searching-text {
+  font-size: 0.82rem;
+  color: #888;
+  font-style: italic;
+}
+
+.cdm-q-searching-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.cdm-q-searching-dots::before,
+.cdm-q-searching-dots::after,
+.cdm-q-searching-dots {
+  /* Use a pseudo approach via animation instead */
+}
+
+/* Simple dot animation via background on a span — re-done with box-shadow trick */
+.cdm-q-searching-dots {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #aaa;
+  animation: cdmDot 1.2s infinite 0s;
+  margin-left: 4px;
+  box-shadow: 10px 0 0 #aaa, 20px 0 0 #aaa;
+}
+
+@keyframes cdmDot {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+
+/* Expanded answer area */
+.cdm-qitem-answer {
+  padding: 0 1.5rem 1.5rem;
+  border-top: 1px solid #f0f4f8;
+  animation: cdmAnswerIn 0.2s ease;
+}
+
+@keyframes cdmAnswerIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Answer body markdown */
+.cdm-ans-body {
+  padding: 1.25rem 0 0;
+}
+
+.cdm-ans-p {
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: #444;
+  margin: 0 0 0.65rem;
+}
+
+.cdm-ans-h3 {
+  font-family: var(--msga-font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--msga-text);
+  margin: 1rem 0 0.4rem;
+}
+
+.cdm-ans-italic {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #666;
+  margin: 0.75rem 0 0;
+  border-left: 3px solid #e8b44a;
+  padding-left: 0.75rem;
+  background: #fffdf5;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.cdm-ans-ul {
+  margin: 0.25rem 0 0.65rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.cdm-ans-li {
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: #444;
+  padding: 0.15rem 0 0.15rem 1.1rem;
+  position: relative;
+}
+
+.cdm-ans-li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: #aaa;
+}
+
+.cdm-ans-quote {
+  border-left: 3px solid var(--msga-border);
+  padding: 0.4rem 0 0.4rem 0.85rem;
+  margin: 0.65rem 0 0.25rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #555;
+  line-height: 1.55;
+}
+
+/* Decision badge inside answer */
+.cdm-ans-body p strong:first-child {
+  /* Bold "Decision:" prefix */
+}
+
+/* Recording link row */
+.cdm-ans-recording {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #888;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.cdm-ans-recording svg {
+  flex-shrink: 0;
+}
+
+.cdm-ans-recording-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--msga-link-blue);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.25rem;
+}
+
+.cdm-ans-recording-link:hover {
+  text-decoration: underline;
+}
+
+/* "View on deliberation map" button */
+.cdm-view-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.1rem;
+  background: var(--msga-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: var(--msga-font);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cdm-view-map-btn:hover {
+  background: var(--msga-link-blue);
+}
+
+/* Inline deliberation map container */
+.cdm-qitem-map {
+  margin-top: 1.25rem;
+  border: 1px solid var(--msga-border);
+  border-radius: 8px;
+  overflow: hidden;
+  animation: cdmAnswerIn 0.2s ease;
+}
+
+.cdm-qitem-map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: #f5f8fb;
+  border-bottom: 1px solid var(--msga-border);
+}
+
+.cdm-qitem-map-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cdm-qitem-map-close {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--msga-font);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.cdm-qitem-map-close:hover {
+  background: #e8e8e8;
+  color: #444;
+}
+
+.cdm-qitem-iframe {
+  height: 72vh;
+  min-height: 480px;
+}
+
+.cdm-qitem-map .cdm-iframe-activatable {
+  height: 72vh;
+  min-height: 480px;
+}
+
+/* Section highlight flash (for FloatingChat scroll links) */
+.cdm-section-highlight {
+  animation: cdmHighlight 1.8s ease-out;
+}
+
+@keyframes cdmHighlight {
+  0%   { background: rgba(0, 119, 200, 0.08); }
+  100% { background: transparent; }
+}

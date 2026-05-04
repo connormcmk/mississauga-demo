@@ -17,6 +17,7 @@ export type MeetingQuestion = {
   decision?: string;
   keyQuotes?: KeyQuote[];
   theme?: string;
+  historicalNote?: string; // recurring pattern note shown in the inline answer
 };
 
 export type Meeting = {
@@ -51,6 +52,7 @@ export const meetings: Meeting[] = [
     videoUrl:
       "https://pub-mississauga.escribemeetings.com/Meeting.aspx?Id=07533487-8a7e-44b4-bd23-f999f0bedc7d&Agenda=Agenda&lang=English",
     questions: [
+      // Ordered by Q-number in Negation Game URLs (Q1–Q5), then no-URL items
       {
         id: "q1-22m-fund",
         label: "$2.2M Road Safety Fund",
@@ -74,6 +76,25 @@ export const meetings: Meeting[] = [
             speaker: "Committee Member",
             quote:
               "The provincial restrictions apply regardless of how we allocate. The March 2028 deadline means we need to move quickly on construction.",
+          },
+        ],
+      },
+      {
+        id: "q4-headlights",
+        label: "Headlight Misalignment",
+        deliberativeQuestion: "Is headlight misalignment worth addressing?",
+        negationGameUrl:
+          "https://negationgame.com/board/jan-27-Q2-Headlight-Misalignment_m-tBj6H9GP_ZFugVCCDbE0E?share=sl-2AhbwWv94KjT7_7UDThOj&minimal=true",
+        audioSegment: { start: 720, end: 1480 },
+        summary:
+          "The UK MOT model was cited as a successful approach. CAA receives complaints regularly. However, the province went in the opposite direction by removing license plate renewal requirements — there's no provincial appetite for additional cost to drivers. A CAA partnership was proposed as mitigation that wouldn't require provincial action.",
+        decision: "Referred to promotional subcommittee — needs qualified presenter",
+        theme: "education",
+        keyQuotes: [
+          {
+            speaker: "CAA Representative",
+            quote:
+              "We can help develop guidance and promotional materials and communicate with approved shops. This doesn't require provincial action.",
           },
         ],
       },
@@ -112,9 +133,11 @@ export const meetings: Meeting[] = [
           "https://negationgame.com/board/Jan-27-Q4-Road-Watch-worth-improving_m-RGrMJHkfrPjQnk-iMZWLP?share=sl-ZwE6NJ8hCQPmYND0pMz5q&minimal=true",
         audioSegment: { start: 2180, end: 2800 },
         summary:
-          "Road Watch saw 8.5% year-over-year growth with 3,590 reports in 2025, of which 2,018 were sent to registered owners. Reports drive daily officer deployment. However, residents largely don't know it exists, the form is too long, and people are uncomfortable sharing personal information.",
+          "Road Watch is a resident-driven traffic reporting tool. In 2025, residents submitted **3,590 reports** — up **8.5% year over year**, of which 2,018 were forwarded to registered vehicle owners. Peel Regional Police use the data to determine where to position enforcement officers each day.\n\nBut almost no one in Mississauga knows Road Watch exists.\n\nThe committee identified two barriers to wider adoption:\n- **Awareness** — no sustained promotional campaign has run since 2019\n- **The reporting form** — too long, and residents are uncomfortable entering personal information to report a stranger's driving",
         decision: "Referred to promotional subcommittee",
         theme: "digital",
+        historicalNote:
+          "This is the fourth time since 2021 that Road Watch awareness has been raised and deferred to subcommittee without a formal resolution. A resident would have to read four years of meeting minutes to notice that pattern.",
         keyQuotes: [
           {
             speaker: "Sunil",
@@ -122,24 +145,10 @@ export const meetings: Meeting[] = [
             quote:
               "I personally assure residents their information won't be shared. But we need to make the process simpler — the form is a barrier.",
           },
-        ],
-      },
-      {
-        id: "q4-headlights",
-        label: "Headlight Misalignment",
-        deliberativeQuestion: "Is headlight misalignment worth addressing?",
-        negationGameUrl:
-          "https://negationgame.com/board/jan-27-Q2-Headlight-Misalignment_m-tBj6H9GP_ZFugVCCDbE0E?share=sl-2AhbwWv94KjT7_7UDThOj&minimal=true",
-        audioSegment: { start: 720, end: 1480 },
-        summary:
-          "The UK MOT model was cited as a successful approach. CAA receives complaints regularly. However, the province went in the opposite direction by removing license plate renewal requirements — there's no provincial appetite for additional cost to drivers. A CAA partnership was proposed as mitigation that wouldn't require provincial action.",
-        decision: "Referred to promotional subcommittee — needs qualified presenter",
-        theme: "education",
-        keyQuotes: [
           {
-            speaker: "CAA Representative",
+            speaker: "Councillor Dasko",
             quote:
-              "We can help develop guidance and promotional materials and communicate with approved shops. This doesn't require provincial action.",
+              "If it doesn't get reported, it didn't happen.",
           },
         ],
       },
