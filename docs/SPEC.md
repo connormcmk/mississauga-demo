@@ -13,7 +13,7 @@ The core idea: take all of a city's council meeting assets (transcripts, audio, 
 ## Team & Naming
 
 - **Louis** — CTO / backend / AI transcription
-- **Paul** — collaborator who built earlier HTML prototypes (see repo: `louie-demo (15).html`, `louie-civic-memory (31).html`)
+- **Paul** — collaborator who built earlier HTML prototypes (see `decks/louie-demo-prototype.html`, `decks/louie-civic-memory-prototype.html`)
 - **Louie** — the product name (yes, it's amusingly close to Louis)
 - **Negation Game** — the deliberative decision-making tool (existing product, ~1.5 years in development). Uses Supporting Arguments, Negating Arguments, and Mitigating Arguments organized around questions with options. The Negation Game lives in a **separate repo** — it is integrated here via **embedded URLs**. We have roughly 6–10 Negation Game URLs associated with specific topics; the demo must include at least those topics, and especially the $2.2M budget question. In some prototypes, a screenshot of a Negation Game board was used as a placeholder.
 - **Bo** — Paul's concept for a publicly accessible citizen feedback/submission API and app. Allows citizens to submit issues asynchronously, which get routed to the appropriate committee and surface in the agenda-setting process.
@@ -38,7 +38,7 @@ Stylistically, lean toward the civic-website aesthetic — it's okay and even de
 
 - **City of Mississauga Council & Committees Calendar page**: https://www.mississauga.ca/council/council-activities/council-and-committees-calendar/
 - **Screenshot of landing page** with circled entry-point locations: *(to be provided separately)*
-- **Paul's HTML prototypes** (in repo root): `louie-demo (15).html` and `louie-civic-memory (31).html`
+- **Paul's HTML prototypes** (in `decks/`): `louie-demo-prototype.html` and `louie-civic-memory-prototype.html`
 - **Existing repo** with Louis's initial product build (styled similarly to Mississauga site but needs cleanup — currently described as "simultaneously flamboyant and inconsistent with the surrounding design")
 - **Negation Game embed URLs** — ~6–10 URLs for specific topic boards; these are embedded via iframe or similar. The $2.2M budget question board must be among them.
 - **Sample data / headlines** — already in the repo from Louis's work; use these as the feed content

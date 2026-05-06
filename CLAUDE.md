@@ -2,53 +2,78 @@
 
 ## Project
 
-Louie — civic engagement product for the City of Mississauga. This repo contains both the Louie web app and the embedded Negation Game deliberative tool.
+Louie — civic memory for Canadian municipalities. This repo is the home for
+**all** Louie work: the web app, the embedded Negation Game tool, sales
+notes, product docs, pitch material, and transcription scripts.
 
-## Read First
+## Read first
 
-Before starting any work, read `SPEC.md` at the repo root. It contains the full product brief, page architecture, design principles, and the two demo happy paths that must work.
+- [`docs/SPEC.md`](./docs/SPEC.md) — full product brief, page architecture,
+  design principles, and the demo happy paths that must work.
+- [`docs/POSITIONING.md`](./docs/POSITIONING.md) — what Louie is, what it
+  isn't, and how to handle the recurring objections.
+- [`docs/PRICING.md`](./docs/PRICING.md) — canonical pricing.
+- [`docs/ROADMAP.md`](./docs/ROADMAP.md) — what's next, in rough order.
+
+## Repository layout
+
+```
+/                  Top-level config + this file
+/docs/             Product spec, pricing, positioning, roadmap
+/meetings/         Sales call notes, debriefs, follow-up tracking
+/sales/            Outreach templates and campaign artifacts
+/decks/            Pitch material, prototypes, sample data
+/transcribe/       Python transcription / call-summary scripts
+/scripts/          Repo automation
+/ui/               Vite + React 19 + TypeScript SPA (the demo)
+```
 
 ## Branch
 
-All demo work happens on the `demo` branch.
+All demo work happens on the `demo` branch. Cloudflare Pages auto-deploys
+`demo` to `louie.networkgoods.institute`.
 
-## What We're Building
+## Tech stack (web app)
 
-Front-end only. No backend, no API keys. Louis handles AI/backend separately. Our job is a polished, functional-looking front-end for a video demo.
+- **Framework:** React 19 + Vite 7 + TypeScript 5.9 (SPA, hash routing)
+- **Styling:** plain CSS (`ui/style.css`)
+- **Package manager:** npm
+- **Hosting:** Cloudflare Pages
 
-## Tech Stack
-
-<!-- Update these once you confirm what Louis is using -->
-- Framework: (check repo — likely Next.js or similar)
-- Styling: (check repo)
-- Package manager: (check repo)
-
-## Build & Run
+## Build and run
 
 ```bash
-# Update these with actual commands from the repo
+cd ui
 npm install
-npm run dev
+npm run dev    # local dev server
+npm run build  # production build (TS + Vite)
 ```
 
-## Key Constraints
+## Key product constraints
 
-- Design should feel civic/institutional, not startup-flashy. Reference mississauga.ca for tone.
-- Narrow column layout for the feed — mobile-compatible by default.
-- Chat UI needs all core features. Build it as a clean, replaceable component so Louis can swap in real AI.
-- Search bar: default placeholder content → default mock response on Enter.
-- The Negation Game lives in a separate repo. We embed it via iframe URLs (~6–10 topic URLs available).
-- Ensure the feed topics match the topics we have Negation Game URLs for.
-- Sample data and headlines are already in the repo. Use them.
+- Design feels civic/institutional, not startup-flashy. Reference
+  mississauga.ca for tone.
+- Narrow column layout for the feed; mobile-compatible by default.
+- Chat UI is a clean, replaceable component so a real AI backend can
+  swap in. Front-end currently uses mock responses for the demo.
+- Negation Game lives in a separate repo and embeds via iframe URLs.
+  Ensure feed topics match the Negation Game URLs we have available.
+- Search bar: default placeholder content → mock response on Enter.
 
-## Files to Know
+## Demo happy paths (must work)
 
-- `SPEC.md` — full product brief (the source of truth)
-- `louie-demo (15).html` — Paul's demo prototype (reference only, don't extend)
-- `louie-civic-memory (31).html` — Paul's civic memory prototype (reference only)
-- Screenshot of Mississauga landing page with entry points circled (to be added)
+1. **Road Safety Budget**:
+   `/#/mississauga` → sidebar link → home feed → Road Safety headline →
+   topic detail with Negation Game embed + chat
+2. **Institutional Memory Search**:
+   `/#/mississauga` → sidebar link → home → search bar → type a question
+   about institutional memory → Enter → chat with mock response
 
-## Demo Happy Paths (Must Work)
+## Outreach + sales
 
-1. **Road Safety Budget**: Mississauga page → sidebar link → Home feed → Road Safety headline → Topic Detail with Negation Game embed + chat
-2. **Institutional Memory Search**: Mississauga page → sidebar link → Home → search bar → type question about institutional memory → Enter → chat with mock response
+- Locked email template: [`sales/outreach-template.md`](./sales/outreach-template.md)
+- Live status of the 42-clerk Ontario campaign lives in **Coda**
+  (doc `ldRwls061F`, table `grid-BmimipSofx`). Coda is canonical for
+  status; the repo is canonical for the template.
+- Meeting notes: [`meetings/`](./meetings/) — see the README in that
+  folder for naming and template conventions.
