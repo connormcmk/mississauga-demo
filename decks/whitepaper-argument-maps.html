@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The most obvious idea in deliberation, finally workable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: letter;
+    margin: 1in 1in 0.9in 1in;
+  }
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #777;
+    --rule: #d4d4d4;
+    --accent: #0a4a6b;
+    --accent-faint: #e8eef2;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    color: var(--ink);
+    background: #fff;
+    font-family: 'Crimson Pro', 'Iowan Old Style', 'Charter', Georgia, serif;
+    font-size: 11.5pt;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    max-width: 6.5in;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* Title block */
+  .title-block {
+    margin-top: 0.4in;
+    margin-bottom: 0.5in;
+    padding-bottom: 0.35in;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.18in;
+  }
+
+  h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 30pt;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.18in 0;
+    color: var(--ink);
+  }
+
+  .deck {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 13.5pt;
+    font-weight: 400;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin: 0 0 0.28in 0;
+    max-width: 5.5in;
+  }
+
+  .byline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9.5pt;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .byline strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .byline .draft-note {
+    display: block;
+    margin-top: 0.05in;
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 9pt;
+  }
+
+  /* Section headings */
+  h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0.42in 0 0.12in 0;
+    page-break-after: avoid;
+  }
+
+  h2 .roman {
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin-right: 0.6em;
+  }
+
+  h2 + p {
+    margin-top: 0;
+  }
+
+  /* Paragraphs */
+  p {
+    margin: 0 0 0.13in 0;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    orphans: 3;
+    widows: 3;
+  }
+
+  p + p {
+    text-indent: 1.5em;
+  }
+
+  h2 + p, h3 + p, ul + p, ol + p, blockquote + p {
+    text-indent: 0;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin: 0.05in 0 0.18in 0.25in;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 0.06in;
+    line-height: 1.5;
+  }
+
+  ol li::marker {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* Emphasis */
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+
+  /* Drop cap on first paragraph */
+  .lead::first-letter {
+    font-family: 'Crimson Pro', serif;
+    float: left;
+    font-size: 3.2em;
+    line-height: 0.85;
+    font-weight: 600;
+    margin: 0.05em 0.08em 0 0;
+    color: var(--accent);
+  }
+
+  /* Pull-quote / blockquote */
+  blockquote {
+    margin: 0.18in 0 0.18in 0.3in;
+    padding-left: 0.2in;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  blockquote p { text-indent: 0; }
+
+  /* Footnotes / endnotes */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0.45in 0 0.25in 0;
+  }
+
+  .notes {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .notes h2 {
+    margin-top: 0.2in;
+  }
+
+  .notes ol {
+    counter-reset: note;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .notes ol li {
+    counter-increment: note;
+    position: relative;
+    padding-left: 0.35in;
+    margin-bottom: 0.1in;
+    text-align: left;
+  }
+
+  .notes ol li::before {
+    content: counter(note);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 600;
+    color: var(--accent);
+    width: 0.3in;
+    text-align: right;
+    padding-right: 0.05in;
+  }
+
+  /* In-text footnote markers */
+  sup.fn {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 7.5pt;
+    color: var(--accent);
+    font-weight: 600;
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 0.1em;
+  }
+
+  sup.fn a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Acknowledgements */
+  .ack {
+    margin-top: 0.3in;
+    padding-top: 0.18in;
+    border-top: 1px solid var(--rule);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    font-style: normal;
+  }
+
+  .ack p { text-align: left; text-indent: 0; }
+  .ack h2 { margin-top: 0; font-size: 9pt; color: var(--ink-faint); }
+
+  /* Page break helpers */
+  .pb { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<header class="title-block">
+  <div class="eyebrow">A Louie Whitepaper</div>
+  <h1>The most obvious idea in deliberation, finally workable</h1>
+  <p class="deck">An essay on argument maps, epistemic infrastructure, and why civic deliberation has been waiting for this technology for seventy years.</p>
+  <div class="byline">
+    <strong>— [Author TBD]</strong>
+    <span class="draft-note">Draft for review by the Louie team. Citations checked against the research brief; verbatim Herzog quotation pending verification against <em>Citizen Knowledge</em>.</span>
+  </div>
+</header>
+
+<h2><span class="roman">I.</span> A claim about democracies</h2>
+
+<p class="lead">Lisa Herzog, the political philosopher who holds the chair at Groningen, has spent the last several years arguing that democracies under-invest in their <strong>epistemic infrastructure</strong> — the institutions, organizations, and tools that determine how knowledge is produced, circulated, validated, and acted on in public life.<sup class="fn"><a href="#fn1">1</a></sup> In her telling, democracies are knowledge-processing systems. They depend on libraries, public broadcasters, statistical agencies, universities, and increasingly digital platforms in roughly the way a city depends on its sewers and roads. When that infrastructure is strong, democratic argument compounds. When it erodes, democratic argument degenerates into noise.</p>
+
+<p>Most of the contemporary work on this problem is defensive. It tries to shore up the institutions we already have against platform incentives that chew through them. Herzog's framing is more useful: it lets us notice that some pieces of epistemic infrastructure haven't been built yet. And one of those pieces — perhaps the most obvious one — has been waiting around for about seventy years.</p>
+
+<p>That piece is the <strong>argument map</strong>.</p>
+
+<h2><span class="roman">II.</span> The most obvious idea</h2>
+
+<p>If you sat down and tried to describe deliberation from first principles, the picture you'd draw would look like an argument map. There are <strong>positions</strong> — claims people are making about what should happen. There are <strong>reasons</strong> — facts, values, and prior decisions cited to support those claims. There are <strong>objections</strong> — counter-considerations that pull against them. There are <strong>mitigating moves</strong> — refinements that try to preserve a position while accommodating the objection.</p>
+
+<p>The structure shows up the moment two thoughtful people disagree about something they take seriously. It is the natural shape of a conversation that's trying to get somewhere.</p>
+
+<p>This is so obvious it has been independently rediscovered, in roughly the same form, by a series of serious thinkers across more than a century.</p>
+
+<ul>
+  <li><strong>John Henry Wigmore</strong>, the legal scholar, drew dense diagrams of the evidence in criminal cases in 1913 and used them to teach generations of lawyers how to think about proof.<sup class="fn"><a href="#fn2">2</a></sup></li>
+  <li><strong>Stephen Toulmin</strong>, in <em>The Uses of Argument</em> in 1958, proposed the claim/data/warrant/backing/qualifier/rebuttal scheme that almost every later argument-mapping notation descends from. He never imagined it as a software tool; he was trying to fix philosophy of science.<sup class="fn"><a href="#fn3">3</a></sup></li>
+  <li><strong>Monroe Beardsley</strong>, around the same time, gave informal logic the vocabulary of convergent, divergent, serial, and linked structures that's still in use.<sup class="fn"><a href="#fn4">4</a></sup></li>
+  <li><strong>Jeff Conklin</strong> built <strong>gIBIS</strong> in 1988 — the first serious computer-supported argument-mapping tool — to help organizations work through what Rittel and Webber had called "wicked problems": questions that resist resolution because the framing of the problem and the choice of solution co-evolve.<sup class="fn"><a href="#fn5">5</a></sup></li>
+  <li><strong>Tim van Gelder</strong>, an Australian philosopher turned software founder, built first <strong>Reason!Able</strong> and then <strong>Rationale</strong>, demonstrating in controlled studies that a semester of argument mapping in an undergraduate philosophy class produced critical-thinking gains that most pedagogical interventions cannot match.<sup class="fn"><a href="#fn6">6</a></sup></li>
+  <li><strong>Douglas Walton</strong>, with Chris Reed and Fabrizio Macagno, gave argument mapping its modern typology in <em>Argumentation Schemes</em> (2008) — formal patterns of presumptive reasoning, each with its own critical questions.<sup class="fn"><a href="#fn7">7</a></sup></li>
+  <li><strong>Chris Reed</strong>'s group at the University of Dundee built <strong>AIF</strong> (the Argument Interchange Format) and the <strong>Argument Web</strong>, a vision of a web-of-arguments analogous to the semantic web.<sup class="fn"><a href="#fn8">8</a></sup></li>
+  <li><strong>Simon Buckingham Shum</strong> and <strong>Paul Kirschner</strong> edited the canonical <em>Visualizing Argumentation</em> volume in 2003, surveying twenty years of computer-supported argument visualization tools.<sup class="fn"><a href="#fn9">9</a></sup></li>
+</ul>
+
+<p>That's a lot of independent invention for an idea that, by general acknowledgement, never broke through to wider use.</p>
+
+<h2><span class="roman">III.</span> Why it never broke through</h2>
+
+<p>Buckingham Shum, in his contribution to that 2003 volume, named the pattern that's recurred for as long as the field has existed: every generation rediscovers argument mapping, builds a tool, finds it hard to use, and the tool dies with the grant.<sup class="fn"><a href="#fn10">10</a></sup></p>
+
+<p>The diagnosis the field eventually settled on was the <strong>expressiveness-vs-usability tradeoff</strong>. Scheuer, Loll, Pinkwart, and McLaren laid it out in their 2010 review of the field: the more powerful the notation — Walton's full catalog of schemes, AIF, fine-grained IBIS — the lower the completion rates and the lower the inter-annotator agreement.<sup class="fn"><a href="#fn11">11</a></sup> Make the notation expressive enough to capture what's actually going on in a real argument, and only trained specialists can produce or read it. Make it simple enough for everyone, and it loses the structure that made it valuable in the first place.</p>
+
+<p>Conklin, retrospecting on gIBIS and Dialogue Mapping in 2003, was the most honest about it: argument maps work, in his experience, but only when a trained human facilitator absorbs the cognitive cost of producing them in real time.<sup class="fn"><a href="#fn12">12</a></sup> Without the facilitator, participants will not maintain the discipline of typing each contribution as a question, idea, or argument. The typing collapses, and so does the map.</p>
+
+<p>van Gelder, looking at his classroom data, said something similar in a different register: the gains were real but they required sustained instruction inside the tool's scaffolding. Outside that scaffolding, students reverted to prose.<sup class="fn"><a href="#fn13">13</a></sup> The map did not propagate.</p>
+
+<p>The pattern is clean. Every generation, smart people see the obvious shape of deliberation, build software that exposes that shape, and then discover that the cognitive cost of producing the map is higher than the benefit of having one — <em>unless</em> a trained specialist absorbs the cost on behalf of everyone else. That specialist is too expensive to deploy at scale, and so each tool dies with its grant or its founder, and the next generation rediscovers the obvious idea fresh.</p>
+
+<h2><span class="roman">IV.</span> What changed</h2>
+
+<p>The expressiveness-vs-usability tradeoff was always a tradeoff between two human activities: thinking and notating. The map is the artifact of a person doing two things at once. They are reasoning, and they are reasoning <em>about how to write down</em> what they are reasoning. The cognitive overhead of the second task swamps the first. That's the failure pattern in one sentence.</p>
+
+<p>The thing that changes the calculus is that the second task is now absorbable by software. A modern language model, given a transcript of a conversation or a debate, can produce a first-pass argument map in a few seconds — typed at the level of expressiveness the field once required a specialist for, with the schemes correctly identified, the mitigations nested under the right objections, and the supporting evidence linked back to the source span.</p>
+
+<p>This is what's been missing for seventy years. Not the idea. The idea was there. What was missing was a way to get expressiveness <em>and</em> usability at the same time. The map can now be expressive — because the model handles the notation work — and usable, because the human only ever has to read, correct, and interact with the artifact.</p>
+
+<p>This is not a claim that AI produces <em>good</em> argument maps unaided. It produces serviceable first drafts that a human can improve quickly. That is enough. The historical bottleneck was never the quality of the finished map. It was that nobody had time to make one.</p>
+
+<h2><span class="roman">V.</span> Why this matters for civic deliberation specifically</h2>
+
+<p>Some of the strongest contemporary work in democratic theory points directly at this technology before it existed.</p>
+
+<p>Hélène Landemore, in <em>Open Democracy</em>, argues that democratic epistemic competence depends on institutional design that aggregates dispersed reasoning across the citizenry — that the case for democracy rests on its capacity to integrate distributed cognition.<sup class="fn"><a href="#fn14">14</a></sup> Elizabeth Anderson, in "The Epistemology of Democracy," frames democracy itself as a distributed problem-solving institution, with epistemic warrant flowing from the diversity and inclusion of the perspectives it integrates.<sup class="fn"><a href="#fn15">15</a></sup> Hugo Mercier and Dan Sperber's argumentative theory of reasoning argues something stronger still: human reasoning is adapted for <em>exchange</em>, not solo cognition. Tools that structure exchange should outperform tools that structure individual thought.<sup class="fn"><a href="#fn16">16</a></sup></p>
+
+<p>These are not throat-clearing citations. They each describe a feature of democratic life that argument maps would, if usable, directly support: the integration of dispersed reasoning, the structured visibility of disagreement, and the capacity to argue <em>productively</em> rather than explosively. Cass Sunstein's work on group polarization names the characteristic failure mode of unstructured deliberation; argument mapping is a candidate counter-measure that doesn't depend on suppressing disagreement, only on making its structure legible.<sup class="fn"><a href="#fn17">17</a></sup></p>
+
+<p>For civic deliberation in particular — municipal councils, public consultations, planning hearings — argument maps would do something specific and valuable: they'd make the deliberative record <strong>legible across time</strong>.</p>
+
+<p>Right now, the record of how a city decides things is buried inside several years of meeting recordings. Anyone wanting to trace how a decision came together has to watch hours of video, read the agenda packages, and reconstruct the structure of the argument by hand. The information is all public. It's just not usable.</p>
+
+<p>An argument-map layer over that record changes its character. The question "when did we first take up this issue, and what was the counter-argument?" becomes answerable in seconds, with citations to the exact transcript line. The record becomes searchable not just by keyword but by argumentative role: what positions were taken, what reasons were offered, what objections were raised, what mitigations were proposed. That is <em>epistemic infrastructure</em> in Herzog's sense — a public good that makes democratic argument compound.</p>
+
+<h2><span class="roman">VI.</span> The Negation Game and what it actually does</h2>
+
+<p>Louie's deliberation layer is called the <strong>Negation Game</strong>. It's an implementation of a particular subset of argument maps that we call <strong>epistemic graphs</strong>: questions, options, supporting arguments, negating arguments, and mitigating arguments, organized into a structure that the participants can extend, contest, and refine.</p>
+
+<p>The Negation Game is not a research prototype. It is an attempt to take the obvious idea — argument maps — and ship it as something a city can actually use. It draws on the lineage above and treats the seventy-year record of failed attempts as a curriculum, not a discouragement. The specific design choices — limiting the scheme catalog rather than adopting Walton wholesale, structuring around questions rather than free-form claims, using AI to absorb the notation cost rather than asking participants to do it themselves — are responses to known failure modes.</p>
+
+<p>It is not the first argument-mapping tool. It is the first one that could plausibly survive contact with non-specialist users at municipal scale, because the bottleneck the field couldn't get past for seventy years is now absorbable by something else.</p>
+
+<h2><span class="roman">VII.</span> What we are arguing for</h2>
+
+<p>Three claims, in order of confidence.</p>
+
+<ol>
+  <li><strong>Argument maps are obvious.</strong> They are the natural shape of a conversation that is trying to get somewhere. The fact that they have been independently rediscovered, in essentially the same form, by serious thinkers across more than a century is not a coincidence. It is evidence that this is the structure of the thing.</li>
+  <li><strong>They have not broken through because they couldn't be expressive and usable at the same time.</strong> The historical record is unambiguous on this. Every generation tried; every generation hit the same wall. The wall was not the quality of any specific notation. It was the cognitive cost of producing a map by hand at the level of expressiveness the activity demanded.</li>
+  <li><strong>AI changes the calculus.</strong> A capable language model can absorb the notation cost. The map becomes a first-class artifact in the conversation rather than a specialist's output. This is the first moment in seventy years when expressiveness and usability are not in tension. We should expect a quiet, productive return of an idea that's been waiting.</li>
+</ol>
+
+<p>The question for democracies — Herzog's question, framed slightly differently — is whether we will recognize this technology as infrastructure and build it that way, or whether we will let it become another product category that ships features against attention metrics. Civic deliberation deserves the first option. That is what we are building.</p>
+
+<hr>
+
+<section class="notes">
+  <h2>Notes</h2>
+  <ol>
+    <li id="fn1">Lisa Herzog, <em>Citizen Knowledge: Markets, Experts, and the Infrastructure of Democracy</em> (Oxford University Press, 2024). The framing of democracies as knowledge-processing systems whose infrastructure has been chronically under-invested in is the central argument of the book. Herzog's earlier development of the idea appears in her work with the Centre for Philosophy, Politics and Economics at the University of Groningen.</li>
+    <li id="fn2">John Henry Wigmore, <em>The Principles of Judicial Proof</em> (Little, Brown, 1913). Anderson, Schum, and Twining revived the Wigmorean method in <em>Analysis of Evidence</em> (Cambridge University Press, 2005).</li>
+    <li id="fn3">Stephen Toulmin, <em>The Uses of Argument</em> (Cambridge University Press, 1958).</li>
+    <li id="fn4">Monroe C. Beardsley, <em>Practical Logic</em> (Prentice-Hall, 1950).</li>
+    <li id="fn5">Jeff Conklin and Michael L. Begeman, "gIBIS: A Hypertext Tool for Exploratory Policy Discussion," <em>ACM Transactions on Office Information Systems</em> 6(4), 1988. The "wicked problems" framing comes from Horst Rittel and Melvin Webber, "Dilemmas in a General Theory of Planning," <em>Policy Sciences</em> 4, 1973.</li>
+    <li id="fn6">Tim van Gelder, "Teaching Critical Thinking: Some Lessons from Cognitive Science," <em>College Teaching</em> 53(1), 2005; "The Rationale for Rationale," <em>Law, Probability and Risk</em> 6, 2007. Effect sizes are consistently positive across multiple replications; cite the original papers rather than secondary summaries.</li>
+    <li id="fn7">Douglas Walton, Chris Reed, and Fabrizio Macagno, <em>Argumentation Schemes</em> (Cambridge University Press, 2008).</li>
+    <li id="fn8">Carlos Chesñevar et al., "Towards an Argument Interchange Format," <em>Knowledge Engineering Review</em> 21(4), 2006; Floris Bex, John Lawrence, Mark Snaith, and Chris Reed, "Implementing the Argument Web," <em>Communications of the ACM</em> 56(10), 2013.</li>
+    <li id="fn9">Paul A. Kirschner, Simon J. Buckingham Shum, and Chad S. Carr, eds., <em>Visualizing Argumentation: Software Tools for Collaborative and Educational Sense-Making</em> (Springer, 2003).</li>
+    <li id="fn10">Simon Buckingham Shum, "The Roots of Computer-Supported Argument Visualization," in Kirschner, Buckingham Shum, and Carr (eds.), <em>Visualizing Argumentation</em> (2003).</li>
+    <li id="fn11">Oliver Scheuer, Frank Loll, Niels Pinkwart, and Bruce M. McLaren, "Computer-Supported Argumentation: A Review of the State of the Art," <em>International Journal of Computer-Supported Collaborative Learning</em> 5(1), 2010.</li>
+    <li id="fn12">Jeff Conklin, "Wicked Problems and Social Complexity" (CogNexus Institute, 2003); <em>Dialogue Mapping: Building Shared Understanding of Wicked Problems</em> (Wiley, 2005).</li>
+    <li id="fn13">van Gelder (2005), op. cit.; see also Maralee Harrell, "Using Argument Diagramming Software in the Classroom," <em>Teaching Philosophy</em> 28(2), 2005, on the requirement for sustained scaffolded instruction.</li>
+    <li id="fn14">Hélène Landemore, <em>Open Democracy: Reinventing Popular Rule for the Twenty-First Century</em> (Princeton University Press, 2020).</li>
+    <li id="fn15">Elizabeth Anderson, "The Epistemology of Democracy," <em>Episteme</em> 3(1–2), 2006.</li>
+    <li id="fn16">Hugo Mercier and Dan Sperber, <em>The Enigma of Reason</em> (Harvard University Press, 2017).</li>
+    <li id="fn17">Cass R. Sunstein, <em>Going to Extremes: How Like Minds Unite and Divide</em> (Oxford University Press, 2009); <em>#Republic: Divided Democracy in the Age of Social Media</em> (Princeton University Press, 2017).</li>
+  </ol>
+</section>
+
+<section class="ack">
+  <h2>Acknowledgements and editorial notes</h2>
+  <p>Research bibliography assembled with the support of an AI research agent; all citations were spot-checked but readers should verify any specific quote against the cited source before reuse. The Herzog framing leans on her published interviews and her earlier papers as well as the 2024 book; verbatim quotation of <em>Citizen Knowledge</em> is intentionally avoided pending direct verification of the printed text.</p>
+  <p>The contemporary AI × argumentation literature (Castagna et al. at ARG-tech, Freedman and Toni 2024, Betz and Richardson 2022, the COMMA 2024 LLM tracks, the <em>Argument &amp; Computation</em> journal under Reed) is where the field's reawakening to this technology is most visible. A follow-up piece focused specifically on that literature is planned.</p>
+</section>
+
+</body>
+</html>
