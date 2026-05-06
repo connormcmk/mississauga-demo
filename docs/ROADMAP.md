@@ -6,7 +6,10 @@ think we'll build next, in roughly the order we'd build it. Reorder freely.
 ## Near-term
 
 - **Mississauga bid response.** Awaiting Jeff's follow-up email re: the
-  unsolicited-bid path. Open question: how do we want to write the bid?
+  unsolicited-bid path. Approach (per Paul): not a delivery-ready product,
+  but a **well-specced product** so the bid can describe it precisely.
+  First-draft product spec at [`docs/product-spec.md`](./product-spec.md).
+  Pending: team review and sign-off.
 - **Self-serve speaker config.** Names and titles must be accurate; current
   pipeline pulls from public records but needs an internal-config override
   for edge cases (acting roles, mid-term replacements, deputy clerks).
@@ -20,12 +23,15 @@ think we'll build next, in roughly the order we'd build it. Reorder freely.
 
 ## Medium-term
 
-- **Argument-maps whitepaper.** History of argument maps as an academic
-  idea, why they didn't catch on (expressiveness vs. usability), why AI
-  changes the calculus, and what we mean by **epistemic graphs** (our
-  subset of argument maps). Frame: people keep coming back to this idea
-  because there's something right about it; AI is what finally makes it
-  workable.
+- **Argument-maps whitepaper.** First draft at
+  [`docs/whitepaper-argument-maps.md`](./whitepaper-argument-maps.md).
+  History of argument maps as an academic idea, why they didn't catch on
+  (expressiveness vs. usability), why AI changes the calculus, and what
+  we mean by **epistemic graphs** (our subset of argument maps). Frame:
+  people keep coming back to this idea because there's something right
+  about it; AI is what finally makes it workable. Anchored on Lisa
+  Herzog's *Citizen Knowledge* framing of epistemic infrastructure.
+  Pending: byline decision, Herzog quote verification, internal review.
 - **Negation Game scale.** ~1,200 meeting recordings × ~16 key topics each
   ≈ ~20k Negation Games at full Mississauga coverage. Sizing question:
   what does that look like at five cities?
