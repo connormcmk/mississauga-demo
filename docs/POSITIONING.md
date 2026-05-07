@@ -68,3 +68,103 @@ Worth repeating because it's the precise distinction:
 > has published.
 
 This is what makes answers grounded, current, and removable when records change.
+
+## Messaging — PEACE scripts
+
+We use the StoryBrand PEACE framework (Problem, Empathy, Answer, Change,
+End Result) to keep messaging tight. Five sentences per script. One Answer
+line shared across all of them, by design.
+
+### Standalone hook
+
+> *"Civic engagement isn't getting harder. It's just hard."*
+
+Use as a hero line, slide opener, or cold-email subject. Resists the
+civic-doom register; tells the truth about the baseline.
+
+### Primary — civic engagement
+
+For cold outreach, landing copy, and the line a CAO can repeat to council.
+
+> **Problem.** Is it hard getting residents to engage with how their city
+> actually decides things?
+>
+> **Empathy.** If yes, it's probably because you believe driving engagement
+> is your job, and the tools you've inherited have never been built for it —
+> and we get it.
+>
+> **Answer.** Put Louie on your council record.
+>
+> **Change.** We'll help your record become something residents can search,
+> follow, and trust.
+>
+> **End result.** So the engagement work you're already doing actually
+> starts to compound — even though it's still hard.
+
+### Variant — institutional memory
+
+For operational rooms (clerk, deputy clerk, CAO running day-to-day).
+
+> **Problem.** Tired of reconstructing how a decision actually came together
+> every time a councillor or resident asks?
+>
+> **Empathy.** If yes, it's probably because everything's on the record but
+> nothing's findable — and we get it.
+>
+> **Answer.** Put Louie on your council record.
+>
+> **Change.** We'll help your record answer questions itself, cited back
+> to the line.
+>
+> **End result.** So your clerk's office gets its time back, and nothing
+> falls through the cracks.
+
+### Variant — open but unusable
+
+The rebuttal when someone says *"but we already publish everything."* Robert
+Trewartha's quote is the empathy line, near-verbatim.
+
+> **Problem.** Have you watched residents bounce off your meeting archive
+> after one click?
+>
+> **Empathy.** If yes, it's probably because they hit search, found a
+> meeting, and realized they'd have to watch the whole thing — and we
+> get it.
+>
+> **Answer.** Put Louie on your council record.
+>
+> **Change.** We'll help your record answer questions in seconds, not hours.
+>
+> **End result.** So the record you've already published actually serves the
+> residents you published it for.
+
+### Variant — accountability and trust
+
+For politically exposed councils only. Don't lead with this cold; it reads
+as *"Louie is for cities in trouble,"* which isn't the brand.
+
+> **Problem.** Is it hard for residents to trust how decisions actually get
+> made in your city?
+>
+> **Empathy.** If yes, it's probably because publishing isn't the same as
+> being understood — and we get it.
+>
+> **Answer.** Put Louie on your council record.
+>
+> **Change.** We'll help your published record become genuinely traceable —
+> searchable, citable, and verifiable line by line.
+>
+> **End result.** So residents can see for themselves how decisions got
+> made, and trust gets easier to earn.
+
+## Why these messages share an Answer line
+
+All four scripts share the same Answer: *"Put Louie on your council record."*
+That's deliberate. One product, one ask, multiple problem framings. The
+audience changes; the imperative doesn't.
+
+The Change line in every script also follows the same grammatical move:
+**Louie acts on the record, not on the city.** *"We'll help your record
+become…"* / *"answer questions…"* / *"serve the residents…"*. The city
+stays in charge. We're a layer they put on top of what they already
+publish.
