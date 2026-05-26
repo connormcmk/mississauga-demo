@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Louie — A backgrounder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.9in 1in 0.85in 1in; }
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #777;
+    --rule: #d4d4d4;
+    --accent: #0a4a6b;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    color: var(--ink); background: #fff;
+    font-family: 'Crimson Pro', 'Iowan Old Style', 'Charter', Georgia, serif;
+    font-size: 11pt; line-height: 1.55; font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body { max-width: 6.5in; margin: 0 auto; }
+
+  .title-block {
+    margin-top: 0.3in;
+    margin-bottom: 0.35in;
+    padding-bottom: 0.25in;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.15in;
+  }
+
+  h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 34pt; font-weight: 600;
+    line-height: 1.1; letter-spacing: -0.01em;
+    margin: 0 0 0.12in 0;
+  }
+
+  .deck {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic; font-size: 13pt; font-weight: 400;
+    color: var(--ink-soft); line-height: 1.4;
+    margin: 0 0 0.18in 0;
+  }
+
+  .byline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt; color: var(--ink-faint);
+  }
+
+  h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10.5pt; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent);
+    margin: 0.32in 0 0.1in 0;
+    page-break-after: avoid;
+  }
+
+  h2 + p, h2 + ul { margin-top: 0; }
+
+  p {
+    margin: 0 0 0.11in 0;
+    text-align: justify;
+    hyphens: auto; -webkit-hyphens: auto;
+    orphans: 3; widows: 3;
+  }
+
+  p + p { text-indent: 1.4em; }
+  h2 + p, ul + p, ol + p { text-indent: 0; }
+
+  ul, ol {
+    margin: 0.04in 0 0.15in 0.25in;
+    padding: 0;
+  }
+  li { margin-bottom: 0.05in; line-height: 1.5; }
+
+  ul.examples li {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+
+  /* Inline emphasis blocks for "What Louie is not" */
+  .clarif p { text-indent: 0; }
+
+  /* Bottom rule between sections (optional sparkle) */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0.4in 0 0.2in 0;
+  }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+
+  /* Footer */
+  .footer {
+    margin-top: 0.4in;
+    padding-top: 0.18in;
+    border-top: 1px solid var(--rule);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8.5pt;
+    color: var(--ink-faint);
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Cost block */
+  .costs {
+    background: #f6f8fa;
+    border-left: 3px solid var(--accent);
+    padding: 0.14in 0.2in;
+    margin: 0.08in 0 0.15in 0;
+  }
+  .costs ul { margin: 0; padding-left: 0.18in; }
+  .costs li { font-family: 'Inter', system-ui, sans-serif; font-size: 10pt; }
+</style>
+</head>
+<body>
+
+<header class="title-block">
+  <div class="eyebrow">A Louie Backgrounder</div>
+  <h1>Louie</h1>
+  <p class="deck">A search and explanation layer for municipal council records.</p>
+  <div class="byline">Draft v1</div>
+</header>
+
+<h2>What Louie is</h2>
+<p>Louie is a citation-backed search and explanation layer for a city's full council record. It lets residents, councillors, and staff ask natural-language questions about what their city has decided, debated, or said about a topic — and returns answers cited back to the exact transcript line, document section, or video timestamp the answer came from.</p>
+<p>Louie does not replace the city as the authoritative source for any record, and it does not change what the city publishes. It makes what the city has already published usable.</p>
+<p>The first city to deploy Louie is Mississauga, under an unsolicited bid currently with the City for consideration.</p>
+
+<h2>Why it exists</h2>
+<p>Mississauga publishes every council and committee meeting. Video, minutes, agendas, staff reports, supporting documents — all of it is technically open to the public.</p>
+<p>In practice, that record is illegible. Hours of video, no real search, no way to trace a topic across years or committees. Anyone who wants to know how a decision actually came together has to find the right meeting, scrub through hours of footage, cross-reference the minutes, and reconstruct the argument by hand.</p>
+<p>The cost shows up in three places at once. Residents disengage from what they can't follow. Councillors decide without the full context they need to make the best calls. And trust in how the city decides things gradually erodes.</p>
+<p>The city has done the work of opening the record. The layer that makes it usable hasn't existed.</p>
+
+<h2>How it works</h2>
+<p>Louie ingests what the city publishes. It transcribes the video with speaker labels, parses the agendas and staff reports, and indexes everything together so the entire record can be queried as one body of material.</p>
+<p>A resident or staff member can then ask questions like:</p>
+<ul class="examples">
+  <li>When did council last discuss stormwater fees?</li>
+  <li>What concerns were raised about the transit budget?</li>
+  <li>Which meetings discussed the downtown parking strategy?</li>
+</ul>
+<p>Louie returns a written answer that cites the exact transcript line, the document section, or the video timestamp it came from. The reader can click through to verify any claim against the source.</p>
+<p>If the answer isn't in the record, Louie says so plainly rather than guessing. The point is to make a citable record more usable, not to manufacture answers the record doesn't support.</p>
+
+<h2>Why now</h2>
+<p>Searching municipal records used to mean reading them, or paying a clerk to read them. The technology to do this well — at the scale and the detail a multi-year council record demands — hasn't existed.</p>
+<p>That has changed in the last two years. Language models can now read and structure long-form deliberative material at speed. More importantly, they can be <strong>grounded</strong> in a specific city's record rather than in general internet content. That means answers are about <em>this</em> city, citable to <em>this</em> record, and removable if <em>this</em> record changes.</p>
+<p>The technical phrasing is that Louie isn't <em>trained</em> on Mississauga's record in the machine-learning sense. The underlying model is general-purpose. What's specific to Mississauga is the record Louie's attention is anchored to at query time. Same model everyone else uses, constrained to what the city has published.</p>
+<p>For higher-stakes questions where a single answer isn't enough — a major budget decision, a contested rezoning, a multi-year policy debate — Louie also includes a structured deliberation tool called the <strong>Negation Game</strong>, which presents the supporting arguments, counter-arguments, and mitigations as a navigable map. The Negation Game is built on a decades-deep academic tradition of argument mapping, which the same advances in AI have finally made workable at municipal scale. A companion whitepaper explains that history in more depth.</p>
+
+<h2>What Louie is not</h2>
+<p>Three clarifications, since they're the questions that come up most.</p>
+<div class="clarif">
+<p><strong>It is not ChatGPT.</strong> ChatGPT doesn't have Mississauga's record, and even if it did, the answer would be diluted by everything else on the internet. Louie's attention is anchored to this city's record only.</p>
+<p><strong>It is not a replacement for eScribe.</strong> eScribe handles agenda packaging and meeting management. Louie sits on top of what eScribe publishes and makes it searchable in a way the publishing system itself isn't designed to do.</p>
+<p><strong>It does not decide anything.</strong> Louie reads, retrieves, and cites. The city remains the authoritative source for every decision and every record. Louie's job is to make the record findable.</p>
+</div>
+
+<h2>Trust and accountability</h2>
+<p>Louie is built to sit alongside the systems the city already runs, not to replace or disrupt them.</p>
+<ul>
+  <li><strong>Only public records.</strong> Louie ingests only material the city has already made public. No closed-session content, no internal correspondence, no FOI surface created or bypassed.</li>
+  <li><strong>MFIPPA-aware.</strong> The platform is designed to operate in a manner consistent with MFIPPA, including minimizing collection of resident personal information and avoiding identification requirements for public access.</li>
+  <li><strong>AODA / WCAG 2.0 AA.</strong> Accessibility compliance is enforced at the user-interface layer.</li>
+  <li><strong>Bill 194 posture.</strong> Every response is AI-assisted and explicitly disclosed as such; every claim is citation-backed; the platform refuses rather than fabricates when the record doesn't support an answer.</li>
+</ul>
+<p>The city retains ownership of its records and its configuration data at all times.</p>
+
+<h2>What it costs</h2>
+<div class="costs">
+  <ul>
+    <li><strong>Historical backfill:</strong> approximately $30 per meeting, one-time. For Mississauga, roughly 200 meetings of prior-year material — about <strong>$6,000</strong>.</li>
+    <li><strong>Ongoing service:</strong> <strong>$9,500 per year</strong>, including hosting, ongoing indexing, maintenance, and operational support.</li>
+  </ul>
+</div>
+<p>The full pricing detail and commercial model are in the accompanying proposal.</p>
+
+<h2>How to learn more</h2>
+<p>A live demo of Louie running on the Mississauga record is available at <a href="https://louie.networkgoods.institute">louie.networkgoods.institute</a>.</p>
+<p>A 20-minute conversation can be booked at <a href="https://calendar.app.google/PeKe9ifG5jquHUia9">calendar.app.google/PeKe9ifG5jquHUia9</a>.</p>
+<p>Louie is currently under review with the City of Mississauga. Inquiries from other Ontario municipalities are welcome.</p>
+
+<div class="footer">
+  Louie is a joint project of the Network Goods Institute and FairAI.
+</div>
+
+</body>
+</html>
