@@ -123,6 +123,47 @@
     font-style: italic;
   }
 
+  /* Image placeholder + figure */
+  figure {
+    margin: 0.18in 0;
+    page-break-inside: avoid;
+  }
+  figure img, .image-placeholder {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--rule);
+    background: #f0f2f4;
+  }
+  .image-placeholder {
+    min-height: 2.2in;
+    color: var(--ink-faint);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9.5pt;
+    text-align: center;
+    padding: 0.4in 0.5in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.06in;
+  }
+  .image-placeholder strong {
+    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 8.5pt;
+    margin-bottom: 0.04in;
+  }
+  figcaption {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8.5pt;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 0.06in;
+    font-style: italic;
+  }
+
   /* Cost block */
   .costs {
     background: #f6f8fa;
@@ -165,11 +206,21 @@
 <p>Louie returns a written answer that cites the exact transcript line, the document section, or the video timestamp it came from. The reader can click through to verify any claim against the source.</p>
 <p>If the answer isn't in the record, Louie says so plainly rather than guessing. The point is to make a citable record more usable, not to manufacture answers the record doesn't support.</p>
 
+<figure>
+  <img src="images/cdm-answer.png" alt="Louie answering a question about a Mississauga council meeting, with cited quotes, named speakers, and a timestamp linking back to the meeting recording.">
+  <figcaption>Louie answering a question from the January 27, 2026 Road Safety Committee meeting, with cited quotes, named speakers, and a link back to the meeting recording.</figcaption>
+</figure>
+
 <h2>Why now</h2>
 <p>Searching municipal records used to mean reading them, or paying a clerk to read them. The technology to do this well — at the scale and the detail a multi-year council record demands — hasn't existed.</p>
 <p>That has changed in the last two years. Language models can now read and structure long-form deliberative material at speed. More importantly, they can be <strong>grounded</strong> in a specific city's record rather than in general internet content. That means answers are about <em>this</em> city, citable to <em>this</em> record, and removable if <em>this</em> record changes.</p>
 <p>The technical phrasing is that Louie isn't <em>trained</em> on Mississauga's record in the machine-learning sense. The underlying model is general-purpose. What's specific to Mississauga is the record Louie's attention is anchored to at query time. Same model everyone else uses, constrained to what the city has published.</p>
 <p>For higher-stakes questions where a single answer isn't enough — a major budget decision, a contested rezoning, a multi-year policy debate — Louie also includes a structured deliberation tool called the <strong>Negation Game</strong>, which presents the supporting arguments, counter-arguments, and mitigations as a navigable map. The Negation Game is built on a decades-deep academic tradition of argument mapping, which the same advances in AI have finally made workable at municipal scale. A companion whitepaper explains that history in more depth.</p>
+
+<figure>
+  <img src="images/negation-game.png" alt="A Negation Game deliberation map for the $2.2M provincial road safety funding question, showing two options with supporting arguments, negating arguments, and a mitigation node, each attributed to a named speaker and timestamp from the council meeting.">
+  <figcaption>The Negation Game for the $2.2M Road Safety question — options, supporting and counter-arguments, and mitigations, each cited back to the council meeting.</figcaption>
+</figure>
 
 <h2>What Louie is not</h2>
 <p>Three clarifications, since they're the questions that come up most.</p>
