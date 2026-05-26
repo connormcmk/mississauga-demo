@@ -138,6 +138,37 @@ Trewartha's quote is the empathy line, near-verbatim.
 > **End result.** So the record you've already published actually serves the
 > residents you published it for.
 
+### Variant — the audacity hook
+
+For rooms where the buyer is moved by the **scope of the idea**, not the
+pain of the problem. This is the script that matches Robert Trewartha's
+reaction in the Mississauga meeting (*"Oh you'd ingest stuff from the city
+and it would be our own AI"*). Note: this is the **only script where the
+Answer verb shifts to "Point Louie at…"** instead of "Put Louie on…" —
+because Robert's verb is the resonance.
+
+> **Problem.** What if the entire record of how your city decides things
+> was actually queryable, end to end?
+>
+> **Empathy.** If that sounds appealing, it's probably because you've been
+> quietly imagining it for years — and we get it.
+>
+> **Answer.** Point Louie at your council record.
+>
+> **Change.** We'll do exactly that — every meeting, every report, every
+> line, indexed and reasoned over.
+>
+> **End result.** So when someone asks "what has council *really* said
+> about this?", the answer is already there.
+
+When the audacity hook is the move, two adjacent lines also tend to land:
+
+- *"AI pointed at the whole record, not at the staff."* Useful as a
+  one-liner differentiator against the rest of the municipal-AI category
+  (chatbots replacing 311, automated FOI triage, etc.).
+- *"Your record was built for archiving, not for asking."* The diagnosis
+  in eight words.
+
 ### Variant — accountability and trust
 
 For politically exposed councils only. Don't lead with this cold; it reads
