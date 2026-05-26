@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { navigate } from "../App";
-import { getMeeting, roadSafetyArgumentMap } from "../data/mockData";
+import { getMeeting } from "../data/mockData";
 import FloatingChat from "../components/FloatingChat";
-import ArgumentMap from "../components/ArgumentMap";
 
 const fmt = (s: number) => {
   const h = Math.floor(s / 3600);
@@ -93,7 +92,6 @@ const ActivatableIframe = ({
 
 const CdmPage = ({ meetingId }: { meetingId: string }) => {
   const meeting = getMeeting(meetingId);
-  const [expandedMaps, setExpandedMaps] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -188,32 +186,6 @@ const CdmPage = ({ meetingId }: { meetingId: string }) => {
                     title={q.deliberativeQuestion}
                   />
                 </div>
-                {(() => {
-                  const matchedMap = roadSafetyArgumentMap.find(
-                    (am) => am.question === q.deliberativeQuestion
-                  );
-                  if (!matchedMap) return null;
-                  const isExpanded = !!expandedMaps[q.id];
-                  return (
-                    <div className="cdm-section-inner">
-                      <button
-                        className="cdm-argmap-toggle"
-                        aria-expanded={isExpanded}
-                        onClick={() => setExpandedMaps((prev) => ({ ...prev, [q.id]: !prev[q.id] }))}
-                      >
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                          <path d="M3 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        View threaded argument summary
-                      </button>
-                      {isExpanded && (
-                        <div className="cdm-argmap-collapsible">
-                          <ArgumentMap questions={[matchedMap]} />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()}
               </section>
             );
             })}
