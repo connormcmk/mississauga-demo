@@ -8,8 +8,13 @@ think we'll build next, in roughly the order we'd build it. Reorder freely.
 - **Mississauga bid response.** Awaiting Jeff's follow-up email re: the
   unsolicited-bid path. Approach (per Paul): not a delivery-ready product,
   but a **well-specced product** so the bid can describe it precisely.
-  First-draft product spec at [`docs/product-spec.md`](./product-spec.md).
-  Pending: team review and sign-off.
+  - Product spec: [`docs/product-spec.md`](./product-spec.md) (technical
+    answer)
+  - Bid narrative: [`docs/bid-narrative.md`](./bid-narrative.md) (executive
+    opening + anchor language, including the *"act with full context"*
+    phrase and the five-beat Need/Constraint/What Louie does/Change/Outcome
+    structure)
+  - Pending: team review and sign-off on both.
 - **Self-serve speaker config.** Names and titles must be accurate; current
   pipeline pulls from public records but needs an internal-config override
   for edge cases (acting roles, mid-term replacements, deputy clerks).

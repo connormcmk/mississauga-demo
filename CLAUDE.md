@@ -11,7 +11,11 @@ notes, product docs, pitch material, and transcription scripts.
 - [`docs/SPEC.md`](./docs/SPEC.md) — full product brief, page architecture,
   design principles, and the demo happy paths that must work.
 - [`docs/POSITIONING.md`](./docs/POSITIONING.md) — what Louie is, what it
-  isn't, and how to handle the recurring objections.
+  isn't, recurring objections, and the marketing-register PEACE scripts.
+- [`docs/bid-narrative.md`](./docs/bid-narrative.md) — procurement-register
+  executive opening and anchor language for bid responses.
+- [`docs/product-spec.md`](./docs/product-spec.md) — bid-ready technical
+  specification.
 - [`docs/PRICING.md`](./docs/PRICING.md) — canonical pricing.
 - [`docs/ROADMAP.md`](./docs/ROADMAP.md) — what's next, in rough order.
 
