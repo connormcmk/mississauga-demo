@@ -127,12 +127,21 @@
   figure {
     margin: 0.18in 0;
     page-break-inside: avoid;
+    text-align: center;
   }
   figure img, .image-placeholder {
-    width: 100%;
-    display: block;
+    max-width: 100%;
+    max-height: 4.6in;
+    display: inline-block;
     border: 1px solid var(--rule);
     background: #f0f2f4;
+  }
+  figure img.portrait {
+    max-height: 5in;
+    max-width: 3.8in;
+  }
+  figure img.landscape {
+    width: 100%;
   }
   .image-placeholder {
     min-height: 2.2in;
@@ -207,8 +216,8 @@
 <p>If the answer isn't in the record, Louie says so plainly rather than guessing. The point is to make a citable record more usable, not to manufacture answers the record doesn't support.</p>
 
 <figure>
-  <img src="images/cdm-answer.png" alt="Louie answering a question about a Mississauga council meeting, with cited quotes, named speakers, and a timestamp linking back to the meeting recording.">
-  <figcaption>Louie answering a question from the January 27, 2026 Road Safety Committee meeting, with cited quotes, named speakers, and a link back to the meeting recording.</figcaption>
+  <img src="images/cdm-answer.png" class="portrait" alt="Louie's chat answering a resident question about the $2.2M road safety funding decision — with a structured summary, key details, a named quote from staff, and a link to the underlying deliberation map.">
+  <figcaption>Louie answering a resident question — structured summary, key details, a named quote from staff, and a link to the deliberation map.</figcaption>
 </figure>
 
 <h2>Why now</h2>
@@ -218,7 +227,7 @@
 <p>For higher-stakes questions where a single answer isn't enough — a major budget decision, a contested rezoning, a multi-year policy debate — Louie also includes a structured deliberation tool called the <strong>Negation Game</strong>, which presents the supporting arguments, counter-arguments, and mitigations as a navigable map. The Negation Game is built on a decades-deep academic tradition of argument mapping, which the same advances in AI have finally made workable at municipal scale. A companion whitepaper explains that history in more depth.</p>
 
 <figure>
-  <img src="images/negation-game.png" alt="A Negation Game deliberation map for the $2.2M provincial road safety funding question, showing two options with supporting arguments, negating arguments, and a mitigation node, each attributed to a named speaker and timestamp from the council meeting.">
+  <img src="images/negation-game.png" class="landscape" alt="A Negation Game deliberation map for the $2.2M provincial road safety funding question, showing two options with supporting arguments, negating arguments, and a mitigation node, each attributed to a named speaker and timestamp from the council meeting.">
   <figcaption>The Negation Game for the $2.2M Road Safety question — options, supporting and counter-arguments, and mitigations, each cited back to the council meeting.</figcaption>
 </figure>
 
