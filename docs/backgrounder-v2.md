@@ -46,7 +46,7 @@ of what stands in the way is the work of finding out: the searching and
 reading and piecing-together that wears people down before they ever
 weigh in. When that work is easy, far more people are willing to do it.
 
-This has been the goal of citizen engagement for a long time. The
+This has been the ideal of citizen engagement for a long time. The
 technology to deliver it only recently caught up.
 
 ## How Louie works
