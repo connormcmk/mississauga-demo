@@ -12,7 +12,7 @@ Almost every city says it wants residents engaged in how decisions get
 made. It's the aim behind public consultations, open-data portals, and
 livestreamed council meetings. But engagement depends on something more
 basic: before a resident can weigh in on what their city is doing, they
-have to be able to find out what their city is doing. Getting a citizen
+have to be able to *find out* what their city is doing. Getting a citizen
 the information they need to understand what's going on is the step
 almost everything else rests on, and it's the one that tends to break
 down.
