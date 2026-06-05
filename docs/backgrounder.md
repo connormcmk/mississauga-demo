@@ -2,156 +2,172 @@
 
 *A search and explanation layer for municipal council records.*
 
-A backgrounder. Draft v1.
+A backgrounder.
 
 ---
 
-## What Louie is
+## The goal is engagement
 
-Louie is a citation-backed search and explanation layer for a city's full
-council record. It lets residents, councillors, and staff ask
-natural-language questions about what their city has decided, debated,
-or said about a topic — and returns answers cited back to the exact
-transcript line, document section, or video timestamp the answer came
-from.
+Almost every city says it wants residents engaged in how decisions get
+made. It's the aim behind public consultations, open-data portals, and
+livestreamed council meetings. But engagement depends on something more
+basic: before a resident can weigh in on what their city is doing, they
+have to be able to find out what their city is doing. Getting a citizen
+the information they need to understand what's going on is the step
+almost everything else rests on, and it's the one that tends to break
+down.
 
-Louie does not replace the city as the authoritative source for any
-record, and it does not change what the city publishes. It makes what
-the city has already published usable.
+It has also become harder, even as cities publish more. Residents now
+expect to ask a question and get a clear answer assembled for them, the
+way they can almost everywhere else online, and municipal records don't
+work that way. To follow an issue in Mississauga today, a resident has to
+work through 1,280 meeting recordings and thousands of supporting
+documents, in whatever time is left over from a job and a family. Few
+people get far.
 
-The first city to deploy Louie is Mississauga, under an unsolicited bid
-currently with the City for consideration.
+## What engagement should feel like
 
----
+It shouldn't take that much effort. Take a resident worried about
+e-scooter use on their street.
 
-## Why it exists
+> A citizen concerned about e-scooter use should be able to ask what the
+> city is doing and understand in seconds: what the initiatives are,
+> what's been discussed, and what's being done about it.
+>
+> That gives them the assurance that the issue is being addressed, and
+> lets them confirm at a glance that the points they care about are on the
+> record. If there are considerations that aren't being mentioned, they
+> can reach out to the right council to collaborate in shaping the
+> solution.
 
-Mississauga publishes every council and committee meeting. Video,
-minutes, agendas, staff reports, supporting documents — all of it is
-technically open to the public.
+That last step is the important one. Engagement really begins when a
+resident moves from following an issue to having a hand in it, and most
+of what stands in the way is the work of finding out: the searching and
+reading and piecing-together that wears people down before they ever
+weigh in. When that work is easy, far more people are willing to do it.
 
-In practice, that record is illegible. Hours of video, no real search,
-no way to trace a topic across years or committees. Anyone who wants to
-know how a decision actually came together has to find the right
-meeting, scrub through hours of footage, cross-reference the minutes,
-and reconstruct the argument by hand.
+This has been the ideal of citizen engagement for a long time. The
+technology to deliver it only recently caught up.
 
-The cost shows up in three places at once. Residents disengage from what
-they can't follow. Councillors decide without the full context they need
-to make the best calls. And trust in how the city decides things
-gradually erodes.
+## How Louie works
 
-The city has done the work of opening the record. The layer that makes
-it usable hasn't existed.
+Louie is the layer that makes that possible. It's a chat-based
+question-and-answer tool, accurate and inexpensive to run, and fast
+enough that residents will use it rather than abandon the search partway
+through.
 
----
+It ingests a city's public council and committee materials and makes the
+whole record searchable at once. A resident finds the discussions,
+decisions, motions, and documents they're after just by asking. A plain
+question like *"What decision was made by the Road Safety Committee on
+Friday?"* returns an answer drawn from the record, on demand.
 
-## How it works
+Every answer is citation-backed. Each one links to the transcript line,
+document section, or video timestamp it came from, so anyone can click
+through and check it against the source instead of taking it on trust.
+When the record doesn't hold an answer, Louie says so rather than
+inventing one. The point is to make a citable record usable, not to fill
+its gaps with guesses.
 
-Louie ingests what the city publishes. It transcribes the video with
-speaker labels, parses the agendas and staff reports, and indexes
-everything together so the entire record can be queried as one body of
-material.
+## Deliberation, mapped
 
-A resident or staff member can then ask questions like:
+Some questions don't have a single answer. A big budget decision, a
+contested rezoning, a policy fight that runs across years and committees:
+these are arguments, and a useful answer has to show the rationale and the
+considerations, not just the outcome.
 
-- *When did council last discuss stormwater fees?*
-- *What concerns were raised about the transit budget?*
-- *Which meetings discussed the downtown parking strategy?*
+For a question like that, a resident shouldn't have to settle for the
+verdict alone. They should be able to take in the whole shape of it: the
+options that were weighed, the reasons offered on each side, the tradeoffs
+that gave people pause, and how the decision came together. That is what
+lets someone judge whether their own concern was heard, and decide whether
+it's worth raising.
 
-Louie returns a written answer that cites the exact transcript line, the
-document section, or the video timestamp it came from. The reader can
-click through to verify any claim against the source.
+Louie builds that view automatically, as a **deliberation map**. It lays
+out the options on the table, the case for and against each, and the
+compromises people proposed to bridge them, with every point traced back
+to the meeting where it was raised. A resident can see who proposed what,
+which objections came up, and where the discussion landed.
 
-If the answer isn't in the record, Louie says so plainly rather than
-guessing. The point is to make a citable record more usable, not to
-manufacture answers the record doesn't support.
+The maps draw on a long academic tradition of argument mapping, an idea
+people have found compelling for decades without ever making it
+practical. The same AI advances behind Louie's answers are what make the
+maps workable at the scale of a city. A companion whitepaper tells that
+story.
 
----
+## Why this is possible now
 
-## Why now
+For most of local government's history, searching the record meant
+reading it, or paying a clerk to read it for you. The tools to do it well,
+at the scale and detail of a multi-year council record, did not exist.
 
-Searching municipal records used to mean reading them, or paying a clerk
-to read them. The technology to do this well — at the scale and the
-detail a multi-year council record demands — hasn't existed.
+In the last two years that changed. Language models can read and organize
+long stretches of deliberative material quickly, and they can be
+**grounded** in one city's record rather than in the internet at large.
+The grounding is the part that matters: the answers come from the city's
+own record, and they change when the record does.
 
-That has changed in the last two years. Language models can now read and
-structure long-form deliberative material at speed. More importantly,
-they can be **grounded** in a specific city's record rather than in
-general internet content. That means answers are about *this* city,
-citable to *this* record, and removable if *this* record changes.
-
-The technical phrasing is that Louie isn't *trained* on Mississauga's
-record in the machine-learning sense. The underlying model is general-purpose.
-What's specific to Mississauga is the record Louie's attention is
-anchored to at query time. Same model everyone else uses, constrained to
-what the city has published.
-
-For higher-stakes questions where a single answer isn't enough — a major
-budget decision, a contested rezoning, a multi-year policy debate —
-Louie also includes a structured deliberation tool called the
-**Negation Game**, which presents the supporting arguments,
-counter-arguments, and mitigations as a navigable map. The Negation Game
-is built on a decades-deep academic tradition of argument mapping, which
-the same advances in AI have finally made workable at municipal scale. A
-companion whitepaper explains that history in more depth.
-
----
+To be exact, Louie is not *trained* on Mississauga's record in the
+machine-learning sense. The model underneath is general-purpose, the same
+one anyone can use. What's specific to Mississauga is simpler than
+training: when a question comes in, Louie looks up the relevant passages
+in the city's record and quotes them back accurately. That is why its
+answers stay current and can be checked against the source.
 
 ## What Louie is not
 
-Three clarifications, since they're the questions that come up most.
+A few clarifications, since these are the questions that come up first.
 
-**It is not ChatGPT.** ChatGPT doesn't have Mississauga's record, and
-even if it did, the answer would be diluted by everything else on the
-internet. Louie's attention is anchored to this city's record only.
+**It is not ChatGPT.** ChatGPT doesn't have Mississauga's record, and even
+if it did, the answer would be diluted by everything else on the internet.
+Louie's attention is anchored to this city's record only.
 
 **It is not a replacement for eScribe.** eScribe handles agenda packaging
 and meeting management. Louie sits on top of what eScribe publishes and
-makes it searchable in a way the publishing system itself isn't designed
-to do.
+makes it searchable in a way the publishing system itself was never
+designed to do.
 
 **It does not decide anything.** Louie reads, retrieves, and cites. The
-city remains the authoritative source for every decision and every
-record. Louie's job is to make the record findable.
-
----
+city remains the authoritative source for every decision and every record.
+Louie's only job is to make that record findable.
 
 ## Trust and accountability
 
-Louie is built to sit alongside the systems the city already runs, not
-to replace or disrupt them.
+Louie is built to sit alongside the systems a city already runs, not to
+replace or disrupt them.
 
 - **Only public records.** Louie ingests only material the city has
   already made public. No closed-session content, no internal
   correspondence, no FOI surface created or bypassed.
-- **MFIPPA-aware.** The platform is designed to operate in a manner
-  consistent with MFIPPA, including minimizing collection of resident
-  personal information and avoiding identification requirements for
-  public access.
-- **AODA / WCAG 2.0 AA.** Accessibility compliance is enforced at the
+- **MFIPPA-aware.** Designed to minimize collection of resident personal
+  information and avoid identification requirements for public access.
+- **AODA / WCAG 2.0 AA.** Accessibility compliance enforced at the
   user-interface layer.
-- **Bill 194 posture.** Every response is AI-assisted and explicitly
-  disclosed as such; every claim is citation-backed; the platform
-  refuses rather than fabricates when the record doesn't support an
-  answer.
+- **Bill 194 posture.** Every response is AI-assisted and disclosed as
+  such; every claim is citation-backed; the platform refuses rather than
+  fabricates when the record doesn't support an answer.
 
-The city retains ownership of its records and its configuration data at
-all times.
+The city retains ownership of its records and configuration data at all
+times.
 
----
+## The proposed initial deployment
+
+- Ingestion of 12 months of publicly available online records
+- Ongoing automated ingestion of newly published materials
+- Automated deliberation maps of discussion topics, for instant
+  understanding of the key points
+- A public-facing, chat-based question-and-answer experience for
+  residents, with citation-backed results
 
 ## What it costs
 
-- **Historical backfill:** $30 per meeting, one-time. For Mississauga,
-  roughly 200 meetings of prior-year material, about **$6,000**.
+- **Historical backfill:** $30 per meeting, one-time. For Mississauga's
+  12-month backfill of roughly 200 meetings, about **$6,000**.
 - **Ongoing service:** **$9,500 per year**, including hosting, ongoing
-  indexing, maintenance, and operational support.
+  ingestion, maintenance, and operational support.
 
 The full pricing detail and commercial model are in the accompanying
 proposal.
-
----
 
 ## How to learn more
 
