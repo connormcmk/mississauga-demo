@@ -10,6 +10,11 @@ should all match this file. Update here first, then update downstream.
 - For a city Mississauga's size: ~200 meetings/year of historical backfill
   ≈ **$6,000 one-time**, then **$9,500/year** thereafter
 
+The $30/meeting rate is firm — it's Paul's intended pricing from the
+May 5 2026 Mississauga debrief (`meetings/2026-05-05-mississauga-jeff-richard.md`).
+Only the meeting *count* (~200/year) and the resulting *total* (~$6,000)
+are approximate; the per-meeting rate is exact. State it without hedging.
+
 ## Comparative framing
 
 > "Won't cost a tenth of what eScribe costs."
@@ -25,13 +30,15 @@ record and makes it searchable for residents and staff.
   agendas, and staff reports
 - Public-facing search interface (no login required for residents)
 - Citation-backed answers — every response links to the source line
+- Auto-generated deliberation maps for discussion topics
 - Speaker name and title accuracy (sourced from public records + internal
   configuration)
 - Hosting and inference costs absorbed in the annual fee
 
 ## What's not included
 
-- Negation Game / deliberation-map authoring tools (separate offering)
+- The standalone Negation Game platform (interactive authoring / hosting
+  of resident-built boards) — separate offering
 - Custom integrations beyond the published record
 - White-label branding
 

@@ -143,9 +143,8 @@ all times.
 
 ## What it costs
 
-- **Historical backfill:** approximately $30 per meeting, one-time. For
-  Mississauga, roughly 200 meetings of prior-year material — about
-  **$6,000**.
+- **Historical backfill:** $30 per meeting, one-time. For Mississauga,
+  roughly 200 meetings of prior-year material, about **$6,000**.
 - **Ongoing service:** **$9,500 per year**, including hosting, ongoing
   indexing, maintenance, and operational support.
 

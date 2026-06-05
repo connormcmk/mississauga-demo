@@ -43,9 +43,10 @@ authoritative source.
 - **Staff-facing version** with the same retrieval surface plus saved
   searches, exportable answer-with-citations bundles, and a clerk dashboard
   for tracking what residents are asking about most often.
-- **Embedded Negation Game boards** for high-stakes deliberative questions
-  (typically 5–20 boards/year per city, picked collaboratively with the
-  clerk's office).
+- **Auto-generated deliberation maps** for discussion topics — built
+  automatically from the record so a resident can see the options, the
+  arguments for and against, and how a decision came together, each point
+  cited back to the meeting where it was raised.
 - **Accessibility**: AODA / WCAG 2.0 AA compliance.
 - **Privacy posture**: MFIPPA-aware. Only ingests records the city has
   already made public. No collection of resident query-level PII beyond
@@ -115,16 +116,18 @@ City publishes meeting → [ingestion] → canonical record store →
 |---|---|---|
 | Public search | Residents, press | "When did council last discuss X?" with cited answer |
 | Per-topic chat | Residents | Ask follow-ups within the context of a specific deliberation |
-| Negation Game boards | Engaged residents, councillors | Structured deliberation on selected high-stakes questions |
+| Deliberation maps | Engaged residents, councillors | See the options, arguments, and tradeoffs behind a contested decision |
 | Staff dashboard | Clerk's office, councillors | Saved searches, exportable answer bundles, "what are residents asking?" |
 
-### 3.5 Negation Game integration
+### 3.5 Deliberation maps
 
-Negation Games are deliberative argument-mapping boards (see
-`docs/whitepaper-argument-maps.md`). Not every topic needs one. The clerk's
-office and the Louie team jointly pick 5–20 high-stakes questions per year
-where structured deliberation adds value. These are embedded into the topic
-pages as iframe URLs from the existing Negation Game platform.
+Deliberation maps are argument-mapping boards built on the Negation Game
+engine (see `docs/whitepaper-argument-maps.md`). Louie generates them
+automatically for discussion topics in the record, so a resident can see
+the options on the table, the arguments for and against, the tradeoffs
+that were weighed, and how a decision came together — each point cited
+back to the meeting where it was raised. The maps are surfaced inline on
+the relevant topic pages.
 
 ---
 
@@ -215,7 +218,8 @@ options are available on request and are scoped separately.
 | Public launch | 1 week | City-branded public URL goes live |
 | **Total** | **9–11 weeks** | Live for residents |
 
-Negation Game board selection runs in parallel with the staff pilot.
+Deliberation maps are generated automatically during backfill ingestion;
+no separate selection step is required.
 
 ---
 
@@ -261,10 +265,8 @@ These are the questions we'd want answered during procurement, not assumed:
    or does the city prefer Louie to mirror the archive?
 3. Who in the city owns the speaker roster / internal config? (Typically
    the clerk's office, but worth confirming.)
-4. Which questions does the clerk's office want to see resolved with
-   Negation Game boards in year one?
-5. What's the city's preferred public URL pattern?
-6. Is there an existing accessibility audit framework Louie should slot
+4. What's the city's preferred public URL pattern?
+5. Is there an existing accessibility audit framework Louie should slot
    into (third-party AODA audit, internal review process, etc.)?
 
 ---

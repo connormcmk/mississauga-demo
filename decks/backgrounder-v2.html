@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Louie — A backgrounder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300..700;1,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.9in 1in 0.85in 1in; }
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #777;
+    --rule: #d4d4d4;
+    --accent: #0a4a6b;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    color: var(--ink); background: #fff;
+    font-family: 'Crimson Pro', 'Iowan Old Style', 'Charter', Georgia, serif;
+    font-size: 11pt; line-height: 1.55; font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body { max-width: 6.5in; margin: 0 auto; }
+
+  .title-block {
+    margin-top: 0.3in;
+    margin-bottom: 0.35in;
+    padding-bottom: 0.25in;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.15in;
+  }
+
+  h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 34pt; font-weight: 600;
+    line-height: 1.1; letter-spacing: -0.01em;
+    margin: 0 0 0.12in 0;
+  }
+
+  .deck {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic; font-size: 13pt; font-weight: 400;
+    color: var(--ink-soft); line-height: 1.4;
+    margin: 0 0 0.18in 0;
+  }
+
+  .byline {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 9pt; color: var(--ink-faint);
+  }
+
+  h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10.5pt; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent);
+    margin: 0.32in 0 0.1in 0;
+    page-break-after: avoid;
+  }
+
+  h2 + p, h2 + ul { margin-top: 0; }
+
+  p {
+    margin: 0 0 0.11in 0;
+    text-align: justify;
+    hyphens: auto; -webkit-hyphens: auto;
+    orphans: 3; widows: 3;
+  }
+
+  p + p { text-indent: 1.4em; }
+  h2 + p, ul + p, ol + p, blockquote + p, .scenario + p { text-indent: 0; }
+
+  ul, ol {
+    margin: 0.04in 0 0.15in 0.25in;
+    padding: 0;
+  }
+  li { margin-bottom: 0.05in; line-height: 1.5; }
+
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+
+  .clarif p { text-indent: 0; }
+
+  /* e-scooter scenario callout */
+  .scenario {
+    background: #f6f8fa;
+    border-left: 3px solid var(--accent);
+    padding: 0.16in 0.22in;
+    margin: 0.14in 0 0.16in 0;
+    page-break-inside: avoid;
+  }
+  .scenario p { text-indent: 0; margin-bottom: 0.08in; }
+  .scenario p:last-child { margin-bottom: 0; }
+  .scenario .scenario-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8pt; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    display: block; margin-bottom: 0.06in;
+  }
+
+  /* figures */
+  figure {
+    margin: 0.18in 0;
+    page-break-inside: avoid;
+    text-align: center;
+  }
+  figure img {
+    max-width: 100%;
+    max-height: 3.5in;
+    width: auto;
+    height: auto;
+    display: inline-block;
+    border: 1px solid var(--rule);
+    background: #f0f2f4;
+  }
+  figcaption {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8.5pt;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 0.06in;
+    font-style: italic;
+  }
+
+  /* cost block */
+  .costs {
+    background: #f6f8fa;
+    border-left: 3px solid var(--accent);
+    padding: 0.14in 0.2in;
+    margin: 0.08in 0 0.15in 0;
+  }
+  .costs ul { margin: 0; padding-left: 0.18in; }
+  .costs li { font-family: 'Inter', system-ui, sans-serif; font-size: 10pt; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+
+  .footer {
+    margin-top: 0.4in;
+    padding-top: 0.18in;
+    border-top: 1px solid var(--rule);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8.5pt;
+    color: var(--ink-faint);
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header class="title-block">
+  <div class="eyebrow">A Louie Backgrounder</div>
+  <h1>Louie</h1>
+  <p class="deck">A search and explanation layer for municipal council records.</p>
+  <div class="byline">Draft v2</div>
+</header>
+
+<h2>The goal is engagement</h2>
+<p>Almost every city says it wants residents engaged in how decisions get made. It's the aim behind public consultations, open-data portals, and livestreamed council meetings. But engagement depends on something more basic: before a resident can weigh in on what their city is doing, they have to be able to find out what their city is doing. Getting a citizen the information they need to understand what's going on is the step almost everything else rests on, and it's the one that tends to break down.</p>
+<p>It has also become harder, even as cities publish more. Residents now expect to ask a question and get a clear answer assembled for them, the way they can almost everywhere else online, and municipal records don't work that way. To follow an issue in Mississauga today, a resident has to work through 1,280 meeting recordings and thousands of supporting documents, in whatever time is left over from a job and a family. Few people get far.</p>
+
+<h2>What engagement should feel like</h2>
+<p>It shouldn't take that much effort. Take a resident worried about e-scooter use on their street.</p>
+<div class="scenario">
+  <span class="scenario-label">For example</span>
+  <p>A citizen concerned about e-scooter use should be able to ask what the city is doing and understand in seconds: what the initiatives are, what's been discussed, and what's being done about it.</p>
+  <p>That gives them the assurance that the issue is being addressed, and lets them confirm at a glance that the points they care about are on the record. If there are considerations that aren't being mentioned, they can reach out to the right council to collaborate in shaping the solution.</p>
+</div>
+<p>That last step is the important one. Engagement really begins when a resident moves from following an issue to having a hand in it, and most of what stands in the way is the work of finding out: the searching and reading and piecing-together that wears people down before they ever weigh in. When that work is easy, far more people are willing to do it.</p>
+<p>This has been the goal of citizen engagement for a long time. The technology to deliver it only recently caught up.</p>
+
+<h2>How Louie works</h2>
+<p>Louie is the layer that makes that possible. It's a chat-based question-and-answer tool, accurate and inexpensive to run, and fast enough that residents will use it rather than abandon the search partway through.</p>
+<p>It ingests a city's public council and committee materials and makes the whole record searchable at once. A resident finds the discussions, decisions, motions, and documents they're after just by asking. A plain question like <em>"What decision was made by the Road Safety Committee on Friday?"</em> returns an answer drawn from the record, on demand.</p>
+<p>Every answer is citation-backed. Each one links to the transcript line, document section, or video timestamp it came from, so anyone can click through and check it against the source instead of taking it on trust. When the record doesn't hold an answer, Louie says so rather than inventing one. The point is to make a citable record usable, not to fill its gaps with guesses.</p>
+
+<figure>
+  <img src="images/cdm-answer.png" class="landscape" alt="Louie's chat answering a resident question about the $2.2M road safety funding decision — with a structured summary, key details, a named quote from staff, and a link to the underlying deliberation map.">
+  <figcaption>Louie answering a resident question — structured summary, key details, a named quote from staff, and a link to the deliberation map.</figcaption>
+</figure>
+
+<h2>Deliberation, mapped</h2>
+<p>Some questions don't have a single answer. A big budget decision, a contested rezoning, a policy fight that runs across years and committees: these are arguments, and a useful answer has to show the rationale and the considerations, not just the outcome.</p>
+<p>For a question like that, a resident shouldn't have to settle for the verdict alone. They should be able to take in the whole shape of it: the options that were weighed, the reasons offered on each side, the tradeoffs that gave people pause, and how the decision came together. That is what lets someone judge whether their own concern was heard, and decide whether it's worth raising.</p>
+<p>Louie builds that view automatically, as a <strong>deliberation map</strong>. It lays out the options on the table, the case for and against each, and the compromises people proposed to bridge them, with every point traced back to the meeting where it was raised. A resident can see who proposed what, which objections came up, and where the discussion landed.</p>
+<p>The maps draw on a long academic tradition of argument mapping, an idea people have found compelling for decades without ever making it practical. The same AI advances behind Louie's answers are what make the maps workable at the scale of a city. A companion whitepaper tells that story.</p>
+
+<figure>
+  <img src="images/negation-game.png" class="landscape" alt="A deliberation map for the $2.2M provincial road safety funding question, showing two options with supporting arguments, negating arguments, and a mitigation node, each attributed to a named speaker and timestamp from the council meeting.">
+  <figcaption>A deliberation map for the $2.2M Road Safety question — options, arguments for and against, and mitigations, each cited back to the council meeting.</figcaption>
+</figure>
+
+<h2>Why this is possible now</h2>
+<p>For most of local government's history, searching the record meant reading it, or paying a clerk to read it for you. The tools to do it well, at the scale and detail of a multi-year council record, did not exist.</p>
+<p>In the last two years that changed. Language models can read and organize long stretches of deliberative material quickly, and they can be <strong>grounded</strong> in one city's record rather than in the internet at large. The grounding is the part that matters: the answers come from the city's own record, and they change when the record does.</p>
+<p>To be exact, Louie is not <em>trained</em> on Mississauga's record in the machine-learning sense. The model underneath is general-purpose, the same one anyone can use. What's specific to Mississauga is simpler than training: when a question comes in, Louie looks up the relevant passages in the city's record and quotes them back accurately. That is why its answers stay current and can be checked against the source.</p>
+
+<h2>What Louie is not</h2>
+<div class="clarif">
+<p>A few clarifications, since these are the questions that come up first.</p>
+<p><strong>It is not ChatGPT.</strong> ChatGPT doesn't have Mississauga's record, and even if it did, the answer would be diluted by everything else on the internet. Louie's attention is anchored to this city's record only.</p>
+<p><strong>It is not a replacement for eScribe.</strong> eScribe handles agenda packaging and meeting management. Louie sits on top of what eScribe publishes and makes it searchable in a way the publishing system itself was never designed to do.</p>
+<p><strong>It does not decide anything.</strong> Louie reads, retrieves, and cites. The city remains the authoritative source for every decision and every record. Louie's only job is to make that record findable.</p>
+</div>
+
+<h2>Trust and accountability</h2>
+<p>Louie is built to sit alongside the systems the city already runs, not to replace or disrupt them.</p>
+<ul>
+  <li><strong>Only public records.</strong> Louie ingests only material the city has already made public. No closed-session content, no internal correspondence, no FOI surface created or bypassed.</li>
+  <li><strong>MFIPPA-aware.</strong> Designed to minimize collection of resident personal information and avoid identification requirements for public access.</li>
+  <li><strong>AODA / WCAG 2.0 AA.</strong> Accessibility compliance enforced at the user-interface layer.</li>
+  <li><strong>Bill 194 posture.</strong> Every response is AI-assisted and disclosed as such; every claim is citation-backed; the platform refuses rather than fabricates when the record doesn't support an answer.</li>
+</ul>
+<p>The city retains ownership of its records and configuration data at all times.</p>
+
+<h2>The proposed initial deployment</h2>
+<ul>
+  <li>Ingestion of 12 months of publicly available online records</li>
+  <li>Ongoing automated ingestion of newly published materials</li>
+  <li>Automated deliberation maps of discussion topics, for instant understanding of the key points</li>
+  <li>A public-facing, chat-based question-and-answer experience for residents, with citation-backed results</li>
+</ul>
+
+<h2>What it costs</h2>
+<div class="costs">
+  <ul>
+    <li><strong>Historical backfill:</strong> $30 per meeting, one-time. For Mississauga's 12-month backfill of roughly 200 meetings, about <strong>$6,000</strong>.</li>
+    <li><strong>Ongoing service:</strong> <strong>$9,500 per year</strong>, including hosting, ongoing ingestion, maintenance, and operational support.</li>
+  </ul>
+</div>
+<p>The full pricing detail and commercial model are in the accompanying proposal.</p>
+
+<h2>How to learn more</h2>
+<p>A live demo of Louie running on the Mississauga record is available at <a href="https://louie.networkgoods.institute">louie.networkgoods.institute</a>.</p>
+<p>A 20-minute conversation can be booked at <a href="https://calendar.app.google/PeKe9ifG5jquHUia9">calendar.app.google/PeKe9ifG5jquHUia9</a>.</p>
+<p>Louie is currently under review with the City of Mississauga. Inquiries from other Ontario municipalities are welcome.</p>
+
+<div class="footer">
+  Louie is a joint project of the Network Goods Institute and FairAI.
+</div>
+
+</body>
+</html>
