@@ -1,4 +1,4 @@
-# The most obvious idea in deliberation, finally workable
+Â# The most obvious idea in deliberation, finally workable
 
 *An essay on argument maps, epistemic infrastructure, and why civic
 deliberation has been waiting for this technology for seventy years.*
@@ -194,13 +194,29 @@ offered, what objections were raised, what mitigations were proposed.
 That is *epistemic infrastructure* in Herzog's sense — a public good that
 makes democratic argument compound.
 
+It is also the precondition for engagement that most cities never quite
+reach. A resident will weigh in on a decision they can actually follow,
+and not on one buried in twenty hours of video. Making the deliberative
+record legible is not a nice-to-have alongside participation; it is the
+thing that lets participation begin.
+
 ## VI. The Negation Game and what it actually does
 
 Louie's deliberation layer is called the **Negation Game**. It's an
 implementation of a particular subset of argument maps that we call
 **epistemic graphs**: questions, options, supporting arguments, negating
-arguments, and mitigating arguments, organized into a structure that the
-participants can extend, contest, and refine.
+arguments, and mitigating arguments.
+
+In practice this runs in two modes. The first, and the one Louie ships
+today, is automatic: given the record of a meeting, Louie generates the
+map directly from what was said — the options that were raised, the
+arguments for and against, the tradeoffs that were weighed — with every
+node cited back to the moment in the record it came from. The reader's
+job is to understand a deliberation that has already happened, not to
+build one. The second mode is participatory: the same structure can be
+extended, contested, and refined by people working through a live
+question together. The automatic mode is what makes the tool usable at
+municipal scale today; the participatory mode is where it goes next.
 
 The Negation Game is not a research prototype. It is an attempt to take
 the obvious idea — argument maps — and ship it as something a city can
