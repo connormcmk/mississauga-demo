@@ -84,7 +84,8 @@ lets someone judge whether their own concern was heard, and decide whether
 it's worth raising.
 
 Louie builds that view automatically, as a **deliberation map**. It lays
-out the options on the table, the case for and against each, and the
+out all the options under consideration, the case for and against each,
+and the
 compromises people proposed to bridge them, with every point traced back
 to the meeting where it was raised. A resident can see who proposed what,
 which objections came up, and where the discussion landed.
