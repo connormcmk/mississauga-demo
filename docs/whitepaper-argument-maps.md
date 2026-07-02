@@ -3,10 +3,7 @@
 *An essay on argument maps, epistemic infrastructure, and why civic
 deliberation has been waiting for this technology for seventy years.*
 
-— [Author TBD]
-*Draft — for review by the Louie team. Citations checked against the
-research brief; verbatim Herzog quote pending verification against
-*Citizen Knowledge*.*
+By the Network Goods Institute
 
 ---
 
@@ -339,20 +336,3 @@ building.
     Divide* (Oxford University Press, 2009); *#Republic: Divided
     Democracy in the Age of Social Media* (Princeton University Press,
     2017).
-
----
-
-## Acknowledgements and editorial notes
-
-Research bibliography assembled with the support of an AI research agent;
-all citations were spot-checked but readers should verify any specific
-quote against the cited source before reuse. The Herzog framing leans
-on her published interviews and her earlier papers as well as the 2024
-book; verbatim quotation of *Citizen Knowledge* is intentionally
-avoided pending direct verification of the printed text.
-
-The contemporary AI × argumentation literature (Castagna et al. at
-ARG-tech, Freedman and Toni 2024, Betz and Richardson 2022, the COMMA
-2024 LLM tracks, the *Argument & Computation* journal under Reed) is
-where the field's reawakening to this technology is most visible. A
-follow-up piece focused specifically on that literature is planned.
